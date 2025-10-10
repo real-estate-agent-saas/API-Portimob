@@ -1,0 +1,3 @@
+- On the terminal:
+
+npm i @nestjs/jwt jsonwebtoken @nestjs/mongoose mongoose bcrypt class-transformer class-validator @nestjs/passport passport passport-jwt uuid dotenv
