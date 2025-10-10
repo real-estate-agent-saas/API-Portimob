@@ -1,7 +1,7 @@
-import { ConflictException, Inject, Injectable } from '@nestjs/common';
-import { CreateUserDto } from '../dto/create-user.dto';
-import { UserEntity } from '../entities/user.entity';
-import type { IUserRepository } from '../repositories/Iuser.repository';
+import { ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { CreateUserDto } from '../../dto/create-user.dto';
+import { UserEntity } from '../../entities/user.entity';
+import type { IUserRepository } from '../../repositories/Iuser.repository';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -19,13 +19,13 @@ export class CreateUserUseCase {
       throw new ConflictException('Usuário já existe. Faça login!');
     }
 
-    const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+    const hashedPassword = await bcrypt.hash(createUserDto.passwordHash, 10);
 
-    const userEntity = new UserEntity({
-      name: createUserDto.name,
-      email: createUserDto.email,
-      password: hashedPassword,
-    });
+    const userEntity = new UserEntity(
+      createUserDto.name,
+      createUserDto.email,
+      hashedPassword,
+    );
 
     return this.userRepository.create(userEntity);
   }

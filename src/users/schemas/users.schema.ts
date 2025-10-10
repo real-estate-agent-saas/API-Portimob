@@ -2,52 +2,61 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @Schema({ timestamps: true })
 export class User {
+  _id?: string;
+
   @Prop({ required: true })
   name: string;
 
   @Prop({ required: true, unique: true, toLowerCase: true })
   email: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, select: false })
   password: string;
 
-  // Public exibition data
   @Prop({ toLowerCase: true })
-  publicEmail: String;
+  publicEmail?: string;
 
   @Prop()
-  whatsapp: String;
+  whatsapp?: string;
 
   @Prop()
-  phone: String;
+  phone?: string;
 
   @Prop()
-  instagram: String;
+  instagram?: string;
 
   @Prop()
-  facebook: String;
+  facebook?: string;
 
   @Prop()
-  linkedin: String;
+  linkedin?: string;
 
   @Prop()
-  profileImage: String;
+  profileImage?: string;
 
   @Prop()
-  bio: String;
+  bio?: string;
 
   @Prop()
-  careerStartDate: Date;
+  careerStartDate?: Date;
 
   @Prop()
-  creci: String;
+  creci?: string;
 
   @Prop()
-  gender: string;
+  gender?: string;
 
   @Prop({ default: true })
-  isActive: boolean;
+  isActive?: boolean;
 
+  @Prop([String])
+  specialtyIds?: string[];
+
+  @Prop([String])
+  propertyIds?: string[];
+
+  @Prop()
+  dynamicWebsiteId?: string;
 }
 
 // Groups User class properties with Document interface methods from mongoose

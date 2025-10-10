@@ -9,7 +9,7 @@ export class UsersService {
     {
       name: 'Ricardo Hemmel',
       email: 'ricardo@hotmail.com',
-      password: 'Teste123@',
+      passwordHash: 'Teste123@',
     },
   ];
 
