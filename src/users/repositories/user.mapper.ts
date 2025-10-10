@@ -20,7 +20,7 @@ export class UserMapper {
       creci: entity.creci,
       gender: entity.gender,
       isActive: entity.isActive,
-      specialtyIds: entity.specialtyIds,
+      specialties: entity.specialtyEntity,
       propertyIds: entity.propertyIds,
       dynamicWebsiteId: entity.dynamicWebsiteId,
     };
@@ -46,7 +46,7 @@ export class UserMapper {
       document.creci,
       document.gender,
       document.isActive,
-      document.specialtyIds,
+      document.specialties,
       document.propertyIds,
       document.dynamicWebsiteId,
     );

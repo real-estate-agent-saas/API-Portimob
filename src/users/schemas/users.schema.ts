@@ -1,13 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose, { Document } from 'mongoose';
+import { Specialty } from './specialties.schema'
 
 @Schema({ timestamps: true })
 export class User {
-  _id?: string;
-
   @Prop({ required: true })
   name: string;
 
-  @Prop({ required: true, unique: true, toLowerCase: true })
+  @Prop({ required: true, unique: true, lowercase: true })
   email: string;
 
   @Prop({ required: true, select: false })
@@ -49,8 +49,8 @@ export class User {
   @Prop({ default: true })
   isActive?: boolean;
 
-  @Prop([String])
-  specialtyIds?: string[];
+  @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'Specialty'})
+  specialties?: Specialty[];
 
   @Prop([String])
   propertyIds?: string[];

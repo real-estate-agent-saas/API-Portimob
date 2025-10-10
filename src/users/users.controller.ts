@@ -9,23 +9,23 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
 
 // DTOs
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
+// Presenters
+import { CreateUserPresenter } from './application/presenters/create-user.presenter';
+
 //Use Cases
 import { CreateUserUseCase } from './application/use-cases/create-user.usecase';
 import { UpdateUserUseCase } from './application/use-cases/update-user.usecase';
-import { CreateUserPresenter } from './application/presenters/create-user.presenter';
-import { FindAllUseCase } from './application/use-cases/find-all.usercase';
-import { FindOneUseCase } from './application/use-cases/find-one.usercase';
+import { FindAllUseCase } from './application/use-cases/find-all.usecase';
+import { FindOneUseCase } from './application/use-cases/find-one.usecase';
 
 @Controller('users')
 export class UsersController {
   constructor(
-    private readonly usersService: UsersService,
     private readonly createUserUseCase: CreateUserUseCase,
     private readonly updateUserUseCase: UpdateUserUseCase,
     private readonly findAllUseCase: FindAllUseCase,
