@@ -46,7 +46,11 @@ export class UserRepository implements IUserRepository {
     return UserMapper.toEntity(existingUser);
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto): Promise<UserEntity | null> {
+  async update(
+    id: string,
+    updateUserDto: UpdateUserDto,
+  ): Promise<UserEntity | null> {
+    if (!isValidObjectId(id)) return null;
     const updatedUser = await this.userModel.findByIdAndUpdate(
       id,
       { $set: updateUserDto },

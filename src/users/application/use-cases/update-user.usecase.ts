@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { UpdateUserDto } from '../../dto/update-user.dto';
 import { UserEntity } from '../../entities/user.entity';
 import type { IUserRepository } from '../../repositories/Iuser.repository';
@@ -12,8 +12,11 @@ export class UpdateUserUseCase {
   async execute(
     id: string,
     updateUserDto: UpdateUserDto,
-  ): Promise<UserEntity | null> {
+  ): Promise<UserEntity> {
     const updatedUser = await this.userRepository.update(id, updateUserDto);
+
+    if(!updatedUser) throw new NotFoundException('Usuário não encontrado!')
+
     return updatedUser;
   }
 }

@@ -8,7 +8,7 @@ export class FindOneUseCase {
     @Inject('IUserRepository') private readonly userRepository: IUserRepository,
   ) {}
 
-  async execute(id: string): Promise<UserEntity | null> {
+  async execute(id: string): Promise<UserEntity> {
     const existingUser = await this.userRepository.findById(id);
 
     if (!existingUser) throw new NotFoundException('Usuário não encontrado!');

@@ -1,5 +1,3 @@
-import { Specialty } from '../schemas/specialties.schema'
-
 export class UserEntity {
   readonly id?: string;
   name: string;
@@ -18,12 +16,12 @@ export class UserEntity {
   careerStartDate?: Date;
   creci?: string;
   gender?: string;
+  specialties?: string[];
 
   // Control
   isActive?: boolean;
 
   // Relationships
-  specialtyEntity?: Specialty[];
   propertyIds?: string[];
   dynamicWebsiteId?: string;
 
@@ -44,7 +42,7 @@ export class UserEntity {
     creci?: string,
     gender?: string,
     isActive?: boolean,
-    specialtyEntity?: Specialty[],
+    specialties?: string[],
     propertyIds?: string[],
     dynamicWebsiteId?: string,
   ) {
@@ -64,7 +62,7 @@ export class UserEntity {
     this.creci = creci;
     this.gender = gender;
     this.isActive = isActive;
-    this.specialtyEntity = specialtyEntity;
+    this.specialties = specialties;
     this.propertyIds = propertyIds;
     this.dynamicWebsiteId = dynamicWebsiteId;
   }

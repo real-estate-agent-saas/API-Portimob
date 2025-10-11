@@ -5,6 +5,7 @@ import { ArrayUnique, IsArray, IsDateString, IsEmail, IsOptional, IsString } fro
 export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsOptional()
   @IsString()
+  @IsEmail()
   publicEmail?: string;
 
   @IsOptional()
@@ -47,7 +48,6 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsString()
   gender?: string;
 
-  // Relationship to Specialty
   @IsOptional()
   @IsArray()
   @ArrayUnique()
