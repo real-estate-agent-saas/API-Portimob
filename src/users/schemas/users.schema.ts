@@ -12,44 +12,8 @@ export class User {
   @Prop({ required: true, select: false })
   password: string;
 
-  @Prop({ toLowerCase: true })
-  publicEmail?: string;
-
-  @Prop()
-  whatsapp?: string;
-
-  @Prop()
-  phone?: string;
-
-  @Prop()
-  instagram?: string;
-
-  @Prop()
-  facebook?: string;
-
-  @Prop()
-  linkedin?: string;
-
-  @Prop()
-  profileImage?: string;
-
-  @Prop()
-  bio?: string;
-
-  @Prop()
-  careerStartDate?: Date;
-
-  @Prop()
-  creci?: string;
-
-  @Prop()
-  gender?: string;
-
   @Prop({ default: true })
   isActive?: boolean;
-
-  @Prop({ type: [String], default: [] })
-  specialties?: string[];
 
   @Prop([String])
   propertyIds?: string[];
