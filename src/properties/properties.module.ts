@@ -5,6 +5,7 @@ import { CreatePropertyUseCase } from './application/use-cases/create-property.u
 import { PropertyRepository } from './repositories/property.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Property, propertySchema } from './schemas/properties.schema';
+import { Leisure, leisureSchema } from './schemas/leisure.schema';
 
 @Module({
   controllers: [PropertiesController],
@@ -21,6 +22,10 @@ import { Property, propertySchema } from './schemas/properties.schema';
       {
         name: Property.name,
         schema: propertySchema,
+      },
+      {
+        name: Leisure.name,
+        schema: leisureSchema,
       },
     ]),
   ],
