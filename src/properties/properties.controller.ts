@@ -21,7 +21,7 @@ export class PropertiesController {
 
   @Post()
   create(@Body() createPropertyDto: CreatePropertyDto) {
-    return createPropertyDto;
+    return this.createPropertyUseCase.execute(createPropertyDto);
   }
 
   @Get()

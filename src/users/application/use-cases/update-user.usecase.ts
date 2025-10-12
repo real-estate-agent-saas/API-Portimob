@@ -13,6 +13,7 @@ export class UpdateUserUseCase {
     id: string,
     updateUserDto: UpdateUserDto,
   ): Promise<UserEntity> {
+
     const updatedUser = await this.userRepository.update(id, updateUserDto);
 
     if(!updatedUser) throw new NotFoundException('Usuário não encontrado!')

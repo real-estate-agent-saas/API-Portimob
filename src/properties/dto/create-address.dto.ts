@@ -2,15 +2,12 @@ import {
   IsString,
   IsOptional,
   IsNumber,
-  IsInt,
 } from 'class-validator';
 
 export class CreateAddressDto {
+  @IsOptional()
   @IsString()
-  street: string;
-
-  @IsString()
-  neighborhood: string;
+  street?: string;
 
   @IsOptional()
   @IsString()
@@ -22,11 +19,15 @@ export class CreateAddressDto {
 
   @IsOptional()
   @IsString()
+  neighborhood?: string;
+
+  @IsOptional()
+  @IsString()
   city?: string;
 
   @IsOptional()
-  @IsInt()
-  stateId?: number;
+  @IsString()
+  state?: string;
 
   @IsOptional()
   @IsString()
@@ -41,6 +42,6 @@ export class CreateAddressDto {
   longitude?: number;
 
   @IsOptional()
-  @IsNumber()
-  zoneId?: number;
+  @IsString()
+  zone?: string;
 }
