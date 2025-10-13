@@ -1,9 +1,13 @@
-import { Module } from '@nestjs/common';
-import { PropertiesService } from './properties.service';
-import { PropertiesController } from './properties.controller';
-import { CreatePropertyUseCase } from './application/use-cases/create-property.usecase';
-import { PropertyRepository } from './repositories/property.repository';
 import { MongooseModule } from '@nestjs/mongoose';
+import { Module } from '@nestjs/common';
+import { PropertiesController } from './properties.controller';
+import { PropertyRepository } from './repositories/property.repository';
+
+// Use cases
+import { CreatePropertyUseCase } from './application/use-cases/create-property.usecase';
+import { FindAllPropertiesUseCase } from './application/use-cases/find-all-properties.usecase';
+import { FindOnePropertyUseCase } from './application/use-cases/find-one-property.usecase';
+import { DeletePropertyUseCase } from './application/use-cases/delete-property.usecase';
 
 // Schemas
 import { Property, propertySchema } from './schemas/properties.schema';
@@ -39,16 +43,16 @@ import { PropertyPurposeSeed } from './seeds/propertyPurpose.seed';
 import { PropertyStandingSeed } from './seeds/propertyStanding.seed';
 import { PropertyTypeSeed } from './seeds/propertyType.seed';
 import { PropertyTypologySeed } from './seeds/propertyTypology.seed';
-import { FindAllPropertiesUseCase } from './application/use-cases/find-all-properties.usecase';
-import { FindOnePropertyUseCase } from './application/use-cases/find-one-property.usecase';
+import { UpdatePropertyUseCase } from './application/use-cases/update-property.usecase';
 
 @Module({
   controllers: [PropertiesController],
   providers: [
-    PropertiesService,
     CreatePropertyUseCase,
     FindAllPropertiesUseCase,
     FindOnePropertyUseCase,
+    DeletePropertyUseCase,
+    UpdatePropertyUseCase,
 
     PropertyLeisureSeed,
     PropertyDeliveryStatusSeed,
