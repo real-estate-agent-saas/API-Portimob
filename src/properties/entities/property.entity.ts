@@ -72,7 +72,7 @@ export class PropertyEntity {
   constructor(
     title: string,
     userId: string,
-    props?: Partial<Omit<PropertyEntity, 'title'>>,
+    props?: Partial<Omit<PropertyEntity, 'title' | 'userId' >>,
   ) {
     this.title = title;
     this.userId = userId;
