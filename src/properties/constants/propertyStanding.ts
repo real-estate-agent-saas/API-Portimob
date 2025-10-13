@@ -1,4 +1,4 @@
-export const PROPERTY_STANDING = [
+export const PROPERTY_STANDINGS = [
   'Popular',
   'Médio Padrão',
   'Alto Padrão',

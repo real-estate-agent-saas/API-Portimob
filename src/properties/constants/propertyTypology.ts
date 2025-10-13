@@ -1,4 +1,4 @@
-export const PROPERTY_TYPOLOGY = [
+export const PROPERTY_TYPOLOGIES = [
   'Studio',
   'Garden',
   'Duplex',
