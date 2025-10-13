@@ -33,7 +33,7 @@ export class PropertyEntity {
     name: string;
   };
 
-  deliveryStatus?: {
+  propertyDeliveryStatus?: {
     id: string;
     name: string;
   };
@@ -43,10 +43,12 @@ export class PropertyEntity {
     name: string;
   };
 
-  propertyLeisure?: {
-    id: string;
-    name: string;
-  };
+  propertyLeisure?: [
+    {
+      id: string;
+      name: string;
+    },
+  ];
 
   // Address
   address?: {

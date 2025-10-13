@@ -15,4 +15,20 @@ export class PropertyRepository implements IPropertyRepository {
   async create(createPropertyDto: CreatePropertyDto): Promise<any> {
     return this.propertyModel.create(createPropertyDto);
   }
+
+  async findAll() {
+    return this.propertyModel
+      .find()
+      .populate('userId')
+      .populate('propertyType.id')
+      .populate('propertyTypology.id')
+      .populate('propertyStanding.id')
+      .populate('propertyPurpose.id')
+      .populate('propertyLeisure.id')
+      .populate('propertyDeliveryStatus.id');
+  }
+
+  async findOne(id: string) {
+    return this.propertyModel.findById(id);
+  }
 }

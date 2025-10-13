@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Property {
@@ -17,22 +17,107 @@ export class Property {
   @Prop() isFeatured?: boolean;
   @Prop({ default: true }) isActive?: boolean;
 
-//   @Prop({ type: Object }) propertyType?: { id: string; name: string };
-//   @Prop({ type: Object }) propertyPurpose?: { id: string; name: string };
-//   @Prop({ type: Object }) propertyStanding?: { id: string; name: string };
-//   @Prop({ type: Object }) deliveryStatus?: { id: string; name: string };
-//   @Prop({ type: Object }) propertyTypology?: { id: string; name: string };
-//   @Prop({ type: Object }) propertyLeisures?: [{ id: string; name: string }];
+  @Prop({ type: mongoose.Schema.ObjectId, ref: 'User', required: true })
+  userId: string;
 
-//   @Prop({ type: Object }) address?: Record<string, any>;
+  @Prop({
+    type: {
+      id: { type: mongoose.Schema.Types.ObjectId, ref: 'PropertyType' },
+      name: String,
+      _id: false,
+    },
+  })
+  propertyType?: { id: string; name: string };
 
-//   @Prop({ type: [{ imageUrl: String, order: Number }] })
-//   propertyGallery?: { imageUrl: string; order?: number }[];
+  @Prop({
+    type: {
+      id: { type: mongoose.Schema.Types.ObjectId, ref: 'PropertyPurpose' },
+      name: String,
+      _id: false,
+    },
+  })
+  propertyPurpose?: { id: string; name: string };
 
-//   @Prop({ type: [{ imageUrl: String, order: Number }] })
-//   floorPlanGallery?: { imageUrl: string; order?: number }[];
+  @Prop({
+    type: {
+      id: { type: mongoose.Schema.Types.ObjectId, ref: 'PropertyStanding' },
+      name: String,
+      _id: false,
+    },
+  })
+  propertyStanding?: { id: string; name: string };
 
-//   @Prop({ required: true }) userId: string;
+  @Prop({
+    type: {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'PropertyDeliveryStatus',
+      },
+      name: String,
+      _id: false,
+    },
+  })
+  propertyDeliveryStatus?: { id: string; name: string };
+
+  @Prop({
+    type: {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'PropertyTypology',
+      },
+      name: String,
+      _id: false,
+    },
+  })
+  propertyTypology?: { id: string; name: string };
+
+  @Prop({
+    type: [
+      {
+        id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'PropertyLeisure',
+        },
+        name: String,
+        _id: false,
+      },
+    ],
+  })
+  propertyLeisure?: [{ id: string; name: string }];
+
+  @Prop({ type: [{ imageUrl: String, order: Number }] })
+  propertyGallery?: { imageUrl: string; order?: number }[];
+
+  @Prop({ type: [{ imageUrl: String, order: Number }] })
+  floorPlanGallery?: { imageUrl: string; order?: number }[];
+
+  @Prop({
+    type: {
+      street: String,
+      propertyNumber: String,
+      complement: String,
+      neighborhood: String,
+      city: String,
+      state: String,
+      zipCode: String,
+      latitude: Number,
+      longitude: Number,
+      zone: String,
+      _id: false,
+    },
+  })
+  address?: {
+    street?: string;
+    propertyNumber?: string;
+    complement?: string;
+    neighborhood?: string;
+    city?: string;
+    state?: string;
+    zipCode?: string;
+    latitude?: number;
+    longitude?: number;
+    zone?: string;
+  };
 }
 
 export type PropertyDocument = Property & Document;

@@ -3,4 +3,6 @@ import { PropertyEntity } from '../entities/property.entity';
 
 export interface IPropertyRepository {
   create(createPropertyDto: CreatePropertyDto): Promise<any>;
+  findAll();
+  findOne(id: string);
 }

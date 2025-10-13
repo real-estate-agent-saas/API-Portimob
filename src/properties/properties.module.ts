@@ -39,12 +39,17 @@ import { PropertyPurposeSeed } from './seeds/propertyPurpose.seed';
 import { PropertyStandingSeed } from './seeds/propertyStanding.seed';
 import { PropertyTypeSeed } from './seeds/propertyType.seed';
 import { PropertyTypologySeed } from './seeds/propertyTypology.seed';
+import { FindAllPropertiesUseCase } from './application/use-cases/find-all-properties.usecase';
+import { FindOnePropertyUseCase } from './application/use-cases/find-one-property.usecase';
 
 @Module({
   controllers: [PropertiesController],
   providers: [
     PropertiesService,
     CreatePropertyUseCase,
+    FindAllPropertiesUseCase,
+    FindOnePropertyUseCase,
+
     PropertyLeisureSeed,
     PropertyDeliveryStatusSeed,
     PropertyPurposeSeed,

@@ -27,9 +27,8 @@ class CategoryDto {
   @IsString()
   name: string;
 }
-
+// -------------------------------- Basic Property data -------------------------
 export class CreatePropertyDto {
-  // -------------------------------- Basic property data -------------------------
   @IsString()
   title: string;
 
@@ -82,7 +81,7 @@ export class CreatePropertyDto {
   @IsBoolean()
   isActive?: boolean;
 
-  // Categories
+  //----------------------------- Categories ---------------------------
   @IsOptional()
   @ValidateNested()
   @Type(() => CategoryDto)
@@ -101,14 +100,19 @@ export class CreatePropertyDto {
   @IsOptional()
   @ValidateNested()
   @Type(() => CategoryDto)
-  deliveryStatus?: CategoryDto;
+  propertyDeliveryStatus?: CategoryDto;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => CategoryDto)
   propertyTypology?: CategoryDto;
 
-  // Address DTO
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => CategoryDto)
+  propertyLeisure?: CategoryDto[];
+
+  //----------------------------- Address DTO ----------------------------
   @IsOptional()
   @ValidateNested()
   @Type(() => CreateAddressDto)

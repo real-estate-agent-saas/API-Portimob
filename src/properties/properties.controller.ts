@@ -11,12 +11,16 @@ import { PropertiesService } from './properties.service';
 import { CreatePropertyDto } from './dto/create-property.dto';
 import { UpdatePropertyDto } from './dto/update-property.dto';
 import { CreatePropertyUseCase } from './application/use-cases/create-property.usecase';
+import { FindAllPropertiesUseCase } from './application/use-cases/find-all-properties.usecase';
+import { FindOnePropertyUseCase } from './application/use-cases/find-one-property.usecase';
 
 @Controller('properties')
 export class PropertiesController {
   constructor(
     private readonly propertiesService: PropertiesService,
     private readonly createPropertyUseCase: CreatePropertyUseCase,
+    private readonly findAllPropertiesUseCase: FindAllPropertiesUseCase,
+    private readonly findOnePropertyUseCase: FindOnePropertyUseCase,
   ) {}
 
   @Post()
@@ -26,12 +30,12 @@ export class PropertiesController {
 
   @Get()
   findAll() {
-    return this.propertiesService.findAll();
+    return this.findAllPropertiesUseCase.execute();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.propertiesService.findOne(+id);
+    return this.findOnePropertyUseCase.execute(id);
   }
 
   @Patch(':id')
