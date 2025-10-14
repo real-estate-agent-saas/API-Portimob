@@ -83,13 +83,13 @@ export class Property {
       },
     ],
   })
-  propertyLeisure?: [{ id: string; name: string }];
+  propertyLeisure?: { id: string; name: string }[];
 
   @Prop({ type: [{ imageUrl: String, order: Number }] })
   propertyGallery?: { imageUrl: string; order?: number }[];
 
   @Prop({ type: [{ imageUrl: String, order: Number }] })
-  floorPlanGallery?: { imageUrl: string; order?: number }[];
+  propertyFloorPlanGallery?: { imageUrl: string; order?: number }[];
 
   @Prop({
     type: {

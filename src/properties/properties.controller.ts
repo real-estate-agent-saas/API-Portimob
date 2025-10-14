@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { CreatePropertyDto } from './dto/create-property.dto';
 import { UpdatePropertyDto } from './dto/update-property.dto';
@@ -26,21 +28,25 @@ export class PropertiesController {
   ) {}
 
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   create(@Body() createPropertyDto: CreatePropertyDto) {
     return this.createPropertyUseCase.execute(createPropertyDto);
   }
 
   @Get()
+  @HttpCode(HttpStatus.OK)
   findAll() {
     return this.findAllPropertiesUseCase.execute();
   }
 
   @Get(':id')
+  @HttpCode(HttpStatus.OK)
   findOne(@Param('id') id: string) {
     return this.findOnePropertyUseCase.execute(id);
   }
 
   @Patch(':id')
+  @HttpCode(HttpStatus.OK)
   update(
     @Param('id') id: string,
     @Body() updatePropertyDto: UpdatePropertyDto,
@@ -49,6 +55,7 @@ export class PropertiesController {
   }
 
   @Delete(':id')
+  @HttpCode(HttpStatus.OK)
   remove(@Param('id') id: string) {
     return this.deletePropertyUseCase.execute(id);
   }

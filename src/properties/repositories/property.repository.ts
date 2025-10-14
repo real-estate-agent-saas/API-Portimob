@@ -13,32 +13,33 @@ export class PropertyRepository implements IPropertyRepository {
     @InjectModel(Property.name) private propertyModel: Model<PropertyDocument>,
   ) {}
 
-  async create(createPropertyDto: CreatePropertyDto): Promise<any> {
-    return this.propertyModel.create(createPropertyDto);
+  async create(createPropertyDto: CreatePropertyDto): Promise<PropertyEntity> {
+    const createdProperty = await this.propertyModel.create(createPropertyDto);
+    const plain = createdProperty.toObject();
+    const { _id, title, userId, ...rest } = plain;
+    return new PropertyEntity(title, userId, _id?.toString(), rest);
   }
 
-  async findAll() {
-    return this.propertyModel
-      .find()
-      .populate('userId')
-      .populate('propertyType.id')
-      .populate('propertyTypology.id')
-      .populate('propertyStanding.id')
-      .populate('propertyPurpose.id')
-      .populate('propertyLeisure.id')
-      .populate('propertyDeliveryStatus.id');
+  async findAll(): Promise<PropertyEntity[] | []> {
+    const properties = await this.propertyModel.find();
+    if (!properties) return [];
+    const propertyEntities = properties.map((propertyDoc) => {
+      const { _id, title, userId, ...rest } = propertyDoc.toObject();
+      return new PropertyEntity(title, userId, _id?.toString(), rest);
+    });
+    return propertyEntities;
   }
 
-  async findOne(id: string) {
-    return this.propertyModel
-      .findById(id)
-      .populate('userId')
-      .populate('propertyType.id')
-      .populate('propertyTypology.id')
-      .populate('propertyStanding.id')
-      .populate('propertyPurpose.id')
-      .populate('propertyLeisure.id')
-      .populate('propertyDeliveryStatus.id');
+  async findOne(id: string): Promise<PropertyEntity | null> {
+    const property = await this.propertyModel.findById(id);
+
+    if (!property) return null;
+
+    const { _id, title, userId, ...rest } = property.toObject();
+
+    const propertyEntity = new PropertyEntity(title, userId, _id?.toString(), rest);
+
+    return propertyEntity;
   }
 
   async delete(id: string) {

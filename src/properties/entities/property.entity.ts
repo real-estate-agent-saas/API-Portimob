@@ -43,12 +43,14 @@ export class PropertyEntity {
     name: string;
   };
 
-  propertyLeisure?: [
-    {
-      id: string;
-      name: string;
-    },
-  ];
+  propertyLeisure?: {
+    id: string;
+    name: string;
+  }[];
+
+  // Gallery
+  propertyGallery?: { imageUrl: string; order?: number }[];
+  propertyFloorPlanGallery?: { imageUrl: string; order?: number }[];
 
   // Address
   address?: {
@@ -64,20 +66,18 @@ export class PropertyEntity {
     zone?: string;
   };
 
-  // Gallery
-  propertyGallery?: { imageUrl: string; order?: number }[];
-  floorPlanGallery?: { imageUrl: string; order?: number }[];
-
   // User relationship
   userId: string;
 
   constructor(
     title: string,
     userId: string,
-    props?: Partial<Omit<PropertyEntity, 'title'>>,
+    id?: string,
+    props?: Partial<Omit<PropertyEntity, 'title' | 'userId' | 'id'>>,
   ) {
     this.title = title;
     this.userId = userId;
+    this.id = id;
 
     if (props) {
       Object.assign(this, props);

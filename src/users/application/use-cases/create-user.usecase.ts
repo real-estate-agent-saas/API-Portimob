@@ -1,4 +1,9 @@
-import { ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from '../../dto/create-user.dto';
 import { UserEntity } from '../../entities/user.entity';
 import type { IUserRepository } from '../../repositories/Iuser.repository';
@@ -21,12 +26,8 @@ export class CreateUserUseCase {
 
     const hashedPassword = await bcrypt.hash(createUserDto.passwordHash, 10);
 
-    const userEntity = new UserEntity(
-      createUserDto.name,
-      createUserDto.email,
-      hashedPassword,
-    );
+    createUserDto.passwordHash = hashedPassword;
 
-    return this.userRepository.create(userEntity);
+    return this.userRepository.create(createUserDto);
   }
 }

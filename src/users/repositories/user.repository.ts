@@ -17,17 +17,13 @@ export class UserRepository implements IUserRepository {
       email: userEntity.email,
       password: userEntity.passwordHash,
     });
-
     const savedUser = await createdUser.save();
-
     return UserMapper.toEntity(savedUser);
   }
 
   async findAll(): Promise<UserEntity[] | []> {
-    const users = await this.userModel.find({});
-
+    const users = await this.userModel.find();
     if (!users || users.length === 0) return [];
-
     return users.map((userDoc) => UserMapper.toEntity(userDoc));
   }
 
@@ -40,9 +36,7 @@ export class UserRepository implements IUserRepository {
 
   async findByEmail(email: string): Promise<UserEntity | null> {
     const existingUser = await this.userModel.findOne({ email }).exec();
-
     if (!existingUser) return null;
-
     return UserMapper.toEntity(existingUser);
   }
 

@@ -1,4 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
+import { PropertyEntity } from 'src/properties/entities/property.entity';
 import type { IPropertyRepository } from 'src/properties/repositories/Iproperty.repository';
 
 @Injectable()
@@ -8,7 +9,7 @@ export class FindAllPropertiesUseCase {
     private readonly propertyRepository: IPropertyRepository,
   ) {}
 
-  async execute() {
+  async execute(): Promise<PropertyEntity[] | []> {
     return this.propertyRepository.findAll();
   }
 }
