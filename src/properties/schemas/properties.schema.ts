@@ -1,8 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { Document } from 'mongoose';
+import mongoose, { Document, Types } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Property {
+  _id: Types.ObjectId;
   @Prop({ required: true }) title: string;
   @Prop() description?: string;
   @Prop() price?: number;
@@ -10,7 +11,7 @@ export class Property {
   @Prop() roomsQty?: number;
   @Prop() bathroomsQty?: number;
   @Prop() parkingSpacesQty?: number;
-  @Prop() youtubeURL?: string;
+  @Prop() videoUrl?: string;
   @Prop() coverImage?: string;
   @Prop() isFurnished?: boolean;
   @Prop() isNearSubway?: boolean;
@@ -86,10 +87,10 @@ export class Property {
   propertyLeisure?: { id: string; name: string }[];
 
   @Prop({ type: [{ imageUrl: String, order: Number }] })
-  propertyGallery?: { imageUrl: string; order?: number }[];
+  propertyGallery?: { imageUrl: string; order: number }[];
 
   @Prop({ type: [{ imageUrl: String, order: Number }] })
-  propertyFloorPlanGallery?: { imageUrl: string; order?: number }[];
+  propertyFloorPlanGallery?: { imageUrl: string; order: number }[];
 
   @Prop({
     type: {

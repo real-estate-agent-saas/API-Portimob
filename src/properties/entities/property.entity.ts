@@ -1,86 +1,134 @@
-export class PropertyEntity {
-  // Main data
+import { CreatePropertyDto } from '../dtos/create-property.dto';
+import {
+  Address,
+  Category,
+  Gallery,
+  IProperty,
+} from '../interfaces/property.interface';
+
+export class PropertyEntity implements IProperty {
   readonly id?: string;
   title: string;
+  description?: string;
   area?: number;
   price?: number;
   roomsQty?: number;
   bathroomsQty?: number;
   parkingSpacesQty?: number;
-  description?: string;
-  youtubeURL?: string;
   coverImage?: string;
+  videoUrl?: string;
 
-  // Flags & status
+  // Status & Flags
+  isActive?: boolean;
   isFurnished?: boolean;
   isNearSubway?: boolean;
   isFeatured?: boolean;
-  isActive?: boolean;
 
   // Categories
-  propertyType?: {
-    id: string;
-    name: string;
-  };
-
-  propertyPurpose?: {
-    id: string;
-    name: string;
-  };
-
-  propertyStanding?: {
-    id: string;
-    name: string;
-  };
-
-  propertyDeliveryStatus?: {
-    id: string;
-    name: string;
-  };
-
-  propertyTypology?: {
-    id: string;
-    name: string;
-  };
-
-  propertyLeisure?: {
-    id: string;
-    name: string;
-  }[];
+  propertyType?: Category;
+  propertyPurpose?: Category;
+  propertyStanding?: Category;
+  propertyDeliveryStatus?: Category;
+  propertyTypology?: Category;
+  propertyLeisure?: Category[];
 
   // Gallery
-  propertyGallery?: { imageUrl: string; order?: number }[];
-  propertyFloorPlanGallery?: { imageUrl: string; order?: number }[];
+  propertyGallery?: Gallery[];
+  propertyFloorPlanGallery?: Gallery[];
 
   // Address
-  address?: {
-    street?: string;
-    propertyNumber?: string;
-    complement?: string;
-    neighborhood?: string;
-    city?: string;
-    state?: string;
-    zipCode?: string;
-    latitude?: number;
-    longitude?: number;
-    zone?: string;
-  };
+  address?: Address;
 
   // User relationship
   userId: string;
 
-  constructor(
-    title: string,
-    userId: string,
-    id?: string,
-    props?: Partial<Omit<PropertyEntity, 'title' | 'userId' | 'id'>>,
-  ) {
+  // Expects Property props and its ID
+  constructor(props: IProperty) {
+    const {
+      id,
+      userId,
+      title,
+      area,
+      price,
+      roomsQty,
+      bathroomsQty,
+      parkingSpacesQty,
+      isActive,
+      propertyType,
+      propertyPurpose,
+      propertyStanding,
+      propertyDeliveryStatus,
+      propertyTypology,
+      propertyLeisure,
+      address,
+    } = props;
+
+    // Validations before setting atributes
+    if (!title || title.trim().length < 3) throw new Error('Título inválido!');
+    if (!userId) throw new Error('Um usuário associado é obrigatório!');
+    if (area !== undefined && area < 0) throw new Error('Área inválida');
+    if (price !== undefined && price < 0) throw new Error('Preço inválido');
+    if (roomsQty !== undefined && roomsQty < 0)
+      throw new Error('Quantidade de quartos inválida');
+    if (bathroomsQty !== undefined && bathroomsQty < 0)
+      throw new Error('Quantidade de banheiros inválida');
+    if (parkingSpacesQty !== undefined && parkingSpacesQty < 0)
+      throw new Error('Quantidade de vagas inválida');
+
+    // Insertions
+    this.id = id;
     this.title = title;
     this.userId = userId;
-    this.id = id;
+    this.price = price;
+    this.area = area;
+    this.roomsQty = roomsQty;
+    this.bathroomsQty = bathroomsQty;
+    this.parkingSpacesQty = parkingSpacesQty;
+    this.isActive = isActive ?? true;
+    this.propertyType = propertyType;
+    this.propertyPurpose = propertyPurpose;
+    this.propertyStanding = propertyStanding;
+    this.propertyDeliveryStatus = propertyDeliveryStatus;
+    this.propertyTypology = propertyTypology;
+    this.propertyLeisure = propertyLeisure;
+    this.address = address;
+  }
 
-    if (props) {
-      Object.assign(this, props);
-    }
+  //---------------------------  Methods ------------------------------------
+
+  static create(dto: CreatePropertyDto) {
+    return new PropertyEntity({
+      title: dto.title,
+      userId: dto.userId,
+      address: dto.address,
+      area: dto.area,
+      price: dto.price,
+      roomsQty: dto.roomsQty,
+      bathroomsQty: dto.bathroomsQty,
+      parkingSpacesQty: dto.parkingSpacesQty,
+      description: dto.description,
+      coverImage: dto.coverImage,
+      videoUrl: dto.videoUrl,
+      isActive: dto.isActive,
+      isFurnished: dto.isFurnished,
+      isNearSubway: dto.isNearSubway,
+      isFeatured: dto.isFeatured,
+      propertyType: dto.propertyType,
+      propertyPurpose: dto.propertyPurpose,
+      propertyStanding: dto.propertyStanding,
+      propertyDeliveryStatus: dto.propertyDeliveryStatus,
+      propertyTypology: dto.propertyTypology,
+      propertyLeisure: dto.propertyLeisure,
+      propertyGallery: dto.propertyGallery,
+      propertyFloorPlanGallery: dto.propertyFloorPlanGallery,
+    });
+  }
+
+  activate() {
+    this.isActive = true;
+  }
+
+  deactivate() {
+    this.isActive = false;
   }
 }

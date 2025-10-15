@@ -15,9 +15,8 @@ class ImageItemDto {
   @IsString()
   imageUrl: string;
 
-  @IsOptional()
   @IsNumber()
-  order?: number;
+  order: number;
 }
 
 class CategoryDto {
@@ -38,7 +37,7 @@ export class CreatePropertyDto {
 
   @IsOptional()
   @IsNumber()
-  price: number;
+  price?: number;
 
   @IsOptional()
   @IsNumber()
@@ -57,11 +56,11 @@ export class CreatePropertyDto {
   parkingSpacesQty?: number;
 
   @IsOptional()
-  @IsUrl()
-  youtubeURL?: string;
+  @IsString()
+  videoUrl?: string;
 
   @IsOptional()
-  @IsUrl()
+  @IsString()
   coverImage?: string;
 
   // Flags & status
@@ -129,7 +128,7 @@ export class CreatePropertyDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => ImageItemDto)
-  floorPlanGallery?: ImageItemDto[];
+  propertyFloorPlanGallery?: ImageItemDto[];
 
   // ---------------------------- User Relationship ------------------------------
   @IsString()

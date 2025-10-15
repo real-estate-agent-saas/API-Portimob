@@ -3,9 +3,9 @@ import { IPropertyRepository } from './Iproperty.repository';
 import { Property, PropertyDocument } from '../schemas/properties.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { CreatePropertyDto } from '../dto/create-property.dto';
 import { PropertyEntity } from '../entities/property.entity';
-import { UpdatePropertyDto } from '../dto/update-property.dto';
+import { UpdatePropertyDto } from '../dtos/update-property.dto';
+import { PropertyMapper } from './property.mapper';
 
 @Injectable()
 export class PropertyRepository implements IPropertyRepository {
@@ -13,42 +13,46 @@ export class PropertyRepository implements IPropertyRepository {
     @InjectModel(Property.name) private propertyModel: Model<PropertyDocument>,
   ) {}
 
-  async create(createPropertyDto: CreatePropertyDto): Promise<PropertyEntity> {
-    const createdProperty = await this.propertyModel.create(createPropertyDto);
-    const plain = createdProperty.toObject();
-    const { _id, title, userId, ...rest } = plain;
-    return new PropertyEntity(title, userId, _id?.toString(), rest);
+  async create(property: PropertyEntity): Promise<PropertyEntity> {
+    const createdProperty = await this.propertyModel.create(property);
+    const propertyEntity = PropertyMapper.toEntity(createdProperty);
+    return propertyEntity;
+  }
+
+  async findOne(id: string): Promise<PropertyEntity | null> {
+    const property = await this.propertyModel.findById(id);
+    if (!property) return null;
+    const propertyEntity = PropertyMapper.toEntity(property);
+    return propertyEntity;
   }
 
   async findAll(): Promise<PropertyEntity[] | []> {
     const properties = await this.propertyModel.find();
     if (!properties) return [];
-    const propertyEntities = properties.map((propertyDoc) => {
-      const { _id, title, userId, ...rest } = propertyDoc.toObject();
-      return new PropertyEntity(title, userId, _id?.toString(), rest);
-    });
-    return propertyEntities;
+    const propertiesEntity = properties.map((property) =>
+      PropertyMapper.toEntity(property),
+    );
+    return propertiesEntity;
   }
 
-  async findOne(id: string): Promise<PropertyEntity | null> {
-    const property = await this.propertyModel.findById(id);
-
-    if (!property) return null;
-
-    const { _id, title, userId, ...rest } = property.toObject();
-
-    const propertyEntity = new PropertyEntity(title, userId, _id?.toString(), rest);
-
-    return propertyEntity;
+  async update(
+    id: string,
+    updatePropertyDto: UpdatePropertyDto,
+  ): Promise<PropertyEntity | null> {
+    const updatedProperty = await this.propertyModel.findByIdAndUpdate(
+      id,
+      updatePropertyDto,
+      { new: true },
+    );
+    if (!updatedProperty) return null;
+    const updatedPropertyEntity = PropertyMapper.toEntity(updatedProperty);
+    return updatedPropertyEntity;
   }
 
-  async delete(id: string) {
-    return this.propertyModel.findByIdAndDelete(id);
-  }
-
-  async update(id: string, updatePropertyDto: UpdatePropertyDto) {
-    return this.propertyModel.findByIdAndUpdate(id, updatePropertyDto, {
-      new: true,
-    });
+  async delete(id: string): Promise<PropertyEntity | null> {
+    const deletedProperty = await this.propertyModel.findByIdAndDelete(id);
+    if (!deletedProperty) return null;
+    const deletedPropertyEntity = PropertyMapper.toEntity(deletedProperty);
+    return deletedPropertyEntity;
   }
 }

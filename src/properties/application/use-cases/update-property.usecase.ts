@@ -1,5 +1,6 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { UpdatePropertyDto } from 'src/properties/dto/update-property.dto';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { UpdatePropertyDto } from 'src/properties/dtos/update-property.dto';
+import { PropertyEntity } from 'src/properties/entities/property.entity';
 import type { IPropertyRepository } from 'src/properties/repositories/Iproperty.repository';
 
 @Injectable()
@@ -12,7 +13,12 @@ export class UpdatePropertyUseCase {
   async execute(
     id: string,
     updatePropertyDto: UpdatePropertyDto,
-  ): Promise<any> {
-    return this.propertyRepository.update(id, updatePropertyDto);
+  ): Promise<PropertyEntity> {
+    const updatedProperty = await this.propertyRepository.update(
+      id,
+      updatePropertyDto,
+    );
+    if (!updatedProperty) throw new NotFoundException('Imóvel não encontrado!');
+    return updatedProperty;
   }
 }

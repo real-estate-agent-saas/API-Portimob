@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreatePropertyDto } from 'src/properties/dto/create-property.dto';
+import { CreatePropertyDto } from 'src/properties/dtos/create-property.dto';
 import { PropertyEntity } from 'src/properties/entities/property.entity';
 import type { IPropertyRepository } from 'src/properties/repositories/Iproperty.repository';
 
@@ -11,6 +11,8 @@ export class CreatePropertyUseCase {
   ) {}
 
   async execute(createPropertyDto: CreatePropertyDto): Promise<PropertyEntity> {
-    return this.propertyRepository.create(createPropertyDto);
+    const property = PropertyEntity.create(createPropertyDto);
+    return this.propertyRepository.create(property);
   }
 }
+  
