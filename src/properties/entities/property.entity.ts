@@ -1,4 +1,3 @@
-import { CreatePropertyDto } from '../dtos/create-property.dto';
 import {
   Address,
   Category,
@@ -96,7 +95,7 @@ export class PropertyEntity implements IProperty {
 
   //---------------------------  Methods ------------------------------------
 
-  static create(dto: CreatePropertyDto) {
+  static create(dto: IProperty) {
     return new PropertyEntity({
       title: dto.title,
       userId: dto.userId,
