@@ -29,6 +29,10 @@ class CategoryDto {
 // -------------------------------- Basic Property data -------------------------
 export class CreatePropertyDto {
   @IsString()
+  @IsOptional()
+  id?: string;
+
+  @IsString()
   title: string;
 
   @IsOptional()

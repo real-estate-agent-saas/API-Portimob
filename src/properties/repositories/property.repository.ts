@@ -19,6 +19,20 @@ export class PropertyRepository implements IPropertyRepository {
     return propertyEntity;
   }
 
+  async update(
+    id: string,
+    updatePropertyDto: UpdatePropertyDto,
+  ): Promise<PropertyEntity | null> {
+    const updatedProperty = await this.propertyModel.findByIdAndUpdate(
+      id,
+      updatePropertyDto,
+      { new: true },
+    );
+    if (!updatedProperty) return null;
+    const updatedPropertyEntity = PropertyMapper.toEntity(updatedProperty);
+    return updatedPropertyEntity;
+  }
+
   async findOne(id: string): Promise<PropertyEntity | null> {
     const property = await this.propertyModel.findById(id);
     if (!property) return null;
@@ -35,24 +49,8 @@ export class PropertyRepository implements IPropertyRepository {
     return propertiesEntity;
   }
 
-  async update(
-    id: string,
-    updatePropertyDto: UpdatePropertyDto,
-  ): Promise<PropertyEntity | null> {
-    const updatedProperty = await this.propertyModel.findByIdAndUpdate(
-      id,
-      updatePropertyDto,
-      { new: true },
-    );
-    if (!updatedProperty) return null;
-    const updatedPropertyEntity = PropertyMapper.toEntity(updatedProperty);
-    return updatedPropertyEntity;
-  }
-
-  async delete(id: string): Promise<PropertyEntity | null> {
+  async delete(id: string): Promise<boolean> {
     const deletedProperty = await this.propertyModel.findByIdAndDelete(id);
-    if (!deletedProperty) return null;
-    const deletedPropertyEntity = PropertyMapper.toEntity(deletedProperty);
-    return deletedPropertyEntity;
+    return deletedProperty != null;
   }
 }

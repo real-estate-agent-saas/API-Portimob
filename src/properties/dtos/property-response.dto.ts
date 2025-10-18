@@ -41,11 +41,10 @@ export class PropertyResponseDto {
 
   userId: string;
 
+
   static fromEntity(entity: PropertyEntity): PropertyResponseDto {
     const dto = new PropertyResponseDto();
-
     Object.assign(dto, entity);
-
     return dto;
   }
 }

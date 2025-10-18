@@ -62,7 +62,7 @@ export class PropertyEntity implements IProperty {
       address,
     } = props;
 
-    // Validations before setting atributes
+    // Validations before insert the atributes
     if (!title || title.trim().length < 3) throw new Error('Título inválido!');
     if (!userId) throw new Error('Um usuário associado é obrigatório!');
     if (area !== undefined && area < 0) throw new Error('Área inválida');
@@ -95,33 +95,11 @@ export class PropertyEntity implements IProperty {
 
   //---------------------------  Methods ------------------------------------
 
-  static create(dto: IProperty) {
-    return new PropertyEntity({
-      title: dto.title,
-      userId: dto.userId,
-      address: dto.address,
-      area: dto.area,
-      price: dto.price,
-      roomsQty: dto.roomsQty,
-      bathroomsQty: dto.bathroomsQty,
-      parkingSpacesQty: dto.parkingSpacesQty,
-      description: dto.description,
-      coverImage: dto.coverImage,
-      videoUrl: dto.videoUrl,
-      isActive: dto.isActive,
-      isFurnished: dto.isFurnished,
-      isNearSubway: dto.isNearSubway,
-      isFeatured: dto.isFeatured,
-      propertyType: dto.propertyType,
-      propertyPurpose: dto.propertyPurpose,
-      propertyStanding: dto.propertyStanding,
-      propertyDeliveryStatus: dto.propertyDeliveryStatus,
-      propertyTypology: dto.propertyTypology,
-      propertyLeisure: dto.propertyLeisure,
-      propertyGallery: dto.propertyGallery,
-      propertyFloorPlanGallery: dto.propertyFloorPlanGallery,
-    });
+  static create(props: IProperty) {
+    return new PropertyEntity(props);
   }
+
+  static update(props: Partial<IProperty>) {}
 
   activate() {
     this.isActive = true;

@@ -8,7 +8,7 @@ export class DeletePropertyUseCase {
     private readonly propertyRepository: IPropertyRepository,
   ) {}
 
-  async execute(id: string) {
+  async execute(id: string): Promise<boolean> {
     return this.propertyRepository.delete(id);
   }
 }
