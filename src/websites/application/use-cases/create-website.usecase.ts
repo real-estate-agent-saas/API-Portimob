@@ -10,8 +10,7 @@ export class CreateWebsiteUseCase {
   ) {}
 
   async execute(createWebsiteDto): Promise<any> {
-
-
-    return this.websiteRepository.create(createWebsiteDto);
+    
+    return createWebsiteDto;
   }
 }

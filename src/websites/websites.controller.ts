@@ -1,15 +1,29 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { WebsitesService } from './websites.service';
 import { CreateWebsiteDto } from './dto/create-website.dto';
 import { UpdateWebsiteDto } from './dto/update-website.dto';
+import { CreateWebsiteUseCase } from './application/use-cases/create-website.usecase';
 
 @Controller('websites')
 export class WebsitesController {
-  constructor(private readonly websitesService: WebsitesService) {}
+  constructor(
+    private readonly websitesService: WebsitesService,
+    private readonly createWebsiteUseCase: CreateWebsiteUseCase,
+  ) {
 
-  @Post('test')
+  }
+
+  @Post()
   create(@Body() createWebsiteDto: CreateWebsiteDto) {
-    return 'peniz';
+    return this.createWebsiteUseCase.execute(createWebsiteDto);
   }
 
   @Get()

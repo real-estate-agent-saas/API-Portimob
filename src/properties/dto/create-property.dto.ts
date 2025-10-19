@@ -73,7 +73,7 @@ export class CreatePropertyDto {
   @IsOptional()
   @IsBoolean()
   isNearSubway?: boolean;
-
+  
   @IsOptional()
   @IsBoolean()
   isFeatured?: boolean;

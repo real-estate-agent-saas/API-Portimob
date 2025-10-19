@@ -6,6 +6,7 @@ import {
     IsArray,
     ValidateNested,
     IsUrl,
+    IsDate,
   } from 'class-validator';
   import { Type } from 'class-transformer';
 
@@ -66,7 +67,7 @@ profileImage?: string;
 bio?: string;
 
 @IsOptional()
-@IsString()
+@IsDate()
 careerStartDate?: Date;
 
 @IsOptional()
@@ -78,10 +79,8 @@ creci?: string;
 gender?: string;
 
 @IsOptional()
-@IsString()
+@IsArray()
+@IsString({ each:true })
 specialties?: string[];
-
-/*Usamos algum recurso do class validator por conta dos dados do constructor?*/ 
-/*Explicar Gallerry Validation do create property*/
 
 }
