@@ -39,7 +39,7 @@ export class CreatePropertyDto {
 
   @IsOptional()
   @IsNumber()
-  price: number;
+  price?: number;
 
   @IsOptional()
   @IsNumber()
