@@ -1,8 +1,10 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { of } from 'rxjs';
 import { PropertyResponseDto } from 'src/properties/dtos/property-response.dto';
 import { UpdatePropertyDto } from 'src/properties/dtos/update-property.dto';
 import { PropertyEntity } from 'src/properties/entities/property.entity';
 import type { IPropertyRepository } from 'src/properties/repositories/Iproperty.repository';
+import { PropertyMapper } from 'src/properties/repositories/property.mapper';
 
 @Injectable()
 export class UpdatePropertyUseCase {
@@ -14,19 +16,20 @@ export class UpdatePropertyUseCase {
   async execute(
     id: string,
     updatePropertyDto: UpdatePropertyDto,
-  ): Promise<PropertyResponseDto | null> {
-    const existingProperty = await this.propertyRepository.findOne(id);
+  ): Promise<PropertyResponseDto> {
+    // Gets a PropertyEntity instance
+    const property = await this.propertyRepository.findOne(id);
 
-    if (!existingProperty)
-      throw new NotFoundException('Imóvel não encontrado!');
+    if (!property) throw new NotFoundException('Nenhum imóvel encontrado!');
 
-    const property = await this.propertyRepository.update(
-      id,
-      updatePropertyDto,
-    );
+    // Updates the object with the new data
+    property.update(updatePropertyDto);
 
-    if (!property) return null;
+    // Persists data on the DB
+    const updatedProperty = await this.propertyRepository.update(id, property);
 
-    return PropertyResponseDto.fromEntity(property);
+    if (!updatedProperty) throw Error('Erro ao atualizar imóvel');
+
+    return PropertyResponseDto.fromEntity(updatedProperty);
   }
 }

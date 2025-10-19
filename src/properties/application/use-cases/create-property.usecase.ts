@@ -14,7 +14,6 @@ export class CreatePropertyUseCase {
   async execute(createPropertyDto: CreatePropertyDto): Promise<PropertyResponseDto> {
     const property = PropertyEntity.create(createPropertyDto);
     const createdProperty = await this.propertyRepository.create(property);
-
     return PropertyResponseDto.fromEntity(createdProperty);
   }
 }

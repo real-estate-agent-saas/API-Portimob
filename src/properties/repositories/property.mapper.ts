@@ -1,10 +1,15 @@
 import { PropertyEntity } from '../entities/property.entity';
 import { PropertyDocument } from '../schemas/properties.schema';
+import { PropertyPersistenceModel } from './model/property-persistence.model';
 
 export class PropertyMapper {
+  /**
+   * Converte um documento do Mongo (PropertyDocument)
+   * em uma entidade de domínio (PropertyEntity)
+   */
   static toEntity(property: PropertyDocument): PropertyEntity {
-    return new PropertyEntity({
-      id: property._id.toString(),
+    return PropertyEntity.create({
+      id: property._id?.toString(),
       title: property.title,
       description: property.description,
       area: property.area,
@@ -29,5 +34,39 @@ export class PropertyMapper {
       address: property.address,
       userId: property.userId,
     });
+  }
+
+  /**
+   * Converte uma entidade de domínio (PropertyEntity)
+   * em um objeto plano que o Mongoose entende para persistência
+   */
+  static toPersistence(
+    entity: PropertyEntity,
+  ): PropertyPersistenceModel {
+    return {
+      title: entity.title,
+      description: entity.description,
+      area: entity.area,
+      price: entity.price,
+      roomsQty: entity.roomsQty,
+      bathroomsQty: entity.bathroomsQty,
+      parkingSpacesQty: entity.parkingSpacesQty,
+      coverImage: entity.coverImage,
+      videoUrl: entity.videoUrl,
+      isActive: entity.isActive ?? true,
+      isFurnished: entity.isFurnished,
+      isNearSubway: entity.isNearSubway,
+      isFeatured: entity.isFeatured,
+      propertyType: entity.propertyType,
+      propertyPurpose: entity.propertyPurpose,
+      propertyStanding: entity.propertyStanding,
+      propertyDeliveryStatus: entity.propertyDeliveryStatus,
+      propertyTypology: entity.propertyTypology,
+      propertyLeisure: entity.propertyLeisure,
+      propertyGallery: entity.propertyGallery,
+      propertyFloorPlanGallery: entity.propertyFloorPlanGallery,
+      address: entity.address,
+      userId: entity.userId,
+    };
   }
 }

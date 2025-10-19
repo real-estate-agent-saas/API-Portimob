@@ -4,7 +4,6 @@ import { Property, PropertyDocument } from '../schemas/properties.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { PropertyEntity } from '../entities/property.entity';
-import { UpdatePropertyDto } from '../dtos/update-property.dto';
 import { PropertyMapper } from './property.mapper';
 
 @Injectable()
@@ -13,24 +12,27 @@ export class PropertyRepository implements IPropertyRepository {
     @InjectModel(Property.name) private propertyModel: Model<PropertyDocument>,
   ) {}
 
-  async create(property: PropertyEntity): Promise<PropertyEntity> {
-    const createdProperty = await this.propertyModel.create(property);
+  async create(propertyData: PropertyEntity): Promise<PropertyEntity> {
+    const propertyDoc = PropertyMapper.toPersistence(propertyData);
+    const createdProperty = await this.propertyModel.create(propertyDoc);
     const propertyEntity = PropertyMapper.toEntity(createdProperty);
     return propertyEntity;
   }
 
   async update(
     id: string,
-    updatePropertyDto: UpdatePropertyDto,
+    propertyData: PropertyEntity,
   ): Promise<PropertyEntity | null> {
+    // Converts PropertyEntity into a persistence object
+    const persistenceModel = PropertyMapper.toPersistence(propertyData);
+    // Updates property and return the new document
     const updatedProperty = await this.propertyModel.findByIdAndUpdate(
       id,
-      updatePropertyDto,
+      { $set: persistenceModel },
       { new: true },
     );
     if (!updatedProperty) return null;
-    const updatedPropertyEntity = PropertyMapper.toEntity(updatedProperty);
-    return updatedPropertyEntity;
+    return PropertyMapper.toEntity(updatedProperty);
   }
 
   async findOne(id: string): Promise<PropertyEntity | null> {

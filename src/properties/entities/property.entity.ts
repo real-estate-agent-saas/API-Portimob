@@ -42,7 +42,7 @@ export class PropertyEntity implements IProperty {
   userId: string;
 
   // Expects Property props and its ID
-  constructor(props: IProperty) {
+  private constructor(props: IProperty) {
     const {
       id,
       userId,
@@ -61,18 +61,6 @@ export class PropertyEntity implements IProperty {
       propertyLeisure,
       address,
     } = props;
-
-    // Validations before insert the atributes
-    if (!title || title.trim().length < 3) throw new Error('Título inválido!');
-    if (!userId) throw new Error('Um usuário associado é obrigatório!');
-    if (area !== undefined && area < 0) throw new Error('Área inválida');
-    if (price !== undefined && price < 0) throw new Error('Preço inválido');
-    if (roomsQty !== undefined && roomsQty < 0)
-      throw new Error('Quantidade de quartos inválida');
-    if (bathroomsQty !== undefined && bathroomsQty < 0)
-      throw new Error('Quantidade de banheiros inválida');
-    if (parkingSpacesQty !== undefined && parkingSpacesQty < 0)
-      throw new Error('Quantidade de vagas inválida');
 
     // Insertions
     this.id = id;
@@ -93,19 +81,41 @@ export class PropertyEntity implements IProperty {
     this.address = address;
   }
 
-  //---------------------------  Methods ------------------------------------
+  //---------------------------  Method ------------------------------------
 
-  static create(props: IProperty) {
+  static create(props: IProperty): PropertyEntity {
+    PropertyEntity.validateProps(props);
     return new PropertyEntity(props);
   }
 
-  static update(props: Partial<IProperty>) {}
+  update(props: Partial<IProperty>): void {
+    Object.assign(this, props);
+  }
 
-  activate() {
+  activate(): void {
     this.isActive = true;
   }
 
-  deactivate() {
+  deactivate(): void {
     this.isActive = false;
+  }
+
+  //---------------------------  Private Validation  -----------------------------
+
+  private static validateProps(props: IProperty): void {
+    if (!props.userId)
+      throw new Error('O imóvel precisa estar associado a um usuário!');
+    if (!props.title || props.title.trim().length < 3)
+      throw new Error('O título deve ter pelo menos 3 caracteres!');
+    if (props.price !== undefined && props.price < 0)
+      throw new Error('O preço não pode ser negativo!');
+    if (props.roomsQty !== undefined && props.roomsQty < 0)
+      throw new Error('O preço não pode ser negativo!');
+    if (props.bathroomsQty !== undefined && props.bathroomsQty < 0)
+      throw new Error('O preço não pode ser negativo!');
+    if (props.parkingSpacesQty !== undefined && props.parkingSpacesQty < 0)
+      throw new Error('O preço não pode ser negativo!');
+    if (props.area !== undefined && props.area < 0)
+      throw new Error('A área não pode ser negativa!');
   }
 }

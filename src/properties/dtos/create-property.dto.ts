@@ -5,17 +5,18 @@ import {
   IsBoolean,
   IsArray,
   ValidateNested,
-  IsUrl,
+  Min,
+  MinLength,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreateAddressDto } from './create-address.dto';
 
-// ----------------------------------- Gallery Validation ----------------------
 class ImageItemDto {
   @IsString()
   imageUrl: string;
 
   @IsNumber()
+  @Min(0)
   order: number;
 }
 
@@ -26,13 +27,10 @@ class CategoryDto {
   @IsString()
   name: string;
 }
-// -------------------------------- Basic Property data -------------------------
+
 export class CreatePropertyDto {
   @IsString()
-  @IsOptional()
-  id?: string;
-
-  @IsString()
+  @MinLength(3)
   title: string;
 
   @IsOptional()
@@ -41,22 +39,27 @@ export class CreatePropertyDto {
 
   @IsOptional()
   @IsNumber()
+  @Min(0)
   price?: number;
 
   @IsOptional()
   @IsNumber()
+  @Min(0)
   area?: number;
 
   @IsOptional()
   @IsNumber()
+  @Min(0)
   roomsQty?: number;
 
   @IsOptional()
   @IsNumber()
+  @Min(0)
   bathroomsQty?: number;
 
   @IsOptional()
   @IsNumber()
+  @Min(0)
   parkingSpacesQty?: number;
 
   @IsOptional()
@@ -84,7 +87,7 @@ export class CreatePropertyDto {
   @IsBoolean()
   isActive?: boolean;
 
-  //----------------------------- Categories ---------------------------
+  // Categories
   @IsOptional()
   @ValidateNested()
   @Type(() => CategoryDto)
@@ -115,13 +118,13 @@ export class CreatePropertyDto {
   @Type(() => CategoryDto)
   propertyLeisure?: CategoryDto[];
 
-  //----------------------------- Address DTO ----------------------------
+  // Address
   @IsOptional()
   @ValidateNested()
   @Type(() => CreateAddressDto)
   address?: CreateAddressDto;
 
-  // ------------------------------- Galleries------------------------------
+  // Galleries
   @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
@@ -134,7 +137,7 @@ export class CreatePropertyDto {
   @Type(() => ImageItemDto)
   propertyFloorPlanGallery?: ImageItemDto[];
 
-  // ---------------------------- User Relationship ------------------------------
+  // User relationship
   @IsString()
   userId: string;
 }
