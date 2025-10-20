@@ -1,11 +1,43 @@
-import {
-  Address,
-  Category,
-  Gallery,
-  IProperty,
-} from '../interfaces/property.interface';
+import { Address } from './value-objects/address.vo';
+import { Gallery } from './value-objects/gallery.vo';
+import { Category } from './value-objects/category.vo';
 
-export class PropertyEntity implements IProperty {
+interface PropertyProps {
+  id?: string; //Property ID
+  userId: string; // Property Owner
+  title: string;
+  description?: string;
+  area?: number;
+  price?: number;
+  roomsQty?: number;
+  bathroomsQty?: number;
+  parkingSpacesQty?: number;
+  coverImage?: string;
+  videoUrl?: string;
+
+  // Status & Flags
+  isActive?: boolean;
+  isFurnished?: boolean;
+  isNearSubway?: boolean;
+  isFeatured?: boolean;
+
+  // Categories
+  propertyType?: Category;
+  propertyPurpose?: Category;
+  propertyStanding?: Category;
+  propertyDeliveryStatus?: Category;
+  propertyTypology?: Category;
+  propertyLeisure?: Category[];
+
+  // Galleries
+  propertyGallery?: Gallery[];
+  propertyFloorPlanGallery?: Gallery[];
+
+  // Address
+  address?: Address;
+}
+
+export class PropertyEntity {
   readonly id?: string;
   title: string;
   description?: string;
@@ -42,17 +74,22 @@ export class PropertyEntity implements IProperty {
   userId: string;
 
   // Expects Property props and its ID
-  private constructor(props: IProperty) {
+  private constructor(props: PropertyProps) {
     const {
       id,
       userId,
       title,
+      description,
       area,
       price,
       roomsQty,
       bathroomsQty,
       parkingSpacesQty,
       isActive,
+      isFeatured,
+      isNearSubway,
+      coverImage,
+      videoUrl,
       propertyType,
       propertyPurpose,
       propertyStanding,
@@ -60,18 +97,25 @@ export class PropertyEntity implements IProperty {
       propertyTypology,
       propertyLeisure,
       address,
+      propertyGallery,
+      propertyFloorPlanGallery,
     } = props;
 
     // Insertions
     this.id = id;
     this.title = title;
+    this.description = description;
     this.userId = userId;
     this.price = price;
     this.area = area;
+    this.coverImage = coverImage;
+    this.videoUrl = videoUrl;
     this.roomsQty = roomsQty;
     this.bathroomsQty = bathroomsQty;
     this.parkingSpacesQty = parkingSpacesQty;
     this.isActive = isActive ?? true;
+    this.isFeatured = isFeatured ?? false;
+    this.isNearSubway = isNearSubway;
     this.propertyType = propertyType;
     this.propertyPurpose = propertyPurpose;
     this.propertyStanding = propertyStanding;
@@ -79,16 +123,18 @@ export class PropertyEntity implements IProperty {
     this.propertyTypology = propertyTypology;
     this.propertyLeisure = propertyLeisure;
     this.address = address;
+    this.propertyGallery = propertyGallery;
+    this.propertyFloorPlanGallery = propertyFloorPlanGallery;
   }
 
   //---------------------------  Method ------------------------------------
 
-  static create(props: IProperty): PropertyEntity {
+  static create(props: PropertyProps): PropertyEntity {
     PropertyEntity.validateProps(props);
     return new PropertyEntity(props);
   }
 
-  update(props: Partial<IProperty>): void {
+  update(props: Partial<PropertyProps>): void {
     Object.assign(this, props);
   }
 
@@ -102,7 +148,7 @@ export class PropertyEntity implements IProperty {
 
   //---------------------------  Private Validation  -----------------------------
 
-  private static validateProps(props: IProperty): void {
+  private static validateProps(props: PropertyProps): void {
     if (!props.userId)
       throw new Error('O imóvel precisa estar associado a um usuário!');
     if (!props.title || props.title.trim().length < 3)

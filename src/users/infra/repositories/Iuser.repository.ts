@@ -1,5 +1,5 @@
-import { UpdateUserDto } from '../dto/update-user.dto';
-import { UserEntity } from '../entities/user.entity';
+import { UpdateUserDto } from '../../dto/update-user.dto';
+import { UserEntity } from '../../entities/user.entity';
 
 export interface IUserRepository {
   
@@ -8,5 +8,6 @@ export interface IUserRepository {
 
   findAll(): Promise<UserEntity[] | []>;
   findById(id: string): Promise<UserEntity | null>;
+  
   findByEmail(email: string): Promise<UserEntity | null>;
 }

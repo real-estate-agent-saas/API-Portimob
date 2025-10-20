@@ -12,7 +12,7 @@ import { CreatePropertyDto } from 'src/properties/dtos/create-property.dto';
 import { PropertyEntity } from 'src/properties/entities/property.entity';
 
 // Repository Interface
-import { IPropertyRepository } from 'src/properties/repositories/Iproperty.repository';
+import { IPropertyRepository } from 'src/properties/infra/repositories/Iproperty.repository';
 
 describe('Property Services', () => {
   let createPropertyUseCase: CreatePropertyUseCase;

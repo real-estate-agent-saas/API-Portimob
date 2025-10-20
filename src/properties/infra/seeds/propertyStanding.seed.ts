@@ -1,11 +1,9 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import {
-  PropertyStanding,
-  PropertyStandingDocument,
-} from '../schemas/propertyStanding.schema';
 import { Model } from 'mongoose';
-import { PROPERTY_STANDINGS } from '../constants/propertyStanding';
+import { PROPERTY_STANDINGS } from 'src/properties/constants/propertyStanding';
+import { PropertyStanding, PropertyStandingDocument } from '../schemas/propertyStanding.schema';
+
 
 @Injectable()
 export class PropertyStandingSeed implements OnModuleInit {

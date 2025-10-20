@@ -1,11 +1,9 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import {
-  PropertyLeisure,
-  PropertyLeisureDocument,
-} from '../schemas/propertyLeisure.schema';
-import { LEISURE } from '../constants/propertyLeisure';
+import { LEISURE } from 'src/properties/constants/propertyLeisure';
+import { PropertyLeisure, PropertyLeisureDocument } from '../schemas/propertyLeisure.schema';
+
 
 @Injectable()
 export class PropertyLeisureSeed implements OnModuleInit {

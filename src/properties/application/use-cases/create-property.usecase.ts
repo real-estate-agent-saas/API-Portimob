@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreatePropertyDto } from 'src/properties/dtos/create-property.dto';
-import { PropertyResponseDto } from 'src/properties/dtos/property-response.dto';
+import { PropertyPresenter } from 'src/properties/application/presenters/property.presenter';
+import type { IPropertyRepository } from 'src/properties/infra/repositories/Iproperty.repository';
 import { PropertyEntity } from 'src/properties/entities/property.entity';
-import type { IPropertyRepository } from 'src/properties/repositories/Iproperty.repository';
 
 @Injectable()
 export class CreatePropertyUseCase {
@@ -11,10 +11,11 @@ export class CreatePropertyUseCase {
     private readonly propertyRepository: IPropertyRepository,
   ) {}
 
-  async execute(createPropertyDto: CreatePropertyDto): Promise<PropertyResponseDto> {
+  async execute(
+    createPropertyDto: CreatePropertyDto,
+  ): Promise<PropertyPresenter> {
     const property = PropertyEntity.create(createPropertyDto);
     const createdProperty = await this.propertyRepository.create(property);
-    return PropertyResponseDto.fromEntity(createdProperty);
+    return PropertyPresenter.fromEntity(createdProperty);
   }
 }
-  

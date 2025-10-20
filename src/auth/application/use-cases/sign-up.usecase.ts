@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import type { IUserRepository } from 'src/users/repositories/Iuser.repository';
+import type { IUserRepository } from 'src/users/infra/repositories/Iuser.repository';
 
 @Injectable()
 export class SignUpUseCase {

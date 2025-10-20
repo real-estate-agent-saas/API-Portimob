@@ -1,11 +1,8 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import {
-  PropertyType,
-  PropertyTypeDocument,
-} from '../schemas/propertyType.schema';
 import { Model } from 'mongoose';
-import { PROPERTY_TYPES } from '../constants/propertyType';
+import { PropertyType, PropertyTypeDocument } from '../schemas/propertyType.schema';
+import { PROPERTY_TYPES } from 'src/properties/constants/propertyType';
 
 @Injectable()
 export class PropertyTypeSeed implements OnModuleInit {

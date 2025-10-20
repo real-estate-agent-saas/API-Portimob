@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { UsersController } from './users.controller';
 
 // Database
-import { User, userSchema } from './schemas/users.schema';
+import { User, userSchema } from './infra/schemas/users.schema';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserRepository } from './repositories/user.repository';
+import { UserRepository } from './infra/repositories/user.repository';
 
 // Use Cases
 import { CreateUserUseCase } from './application/use-cases/create-user.usecase';

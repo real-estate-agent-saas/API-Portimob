@@ -34,9 +34,8 @@ export class UsersController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() createUserDto: CreateUserDto) {
-    const userEntity = await this.createUserUseCase.execute(createUserDto);
-    return CreateUserPresenter.toHttp(userEntity);
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.createUserUseCase.execute(createUserDto);
   }
 
   @Get()

@@ -1,22 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { IUserRepository } from './Iuser.repository';
-import { UserEntity } from '../entities/user.entity';
+import { UserEntity } from '../../entities/user.entity';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from '../schemas/users.schema';
 import { Model, isValidObjectId } from 'mongoose';
-import { UserMapper } from '../repositories/user.mapper';
-import { UpdateUserDto } from '../dto/update-user.dto';
+import { UserMapper } from '../mappers/user.mapper';
+import { UpdateUserDto } from '../../dto/update-user.dto';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async create(userEntity: UserEntity): Promise<UserEntity> {
-    const createdUser = new this.userModel({
-      name: userEntity.name,
-      email: userEntity.email,
-      password: userEntity.passwordHash,
-    });
+    const userDocument = UserMapper.toDocument(userEntity);
+    const createdUser = new this.userModel(userDocument);
     const savedUser = await createdUser.save();
     return UserMapper.toEntity(savedUser);
   }

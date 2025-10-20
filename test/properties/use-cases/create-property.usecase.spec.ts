@@ -1,16 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CreatePropertyUseCase } from 'src/properties/application/use-cases/create-property.usecase';
 import { CreatePropertyDto } from 'src/properties/dtos/create-property.dto';
-import { PropertyResponseDto } from 'src/properties/dtos/property-response.dto';
+import { PropertyPresenter } from 'src/properties/application/presenters/property.presenter';
 import { PropertyEntity } from 'src/properties/entities/property.entity';
-import { IPropertyRepository } from 'src/properties/repositories/Iproperty.repository';
+import { IPropertyRepository } from 'src/properties/infra/repositories/Iproperty.repository';
 
 let createPropertyUseCase: CreatePropertyUseCase;
 let propertyRepositoryMock: Partial<jest.Mocked<IPropertyRepository>>;
 
 beforeEach(async () => {
   propertyRepositoryMock = {
-    create: jest.fn(),
+    create: jest.fn(), // Mocking only the 'create' method
   };
 
   const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -27,14 +27,14 @@ beforeEach(async () => {
 });
 
 describe('CreatePropertyUseCase', () => {
-  it('Should Create a Property', async () => {
-    // Arrange (Simulates a HTTP Request)
+  it('Should Create a Property Successfully', async () => {
+    //-------------------------------- Arrange (Simulates a HTTP Request) -----------------------------------
     const createPropertyDto: CreatePropertyDto = {
       title: 'Imóvel Morumbi',
       userId: 'Usuário 1',
     };
 
-    // Base return to mount the Use Case response
+    // Property entity that will return after the request to the mock
     const propertyEntity = PropertyEntity.create(createPropertyDto);
 
     // Simulates what the DB would return (Object with some additional metadata)
@@ -43,26 +43,26 @@ describe('CreatePropertyUseCase', () => {
       id: 'property-123',
     };
 
-    // Instructs o IRepositoryMock to return an specific value when the use case calls it
+    // Instructs o IRepositoryMock to return an specific value when the Use-Case calls it
     propertyRepositoryMock.create?.mockResolvedValueOnce(
       propertyMock as PropertyEntity,
     );
 
-    //Act - (Executes the action that is been tested)
+    //--------------------------- Act - (Executes the action|UseCase that is been tested) -------------------------------
+    // Variable "result" recives property mocked value
     const result = await createPropertyUseCase.execute(createPropertyDto);
 
-    // Assert - (Defines conditions to verify if the test passed)
-
+    //------------------------- Assert - (Defines conditions to verify if the test passed) -----------------------------
     // Verifies if the correct object type was passed for creation into the repository
     expect(propertyRepositoryMock.create).toHaveBeenCalledWith(
       expect.any(PropertyEntity),
     );
 
-    // Verifies if the method create from repository was called once
+    // Verifies if the "create" method from repository was called once
     expect(propertyRepositoryMock.create).toHaveBeenCalledTimes(1);
 
-    // Verifies if the return value of the use case is a DTO to pass to the controller generate the response
-    expect(result).toBeInstanceOf(PropertyResponseDto);
+    // Verifies if the returned value in the Use-Case is a PropertyResponseDto instace 
+    expect(result).toBeInstanceOf(PropertyPresenter);
 
     // Verifies if the result contains everything we expect to recieve after saving a property on the DB
     expect(result).toEqual(
@@ -70,6 +70,7 @@ describe('CreatePropertyUseCase', () => {
         id: 'property-123',
         title: 'Imóvel Morumbi',
         userId: 'Usuário 1',
+        isActive: true,
       }),
     );
   });

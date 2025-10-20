@@ -5,12 +5,10 @@ import {
   OnModuleInit,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import {
-  PropertyTypology,
-  PropertyTypologyDocument,
-} from '../schemas/propertyTypology.schema';
 import { Model } from 'mongoose';
-import { PROPERTY_TYPOLOGIES } from '../constants/propertyTypology';
+import { PROPERTY_TYPOLOGIES } from 'src/properties/constants/propertyTypology';
+import { PropertyTypology, PropertyTypologyDocument } from '../schemas/propertyTypology.schema';
+
 
 @Injectable()
 export class PropertyTypologySeed implements OnModuleInit {

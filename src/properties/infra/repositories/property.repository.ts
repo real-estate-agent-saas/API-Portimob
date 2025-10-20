@@ -3,8 +3,8 @@ import { IPropertyRepository } from './Iproperty.repository';
 import { Property, PropertyDocument } from '../schemas/properties.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { PropertyEntity } from '../entities/property.entity';
-import { PropertyMapper } from './property.mapper';
+import { PropertyEntity } from '../../entities/property.entity';
+import { PropertyMapper } from '../mappers/property.mapper';
 
 @Injectable()
 export class PropertyRepository implements IPropertyRepository {
@@ -12,23 +12,20 @@ export class PropertyRepository implements IPropertyRepository {
     @InjectModel(Property.name) private propertyModel: Model<PropertyDocument>,
   ) {}
 
-  async create(propertyData: PropertyEntity): Promise<PropertyEntity> {
-    const propertyDoc = PropertyMapper.toPersistence(propertyData);
+  async create(property: PropertyEntity): Promise<PropertyEntity> {
+    const propertyDoc = PropertyMapper.toDocument(property);
     const createdProperty = await this.propertyModel.create(propertyDoc);
-    const propertyEntity = PropertyMapper.toEntity(createdProperty);
-    return propertyEntity;
+    return PropertyMapper.toEntity(createdProperty);
   }
 
   async update(
     id: string,
-    propertyData: PropertyEntity,
+    property: PropertyEntity,
   ): Promise<PropertyEntity | null> {
-    // Converts PropertyEntity into a persistence object
-    const persistenceModel = PropertyMapper.toPersistence(propertyData);
-    // Updates property and return the new document
+    const propertyDoc = PropertyMapper.toDocument(property);
     const updatedProperty = await this.propertyModel.findByIdAndUpdate(
       id,
-      { $set: persistenceModel },
+      { $set: propertyDoc },
       { new: true },
     );
     if (!updatedProperty) return null;
@@ -38,8 +35,7 @@ export class PropertyRepository implements IPropertyRepository {
   async findOne(id: string): Promise<PropertyEntity | null> {
     const property = await this.propertyModel.findById(id);
     if (!property) return null;
-    const propertyEntity = PropertyMapper.toEntity(property);
-    return propertyEntity;
+    return PropertyMapper.toEntity(property);
   }
 
   async findAll(): Promise<PropertyEntity[] | []> {

@@ -1,11 +1,9 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import {
-  PropertyDeliveryStatus,
-  PropertyDeliveryStatusDocument,
-} from '../schemas/propertyDeliveryStatus.schema';
-import { DELIVERY_STATUS } from '../constants/propertyDeliveryStatus';
+import { DELIVERY_STATUS } from 'src/properties/constants/propertyDeliveryStatus';
+import { PropertyDeliveryStatus, PropertyDeliveryStatusDocument } from '../schemas/propertyDeliveryStatus.schema';
+
 
 @Injectable()
 export class PropertyDeliveryStatusSeed implements OnModuleInit {

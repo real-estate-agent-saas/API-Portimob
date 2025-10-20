@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { PropertyEntity } from 'src/properties/entities/property.entity';
-import type { IPropertyRepository } from 'src/properties/repositories/Iproperty.repository';
+import type { IPropertyRepository } from 'src/properties/infra/repositories/Iproperty.repository';
 
 @Injectable()
 export class FindOnePropertyUseCase {

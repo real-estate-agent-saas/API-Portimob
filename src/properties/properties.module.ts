@@ -1,49 +1,49 @@
 import { MongooseModule } from '@nestjs/mongoose';
 import { Module } from '@nestjs/common';
 import { PropertiesController } from './properties.controller';
-import { PropertyRepository } from './repositories/property.repository';
+import { PropertyRepository } from './infra/repositories/property.repository';
 
 // Use cases
 import { CreatePropertyUseCase } from './application/use-cases/create-property.usecase';
+import { UpdatePropertyUseCase } from './application/use-cases/update-property.usecase';
 import { FindAllPropertiesUseCase } from './application/use-cases/find-all-properties.usecase';
 import { FindOnePropertyUseCase } from './application/use-cases/find-one-property.usecase';
 import { DeletePropertyUseCase } from './application/use-cases/delete-property.usecase';
 
 // Schemas
-import { Property, propertySchema } from './schemas/properties.schema';
+import { Property, propertySchema } from './infra/schemas/properties.schema';
 import {
   PropertyLeisure,
   propertyLeisureSchema,
-} from './schemas/propertyLeisure.schema';
+} from './infra/schemas/propertyLeisure.schema';
 import {
   PropertyDeliveryStatus,
   propertyDeliveryStatusSchema,
-} from './schemas/propertyDeliveryStatus.schema';
+} from './infra/schemas/propertyDeliveryStatus.schema';
 import {
   PropertyPurpose,
   propertyPurposeSchema,
-} from './schemas/propertyPurpose.schema';
+} from './infra/schemas/propertyPurpose.schema';
 import {
   PropertyStanding,
   propertyStandingSchema,
-} from './schemas/propertyStanding.schema';
+} from './infra/schemas/propertyStanding.schema';
 import {
   PropertyType,
   propertyTypeSchema,
-} from './schemas/propertyType.schema';
+} from './infra/schemas/propertyType.schema';
 import {
   PropertyTypology,
   propertyTypologySchema,
-} from './schemas/propertyTypology.schema';
+} from './infra/schemas/propertyTypology.schema';
 
 // Seeds
-import { PropertyLeisureSeed } from './seeds/propertytLeisure.seed';
-import { PropertyDeliveryStatusSeed } from './seeds/propertyDeliveryStatus.seed';
-import { PropertyPurposeSeed } from './seeds/propertyPurpose.seed';
-import { PropertyStandingSeed } from './seeds/propertyStanding.seed';
-import { PropertyTypeSeed } from './seeds/propertyType.seed';
-import { PropertyTypologySeed } from './seeds/propertyTypology.seed';
-import { UpdatePropertyUseCase } from './application/use-cases/update-property.usecase';
+import { PropertyDeliveryStatusSeed } from './infra/seeds/propertyDeliveryStatus.seed';
+import { PropertyPurposeSeed } from './infra/seeds/propertyPurpose.seed';
+import { PropertyStandingSeed } from './infra/seeds/propertyStanding.seed';
+import { PropertyLeisureSeed } from './infra/seeds/propertytLeisure.seed';
+import { PropertyTypeSeed } from './infra/seeds/propertyType.seed';
+import { PropertyTypologySeed } from './infra/seeds/propertyTypology.seed';
 
 @Module({
   controllers: [PropertiesController],

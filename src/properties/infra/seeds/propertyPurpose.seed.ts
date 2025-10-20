@@ -1,11 +1,11 @@
 import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { PROPERTY_PURPOSES } from 'src/properties/constants/propertyPurpose';
 import {
   PropertyPurpose,
   PropertyPurposeDocument,
 } from '../schemas/propertyPurpose.schema';
-import { Model } from 'mongoose';
-import { PROPERTY_PURPOSES } from '../constants/propertyPurpose';
 
 @Injectable()
 export class PropertyPurposeSeed implements OnModuleInit {

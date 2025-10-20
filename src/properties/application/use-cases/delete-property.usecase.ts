@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import type { IPropertyRepository } from 'src/properties/repositories/Iproperty.repository';
+import type { IPropertyRepository } from 'src/properties/infra/repositories/Iproperty.repository';
 
 @Injectable()
 export class DeletePropertyUseCase {
