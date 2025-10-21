@@ -22,6 +22,8 @@ import { CreateUserUseCase } from './application/use-cases/create-user.usecase';
 import { UpdateUserUseCase } from './application/use-cases/update-user.usecase';
 import { FindAllUseCase } from './application/use-cases/find-all-user.usecase';
 import { FindOneUseCase } from './application/use-cases/find-one-user.usecase';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import { UserEntity } from './entities/user.entity';
 
 @Controller('users')
 export class UsersController {
