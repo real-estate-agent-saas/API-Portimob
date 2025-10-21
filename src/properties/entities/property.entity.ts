@@ -1,84 +1,167 @@
-export class PropertyEntity {
-  // Main data
-  readonly id?: string;
+import { Address } from './value-objects/address.vo';
+import { Gallery } from './value-objects/gallery.vo';
+import { Category } from './value-objects/category.vo';
+
+interface PropertyProps {
+  id?: string; //Property ID
+  userId: string; // Property Owner
   title: string;
+  description?: string;
   area?: number;
   price?: number;
   roomsQty?: number;
   bathroomsQty?: number;
   parkingSpacesQty?: number;
-  description?: string;
-  youtubeURL?: string;
   coverImage?: string;
+  videoUrl?: string;
 
-  // Flags & status
+  // Status & Flags
+  isActive?: boolean;
   isFurnished?: boolean;
   isNearSubway?: boolean;
   isFeatured?: boolean;
-  isActive?: boolean;
 
   // Categories
-  propertyType?: {
-    id: string;
-    name: string;
-  };
+  propertyType?: Category;
+  propertyPurpose?: Category;
+  propertyStanding?: Category;
+  propertyDeliveryStatus?: Category;
+  propertyTypology?: Category;
+  propertyLeisure?: Category[];
 
-  propertyPurpose?: {
-    id: string;
-    name: string;
-  };
-
-  propertyStanding?: {
-    id: string;
-    name: string;
-  };
-
-  deliveryStatus?: {
-    id: string;
-    name: string;
-  };
-
-  propertyTypology?: {
-    id: string;
-    name: string;
-  };
-
-  propertyLeisure?: {
-    id: string;
-    name: string;
-  };
+  // Galleries
+  propertyGallery?: Gallery[];
+  propertyFloorPlanGallery?: Gallery[];
 
   // Address
-  address?: {
-    street?: string;
-    propertyNumber?: string;
-    complement?: string;
-    neighborhood?: string;
-    city?: string;
-    state?: string;
-    zipCode?: string;
-    latitude?: number;
-    longitude?: number;
-    zone?: string;
-  };
+  address?: Address;
+}
+
+export class PropertyEntity {
+  readonly id?: string;
+  title: string;
+  description?: string;
+  area?: number;
+  price?: number;
+  roomsQty?: number;
+  bathroomsQty?: number;
+  parkingSpacesQty?: number;
+  coverImage?: string;
+  videoUrl?: string;
+
+  // Status & Flags
+  isActive?: boolean;
+  isFurnished?: boolean;
+  isNearSubway?: boolean;
+  isFeatured?: boolean;
+
+  // Categories
+  propertyType?: Category;
+  propertyPurpose?: Category;
+  propertyStanding?: Category;
+  propertyDeliveryStatus?: Category;
+  propertyTypology?: Category;
+  propertyLeisure?: Category[];
 
   // Gallery
-  propertyGallery?: { imageUrl: string; order?: number }[];
-  floorPlanGallery?: { imageUrl: string; order?: number }[];
+  propertyGallery?: Gallery[];
+  propertyFloorPlanGallery?: Gallery[];
+
+  // Address
+  address?: Address;
 
   // User relationship
   userId: string;
 
-  constructor(
-    title: string,
-    userId: string,
-    props?: Partial<Omit<PropertyEntity, 'title' | 'userId' >>,
-  ) {
-    this.title = title;
-    this.userId = userId;
+  // Expects Property props and its ID
+  private constructor(props: PropertyProps) {
+    const {
+      id,
+      userId,
+      title,
+      description,
+      area,
+      price,
+      roomsQty,
+      bathroomsQty,
+      parkingSpacesQty,
+      isActive,
+      isFeatured,
+      isNearSubway,
+      coverImage,
+      videoUrl,
+      propertyType,
+      propertyPurpose,
+      propertyStanding,
+      propertyDeliveryStatus,
+      propertyTypology,
+      propertyLeisure,
+      address,
+      propertyGallery,
+      propertyFloorPlanGallery,
+    } = props;
 
-    if (props) {
-      Object.assign(this, props);
-    }
+    // Insertions
+    this.id = id;
+    this.title = title;
+    this.description = description;
+    this.userId = userId;
+    this.price = price;
+    this.area = area;
+    this.coverImage = coverImage;
+    this.videoUrl = videoUrl;
+    this.roomsQty = roomsQty;
+    this.bathroomsQty = bathroomsQty;
+    this.parkingSpacesQty = parkingSpacesQty;
+    this.isActive = isActive ?? true;
+    this.isFeatured = isFeatured ?? false;
+    this.isNearSubway = isNearSubway;
+    this.propertyType = propertyType;
+    this.propertyPurpose = propertyPurpose;
+    this.propertyStanding = propertyStanding;
+    this.propertyDeliveryStatus = propertyDeliveryStatus;
+    this.propertyTypology = propertyTypology;
+    this.propertyLeisure = propertyLeisure;
+    this.address = address;
+    this.propertyGallery = propertyGallery;
+    this.propertyFloorPlanGallery = propertyFloorPlanGallery;
+  }
+
+  //---------------------------  Method ------------------------------------
+
+  static create(props: PropertyProps): PropertyEntity {
+    PropertyEntity.validateProps(props);
+    return new PropertyEntity(props);
+  }
+
+  update(props: Partial<PropertyProps>): void {
+    Object.assign(this, props);
+  }
+
+  activate(): void {
+    this.isActive = true;
+  }
+
+  deactivate(): void {
+    this.isActive = false;
+  }
+
+  //---------------------------  Private Validation  -----------------------------
+
+  private static validateProps(props: PropertyProps): void {
+    if (!props.userId)
+      throw new Error('O imóvel precisa estar associado a um usuário!');
+    if (!props.title || props.title.trim().length < 3)
+      throw new Error('O título deve ter pelo menos 3 caracteres!');
+    if (props.price !== undefined && props.price < 0)
+      throw new Error('O preço não pode ser negativo!');
+    if (props.roomsQty !== undefined && props.roomsQty < 0)
+      throw new Error('O preço não pode ser negativo!');
+    if (props.bathroomsQty !== undefined && props.bathroomsQty < 0)
+      throw new Error('O preço não pode ser negativo!');
+    if (props.parkingSpacesQty !== undefined && props.parkingSpacesQty < 0)
+      throw new Error('O preço não pode ser negativo!');
+    if (props.area !== undefined && props.area < 0)
+      throw new Error('A área não pode ser negativa!');
   }
 }

@@ -12,7 +12,6 @@ export class CreateUserDto {
   @MaxLength(50, { message: 'O nome deve ter no máximo 50 caracteres.' })
   name: string;
 
-  @IsString()
   @IsEmail()
   email: string;
 
@@ -23,5 +22,5 @@ export class CreateUserDto {
     message:
       'A senha deve conter pelo menos: 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial.',
   })
-  passwordHash: string;
+  password: string;
 }

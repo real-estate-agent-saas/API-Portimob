@@ -1,4 +1,4 @@
-export const PROPERTY_PURPOSE = [
+export const PROPERTY_PURPOSES = [
   'Venda',
   'Locação',
   'Arrendamento',
