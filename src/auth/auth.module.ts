@@ -8,6 +8,7 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from 'src/users/users.module';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { UsersModule } from 'src/users/users.module';
   providers: [
     AuthService,
     LocalStrategy,
+    JwtStrategy,
     {
       provide: 'IUserRepository',
       useClass: UserRepository,
