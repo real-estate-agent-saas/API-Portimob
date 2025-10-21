@@ -1,26 +1,28 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { SignUpUseCase } from './application/use-cases/sign-up.usecase';
 import { UserRepository } from 'src/users/infra/repositories/user.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, userSchema } from 'src/users/infra/schemas/users.schema';
 import { LocalStrategy } from './strategies/local.strategy';
-import { ValidateUserUseCase } from './application/use-cases/validate-user.usecase';
+import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
-  providers: [
-    AuthService,
-    SignUpUseCase,
-    LocalStrategy,
-    ValidateUserUseCase,
-    {
-      provide: 'IUserRepository',
-      useClass: UserRepository,
-    },
-  ],
-  controllers: [AuthController],
   imports: [
+    UsersModule,
+    ConfigModule,
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET'),
+        signOptions: {
+          expiresIn: configService.get<string>('JWT_EXPIRATION') as any,
+        },
+      }),
+      inject: [ConfigService],
+    }),
     MongooseModule.forFeature([
       {
         name: User.name,
@@ -28,5 +30,14 @@ import { ValidateUserUseCase } from './application/use-cases/validate-user.useca
       },
     ]),
   ],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    {
+      provide: 'IUserRepository',
+      useClass: UserRepository,
+    },
+  ],
+  controllers: [AuthController],
 })
 export class AuthModule {}

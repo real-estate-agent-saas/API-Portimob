@@ -5,18 +5,20 @@ import {
   HttpStatus,
   Post,
   UseGuards,
+  Request
 } from '@nestjs/common';
-import { SignUpUseCase } from './application/use-cases/sign-up.usecase';
 import { LocalAuthGuard } from './guards/local-auth.guard';
+import type { AuthRequest } from './models/AuthRequest';
+import { AuthService } from './auth.service';
 
 @Controller()
 export class AuthController {
-  constructor(private readonly signUpUseCase: SignUpUseCase) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('signUp')
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthGuard)
-  signUp() {
-    return this.signUpUseCase.execute();
+  signUp(@Request() req: AuthRequest) {
+    return this.authService.login(req.user);
   }
 }

@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
-import { ValidateUserUseCase } from '../application/use-cases/validate-user.usecase';
+import { AuthService } from '../auth.service';
 
 // Local Strategy - Responsable for validating user with Email and Password
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
-  constructor(private validateUserUseCase: ValidateUserUseCase) {
+  constructor(private validateUserUseCase: AuthService) {
     super({ usernameField: 'email' });
   }
 
   validate(email: string, password: string) {
-    return this.validateUserUseCase.execute(email, password);
+    return this.validateUserUseCase.validateUser(email, password);
   }
 }
