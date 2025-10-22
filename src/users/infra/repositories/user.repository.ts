@@ -32,7 +32,10 @@ export class UserRepository implements IUserRepository {
   }
 
   async findByEmail(email: string): Promise<UserEntity | null> {
-    const existingUser = await this.userModel.findOne({ email }).exec();
+    const existingUser = await this.userModel
+      .findOne({ email })
+      .select('+password')
+      .exec();
     if (!existingUser) return null;
     return UserMapper.toEntity(existingUser);
   }
@@ -46,7 +49,7 @@ export class UserRepository implements IUserRepository {
       id,
       { $set: updateUserDto },
       { new: true, runValidators: true },
-    );
+    ).exec();
 
     if (!updatedUser) return null;
 

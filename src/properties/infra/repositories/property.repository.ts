@@ -27,19 +27,19 @@ export class PropertyRepository implements IPropertyRepository {
       id,
       { $set: propertyDoc },
       { new: true },
-    );
+    ).exec();
     if (!updatedProperty) return null;
     return PropertyMapper.toEntity(updatedProperty);
   }
 
   async findOne(id: string): Promise<PropertyEntity | null> {
-    const property = await this.propertyModel.findById(id);
+    const property = await this.propertyModel.findById(id).exec();
     if (!property) return null;
     return PropertyMapper.toEntity(property);
   }
 
   async findAll(): Promise<PropertyEntity[] | []> {
-    const properties = await this.propertyModel.find();
+    const properties = await this.propertyModel.find().exec();
     if (!properties) return [];
     const propertiesEntity = properties.map((property) =>
       PropertyMapper.toEntity(property),
@@ -48,7 +48,7 @@ export class PropertyRepository implements IPropertyRepository {
   }
 
   async delete(id: string): Promise<boolean> {
-    const deletedProperty = await this.propertyModel.findByIdAndDelete(id);
+    const deletedProperty = await this.propertyModel.findByIdAndDelete(id).exec();
     return deletedProperty != null;
   }
 }
