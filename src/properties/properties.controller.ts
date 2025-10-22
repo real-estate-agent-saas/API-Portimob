@@ -9,8 +9,14 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import { UserEntity } from 'src/users/entities/user.entity';
+
+// DTOs
 import { CreatePropertyDto } from './dtos/create-property.dto';
 import { UpdatePropertyDto } from './dtos/update-property.dto';
+
+//Use Cases
 import { CreatePropertyUseCase } from './application/use-cases/create-property.usecase';
 import { FindAllPropertiesUseCase } from './application/use-cases/find-all-properties.usecase';
 import { FindOnePropertyUseCase } from './application/use-cases/find-one-property.usecase';
@@ -29,8 +35,28 @@ export class PropertiesController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() createPropertyDto: CreatePropertyDto) {
-    return this.createPropertyUseCase.execute(createPropertyDto);
+  create(
+    @Body() createPropertyDto: CreatePropertyDto,
+    @CurrentUser() user: UserEntity,
+  ) {
+    return this.createPropertyUseCase.execute(
+      createPropertyDto,
+      user.id as string,
+    );
+  }
+
+  @Patch(':id')
+  @HttpCode(HttpStatus.OK)
+  update(
+    @Param('id') propertyId: string,
+    @Body() updatePropertyDto: UpdatePropertyDto,
+    @CurrentUser() user: UserEntity,
+  ) {
+    return this.updatePropertyUseCase.execute(
+      propertyId,
+      updatePropertyDto,
+      user.id!,
+    );
   }
 
   @Get()
@@ -43,15 +69,6 @@ export class PropertiesController {
   @HttpCode(HttpStatus.OK)
   findOne(@Param('id') id: string) {
     return this.findOnePropertyUseCase.execute(id);
-  }
-
-  @Patch(':id')
-  @HttpCode(HttpStatus.OK)
-  update(
-    @Param('id') id: string,
-    @Body() updatePropertyDto: UpdatePropertyDto,
-  ) {
-    return this.updatePropertyUseCase.execute(id, updatePropertyDto);
   }
 
   @Delete(':id')

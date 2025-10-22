@@ -29,34 +29,35 @@ export class PropertyMapper {
       (g) => new Gallery(g.imageUrl, g.order),
     );
 
-    return PropertyEntity.create({
-      id: document._id.toString(),
-      userId: document.userId,
-      title: document.title,
-      description: document.description,
-      area: document.area,
-      price: document.price,
-      roomsQty: document.roomsQty,
-      bathroomsQty: document.bathroomsQty,
-      parkingSpacesQty: document.parkingSpacesQty,
-      coverImage: document.coverImage,
-      videoUrl: document.videoUrl,
-      isActive: document.isActive,
-      isFurnished: document.isFurnished,
-      isNearSubway: document.isNearSubway,
-      isFeatured: document.isFeatured,
-      propertyType: document.propertyType,
-      propertyPurpose: document.propertyPurpose,
-      propertyStanding: document.propertyStanding,
-      propertyDeliveryStatus: document.propertyDeliveryStatus,
-      propertyTypology: document.propertyTypology,
-      propertyLeisure: document.propertyLeisure?.map((l) => l),
-      propertyGallery,
-      propertyFloorPlanGallery,
-      address,
-    });
+    return PropertyEntity.create(
+      {
+        id: document._id.toString(),
+        title: document.title,
+        description: document.description,
+        area: document.area,
+        price: document.price,
+        roomsQty: document.roomsQty,
+        bathroomsQty: document.bathroomsQty,
+        parkingSpacesQty: document.parkingSpacesQty,
+        coverImage: document.coverImage,
+        videoUrl: document.videoUrl,
+        isActive: document.isActive,
+        isFurnished: document.isFurnished,
+        isNearSubway: document.isNearSubway,
+        isFeatured: document.isFeatured,
+        propertyType: document.propertyType,
+        propertyPurpose: document.propertyPurpose,
+        propertyStanding: document.propertyStanding,
+        propertyDeliveryStatus: document.propertyDeliveryStatus,
+        propertyTypology: document.propertyTypology,
+        propertyLeisure: document.propertyLeisure?.map((l) => l),
+        propertyGallery,
+        propertyFloorPlanGallery,
+        address,
+      },
+      document.userId,
+    );
   }
-
 
   static toDocument(entity: PropertyEntity): PropertyPersistenceModel {
     return {

@@ -1,4 +1,9 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PropertyPresenter } from 'src/properties/application/presenters/property.presenter';
 import { UpdatePropertyDto } from 'src/properties/dtos/update-property.dto';
 import type { IPropertyRepository } from 'src/properties/infra/repositories/Iproperty.repository';
@@ -11,26 +16,35 @@ export class UpdatePropertyUseCase {
   ) {}
 
   async execute(
-    id: string,
+    propertyId: string,
     updatePropertyDto: UpdatePropertyDto,
+    userId: string,
   ): Promise<PropertyPresenter> {
     // Gets a PropertyEntity instance
-    const existingProperty = await this.propertyRepository.findOne(id);
+    const property = await this.propertyRepository.findOne(propertyId);
 
-    if (!existingProperty)
-      throw new NotFoundException('Imóvel não encontrado!');
+    if (!property) throw new NotFoundException('Imóvel não encontrado!');
+
+    // Converts ObjectId into string
+    const propertyUserId = property.userId.toString();
+
+    // Compare users
+    if (propertyUserId !== userId)
+      throw new BadRequestException(
+        'Você não tem permissão para acessar esse imóvel!',
+      );
 
     // Updates the object with the new data
-    existingProperty.update(updatePropertyDto);
+    property.update(updatePropertyDto);
 
     // Persists data on the DB
     const updatedProperty = await this.propertyRepository.update(
-      id,
-      existingProperty,
+      propertyId,
+      property,
     );
 
     if (!updatedProperty)
-      throw new NotFoundException('Imóvel não encontrado para atualização');
+      throw new BadRequestException('Não foi possível atualizar o imóvel!');
 
     return PropertyPresenter.fromEntity(updatedProperty);
   }

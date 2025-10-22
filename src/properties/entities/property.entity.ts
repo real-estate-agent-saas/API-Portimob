@@ -4,7 +4,6 @@ import { Category } from './value-objects/category.vo';
 
 interface PropertyProps {
   id?: string; //Property ID
-  userId: string; // Property Owner
   title: string;
   description?: string;
   area?: number;
@@ -39,6 +38,7 @@ interface PropertyProps {
 
 export class PropertyEntity {
   readonly id?: string;
+  readonly userId: string;
   title: string;
   description?: string;
   area?: number;
@@ -70,14 +70,10 @@ export class PropertyEntity {
   // Address
   address?: Address;
 
-  // User relationship
-  userId: string;
-
   // Expects Property props and its ID
-  private constructor(props: PropertyProps) {
+  private constructor(props: PropertyProps, userId: string) {
     const {
       id,
-      userId,
       title,
       description,
       area,
@@ -129,9 +125,9 @@ export class PropertyEntity {
 
   //---------------------------  Method ------------------------------------
 
-  static create(props: PropertyProps): PropertyEntity {
+  static create(props: PropertyProps, userId: string): PropertyEntity {
     PropertyEntity.validateProps(props);
-    return new PropertyEntity(props);
+    return new PropertyEntity(props, userId);
   }
 
   update(props: Partial<PropertyProps>): void {
@@ -149,8 +145,6 @@ export class PropertyEntity {
   //---------------------------  Private Validation  -----------------------------
 
   private static validateProps(props: PropertyProps): void {
-    if (!props.userId)
-      throw new Error('O imóvel precisa estar associado a um usuário!');
     if (!props.title || props.title.trim().length < 3)
       throw new Error('O título deve ter pelo menos 3 caracteres!');
     if (props.price !== undefined && props.price < 0)

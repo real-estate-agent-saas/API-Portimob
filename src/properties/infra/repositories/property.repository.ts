@@ -19,15 +19,13 @@ export class PropertyRepository implements IPropertyRepository {
   }
 
   async update(
-    id: string,
+    propertyId: string,
     property: PropertyEntity,
   ): Promise<PropertyEntity | null> {
     const propertyDoc = PropertyMapper.toDocument(property);
-    const updatedProperty = await this.propertyModel.findByIdAndUpdate(
-      id,
-      { $set: propertyDoc },
-      { new: true },
-    ).exec();
+    const updatedProperty = await this.propertyModel
+      .findByIdAndUpdate(propertyId, { $set: propertyDoc }, { new: true })
+      .exec();
     if (!updatedProperty) return null;
     return PropertyMapper.toEntity(updatedProperty);
   }
@@ -48,7 +46,9 @@ export class PropertyRepository implements IPropertyRepository {
   }
 
   async delete(id: string): Promise<boolean> {
-    const deletedProperty = await this.propertyModel.findByIdAndDelete(id).exec();
+    const deletedProperty = await this.propertyModel
+      .findByIdAndDelete(id)
+      .exec();
     return deletedProperty != null;
   }
 }

@@ -4,6 +4,7 @@ interface UserProps {
   email: string;
   password: string;
   isActive?: boolean;
+  propertyIds?: string[];
 }
 
 export class UserEntity {
@@ -12,6 +13,7 @@ export class UserEntity {
   email: string;
   password: string;
   isActive: boolean;
+  propertyIds?: string[];
 
   private constructor(props: UserProps) {
     this.id = props.id;
@@ -19,6 +21,7 @@ export class UserEntity {
     this.email = props.email;
     this.password = props.password;
     this.isActive = props.isActive ?? true;
+    this.propertyIds = props.propertyIds;
   }
 
   static create(props: UserProps): UserEntity {
