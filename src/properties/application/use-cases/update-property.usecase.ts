@@ -35,7 +35,7 @@ export class UpdatePropertyUseCase {
       );
 
     // Updates the object with the new data
-    property.update(updatePropertyDto);
+    property.update(updatePropertyDto, property.userId);
 
     // Persists data on the DB
     const updatedProperty = await this.propertyRepository.update(

@@ -31,11 +31,12 @@ describe('CreatePropertyUseCase', () => {
     //-------------------------------- Arrange (Simulates a HTTP Request) -----------------------------------
     const createPropertyDto: CreatePropertyDto = {
       title: 'Imóvel Morumbi',
-      userId: 'Usuário 1',
     };
 
+    const userId: string = 'Usuário 1';
+
     // Property entity that will return after the request to the mock
-    const propertyEntity = PropertyEntity.create(createPropertyDto);
+    const propertyEntity = PropertyEntity.create(createPropertyDto, userId);
 
     // Simulates what the DB would return (Object with some additional metadata)
     const propertyMock = {
@@ -50,18 +51,21 @@ describe('CreatePropertyUseCase', () => {
 
     //--------------------------- Act - (Executes the action|UseCase that is been tested) -------------------------------
     // Variable "result" recives property mocked value
-    const result = await createPropertyUseCase.execute(createPropertyDto);
+    const result = await createPropertyUseCase.execute(
+      createPropertyDto,
+      userId,
+    );
 
     //------------------------- Assert - (Defines conditions to verify if the test passed) -----------------------------
     // Verifies if the correct object type was passed for creation into the repository
     expect(propertyRepositoryMock.create).toHaveBeenCalledWith(
-      expect.any(PropertyEntity),
+      expect.any(PropertyEntity)
     );
 
     // Verifies if the "create" method from repository was called once
     expect(propertyRepositoryMock.create).toHaveBeenCalledTimes(1);
 
-    // Verifies if the returned value in the Use-Case is a PropertyResponseDto instace 
+    // Verifies if the returned value in the Use-Case is a PropertyResponseDto instace
     expect(result).toBeInstanceOf(PropertyPresenter);
 
     // Verifies if the result contains everything we expect to recieve after saving a property on the DB

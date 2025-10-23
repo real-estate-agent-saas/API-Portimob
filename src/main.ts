@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import cookieParser from 'cookie-parser';
+import { HttpExceptionFilter } from './core/exceptions/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,6 +21,9 @@ async function bootstrap() {
 
   // Decode the cookie sent by the browser - (Cookie with the JWT Token)
   app.use(cookieParser());
+
+  // Applies a global filter
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   // CORS - To comunicate with frontend
   app.enableCors({
