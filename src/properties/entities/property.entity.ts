@@ -2,10 +2,10 @@ import { Address } from './value-objects/address.vo';
 import { Gallery } from './value-objects/gallery.vo';
 import { Category } from './value-objects/category.vo';
 import { InvalidPropertyError } from '../errors/invalid-property.error';
-import { ForbiddenError } from 'src/core/errors/forbidden.error';
+import { ForbiddenPropertyUpdate } from '../errors/forbidden-property-update.error';
 
 export interface PropertyProps {
-  id?: string; //Property ID
+  id?: string;
   title: string;
   description?: string;
   area?: number;
@@ -133,10 +133,7 @@ export class PropertyEntity {
   }
 
   update(props: Partial<PropertyProps>, userId: string): void {
-    if (this.userId !== userId)
-      throw new ForbiddenError(
-        'Usuário não tem permissão para alterar esse imóvel',
-      );
+    if (this.userId !== userId) throw new ForbiddenPropertyUpdate();
     Object.assign(this, props);
   }
 

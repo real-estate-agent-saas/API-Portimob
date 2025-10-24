@@ -55,7 +55,7 @@ export class PropertyMapper {
         propertyFloorPlanGallery,
         address,
       },
-      document.userId,
+      document.userId?.toString(),
     );
   }
 

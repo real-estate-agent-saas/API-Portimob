@@ -4,6 +4,7 @@ import { UserEntity } from '../../entities/user.entity';
 import type { IUserRepository } from '../../infra/repositories/Iuser.repository';
 import * as bcrypt from 'bcrypt';
 import { CreateUserPresenter } from '../presenters/create-user.presenter';
+import { ExistingUserError } from 'src/users/errors/existing-user.error';
 
 @Injectable()
 export class CreateUserUseCase {
@@ -19,7 +20,7 @@ export class CreateUserUseCase {
 
     // If user exists, throw a conflict exception
     if (existingUser) {
-      throw new ConflictException('Usuário já existe. Faça login!');
+      throw new ExistingUserError({ email: createUserDto.email });
     }
 
     // Hash the password before storing

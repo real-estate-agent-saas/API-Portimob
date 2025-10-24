@@ -6,8 +6,8 @@ import {
   Logger,
 } from '@nestjs/common';
 import { Response, Request } from 'express';
-import { DomainError } from '../errors/domain.error';
-import { ErrorMapper } from '../errors/error.mapper';
+import { DomainError } from '../errors/types/domain.error';
+import { ErrorMapper } from '../errors/mapper/error.mapper';
 
 /**
  * Global filter to catch errors and return standardized HTTP responses.

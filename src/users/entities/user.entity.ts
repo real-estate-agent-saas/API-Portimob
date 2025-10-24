@@ -1,4 +1,4 @@
-interface UserProps {
+export interface UserProps {
   id?: string;
   name: string;
   email: string;
@@ -26,5 +26,17 @@ export class UserEntity {
 
   static create(props: UserProps): UserEntity {
     return new UserEntity(props);
+  }
+
+  update(props: Partial<UserProps>): void {
+    Object.assign(this, props);
+  }
+
+  activate(): void {
+    this.isActive = true;
+  }
+
+  deactivate(): void {
+    this.isActive = false;
   }
 }

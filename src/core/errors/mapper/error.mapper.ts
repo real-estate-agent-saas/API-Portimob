@@ -3,21 +3,33 @@ import {
   ForbiddenException,
   HttpException,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
-import { DomainError } from './domain.error';
-import { ValidationError } from './validation.error';
-import { NotFoundError } from './not-found.error';
-import { ForbiddenError } from './forbidden.error';
+import { DomainError } from '../types/domain.error';
+import { ValidationError } from '../types/validation.error';
+import { NotFoundError } from '../types/not-found.error';
+import { ForbiddenError } from '../types/forbidden.error';
+import { UnauthorizedError } from '../types/unauthorized.error';
 
 /**
  * Converts domain errors to NestJS HTTP exceptions.
  */
 export class ErrorMapper {
   static toHttp(error: Error): HttpException {
-    // 400 - Validation errors    i
+    // 400 - Validation errors
     if (error instanceof ValidationError) {
       return new BadRequestException({
         statusCode: 400,
+        error: error.name,
+        message: error.message,
+        metadata: (error as DomainError).metadata,
+      });
+    }
+
+    // 401 - Unauthorized access
+    if (error instanceof UnauthorizedError) {
+      return new UnauthorizedException({
+        statusCode: 401,
         error: error.name,
         message: error.message,
         metadata: (error as DomainError).metadata,

@@ -4,45 +4,48 @@ import { CreatePropertyDto } from 'src/properties/dtos/create-property.dto';
 import { PropertyPresenter } from 'src/properties/application/presenters/property.presenter';
 import { PropertyEntity } from 'src/properties/entities/property.entity';
 import { IPropertyRepository } from 'src/properties/infra/repositories/Iproperty.repository';
-
-let createPropertyUseCase: CreatePropertyUseCase;
-let propertyRepositoryMock: Partial<jest.Mocked<IPropertyRepository>>;
-
-beforeEach(async () => {
-  propertyRepositoryMock = {
-    create: jest.fn(), // Mocking only the 'create' method
-  };
-
-  const moduleFixture: TestingModule = await Test.createTestingModule({
-    providers: [
-      CreatePropertyUseCase,
-      {
-        provide: 'IPropertyRepository',
-        useValue: propertyRepositoryMock,
-      },
-    ],
-  }).compile();
-
-  createPropertyUseCase = moduleFixture.get(CreatePropertyUseCase);
-});
+import { UserIdNotProvidedError } from 'src/properties/errors/user-id-not-provided.error';
 
 describe('CreatePropertyUseCase', () => {
+  let createPropertyUseCase: CreatePropertyUseCase;
+  let propertyRepositoryMock: Partial<jest.Mocked<IPropertyRepository>>;
+
+  beforeEach(async () => {
+    propertyRepositoryMock = {
+      create: jest.fn(), // Mocking only the 'create' method
+    };
+
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      providers: [
+        CreatePropertyUseCase,
+        {
+          provide: 'IPropertyRepository',
+          useValue: propertyRepositoryMock,
+        },
+      ],
+    }).compile();
+
+    createPropertyUseCase = moduleFixture.get(CreatePropertyUseCase);
+  });
+
+  //------------------------------------------- CREATE -----------------------------------
+
   it('Should Create a Property Successfully', async () => {
     //-------------------------------- Arrange (Simulates a HTTP Request) -----------------------------------
+
+    // Creation DTO
     const createPropertyDto: CreatePropertyDto = {
       title: 'Imóvel Morumbi',
     };
 
+    // Property Owner
     const userId: string = 'Usuário 1';
 
-    // Property entity that will return after the request to the mock
-    const propertyEntity = PropertyEntity.create(createPropertyDto, userId);
-
-    // Simulates what the DB would return (Object with some additional metadata)
-    const propertyMock = {
-      ...propertyEntity,
-      id: 'property-123',
-    };
+    // Simulates what the DB would return
+    const propertyMock = PropertyEntity.create(
+      { id: 'property-123', title: createPropertyDto.title },
+      userId,
+    );
 
     // Instructs o IRepositoryMock to return an specific value when the Use-Case calls it
     propertyRepositoryMock.create?.mockResolvedValueOnce(
@@ -59,7 +62,7 @@ describe('CreatePropertyUseCase', () => {
     //------------------------- Assert - (Defines conditions to verify if the test passed) -----------------------------
     // Verifies if the correct object type was passed for creation into the repository
     expect(propertyRepositoryMock.create).toHaveBeenCalledWith(
-      expect.any(PropertyEntity)
+      expect.any(PropertyEntity),
     );
 
     // Verifies if the "create" method from repository was called once
@@ -77,5 +80,27 @@ describe('CreatePropertyUseCase', () => {
         isActive: true,
       }),
     );
+  });
+
+  //------------------------------------------- VALIDATION -----------------------------------
+
+  it('Should Not Create a Property', async () => {
+    // Basic creation DTO
+    const createPropertyDto: CreatePropertyDto = {
+      title: 'Imóvel no Jabaquara',
+    };
+
+    // Empty userId
+    const userId = '';
+
+    // Error because userId is necessary
+    await expect(
+      createPropertyUseCase.execute(createPropertyDto, userId),
+    ).rejects.toThrow(UserIdNotProvidedError);
+
+    // Correct Message
+    await expect(
+      createPropertyUseCase.execute(createPropertyDto, userId),
+    ).rejects.toThrow('É necessário um usuário para cadastrar o imóvel');
   });
 });

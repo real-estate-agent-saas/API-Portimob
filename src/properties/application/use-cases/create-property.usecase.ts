@@ -4,6 +4,7 @@ import { PropertyPresenter } from 'src/properties/application/presenters/propert
 import type { IPropertyRepository } from 'src/properties/infra/repositories/Iproperty.repository';
 import { PropertyEntity } from 'src/properties/entities/property.entity';
 import { UserEntity } from 'src/users/entities/user.entity';
+import { UserIdNotProvidedError } from 'src/properties/errors/user-id-not-provided.error';
 
 @Injectable()
 export class CreatePropertyUseCase {
@@ -16,10 +17,7 @@ export class CreatePropertyUseCase {
     createPropertyDto: CreatePropertyDto,
     userId: string,
   ): Promise<PropertyPresenter> {
-    if (!userId)
-      throw new BadRequestException(
-        'É necessário um usuário para criar um imóvel!',
-      );
+    if (!userId) throw new UserIdNotProvidedError();
     const property = PropertyEntity.create(createPropertyDto, userId);
     const createdProperty = await this.propertyRepository.create(property);
     return PropertyPresenter.fromEntity(createdProperty);
