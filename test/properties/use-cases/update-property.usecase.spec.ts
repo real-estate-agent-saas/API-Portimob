@@ -77,6 +77,8 @@ describe('UpdatePropertyUseCase', () => {
     updatePropertyUseCase = moduleFixture.get(UpdatePropertyUseCase);
   });
 
+  // ------------------------------------------ UPDATE ----------------------------------------
+
   it('Should Update a Property Sucessfully', async () => {
     //---------------------------- Arrange -------------------------
 
@@ -175,6 +177,8 @@ describe('UpdatePropertyUseCase', () => {
       }),
     );
   });
+
+  // ------------------------------------------ VALIDATION ----------------------------------------
 
   it('Should Not Update a Property with a Different User', async () => {
     // User ID to pass on the property update

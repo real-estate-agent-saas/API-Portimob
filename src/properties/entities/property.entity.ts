@@ -1,7 +1,6 @@
 import { Address } from './value-objects/address.vo';
 import { Gallery } from './value-objects/gallery.vo';
 import { Category } from './value-objects/category.vo';
-import { InvalidPropertyError } from '../errors/invalid-property.error';
 import { ForbiddenPropertyUpdate } from '../errors/forbidden-property-update.error';
 
 export interface PropertyProps {
@@ -125,10 +124,27 @@ export class PropertyEntity {
     this.propertyFloorPlanGallery = propertyFloorPlanGallery;
   }
 
+  //---------------------------  Private Validation  -----------------------------
+
+  private static validateProps(props: PropertyProps): void {
+    if (!props.title || props.title.trim().length < 3)
+      throw new Error('O título deve ter pelo menos 3 caracteres!');
+    if (props.price !== undefined && props.price < 0)
+      throw new Error('O preço não pode ser negativo!');
+    if (props.roomsQty !== undefined && props.roomsQty < 0)
+      throw new Error('O preço não pode ser negativo!');
+    if (props.bathroomsQty !== undefined && props.bathroomsQty < 0)
+      throw new Error('O preço não pode ser negativo!');
+    if (props.parkingSpacesQty !== undefined && props.parkingSpacesQty < 0)
+      throw new Error('O preço não pode ser negativo!');
+    if (props.area !== undefined && props.area < 0)
+      throw new Error('A área não pode ser negativa!');
+  }
+  
   //---------------------------  Method ------------------------------------
 
   static create(props: PropertyProps, userId: string): PropertyEntity {
-    PropertyEntity.validateProps(props, userId);
+    PropertyEntity.validateProps(props);
     return new PropertyEntity(props, userId);
   }
 
@@ -145,32 +161,4 @@ export class PropertyEntity {
     this.isActive = false;
   }
 
-  //---------------------------  Private Validation  -----------------------------
-
-  private static validateProps(props: PropertyProps, userId: string): void {
-    if (!props.title || props.title.trim().length < 3)
-      throw new InvalidPropertyError(
-        'title',
-        'O título deve ter pelo menos 3 caracteres',
-      );
-    if (props.price !== undefined && props.price < 0)
-      throw new InvalidPropertyError('price', 'O preço não pode ser negativo');
-    if (props.roomsQty !== undefined && props.roomsQty < 0)
-      throw new InvalidPropertyError(
-        'roomsQty',
-        'A quantidade de quartos não pode ser negativa',
-      );
-    if (props.bathroomsQty !== undefined && props.bathroomsQty < 0)
-      throw new InvalidPropertyError(
-        'bathroomsQty',
-        'A quantidade de banheiros não pode ser negativa',
-      );
-    if (props.parkingSpacesQty !== undefined && props.parkingSpacesQty < 0)
-      throw new InvalidPropertyError(
-        'parkingSpacesQty',
-        'A quantidade de vagas de estacionamento não pode ser negativa',
-      );
-    if (props.area !== undefined && props.area < 0)
-      throw new InvalidPropertyError('area', 'A área não pode ser negativa!');
-  }
 }

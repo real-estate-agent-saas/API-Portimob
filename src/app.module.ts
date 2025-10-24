@@ -11,6 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { PropertiesModule } from './properties/properties.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+import { WebsitesModule } from './websites/websites.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
     UsersModule,
     AuthModule,
     PropertiesModule,
+    WebsitesModule,
   ],
   controllers: [AppController],
   providers: [
