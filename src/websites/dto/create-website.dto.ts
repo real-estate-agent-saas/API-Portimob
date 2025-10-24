@@ -3,10 +3,10 @@ import { IsString, ValidateNested } from 'class-validator';
 
 class Template {
   @IsString()
-  name: string;
+  id: string;
 
   @IsString()
-  id: string;
+  name: string;
 }
 
 export class CreateWebsiteDto {
