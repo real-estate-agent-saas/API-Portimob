@@ -2,6 +2,7 @@ import { Address } from './value-objects/address.vo';
 import { Gallery } from './value-objects/gallery.vo';
 import { Category } from './value-objects/category.vo';
 import { ForbiddenPropertyUpdate } from '../errors/forbidden-property-update.error';
+import { InvalidPropertyError } from '../errors/invalid-property.error';
 
 export interface PropertyProps {
   id?: string;
@@ -128,19 +129,21 @@ export class PropertyEntity {
 
   private static validateProps(props: PropertyProps): void {
     if (!props.title || props.title.trim().length < 3)
-      throw new Error('O título deve ter pelo menos 3 caracteres!');
+      throw new InvalidPropertyError(
+        'O título deve ter pelo menos 3 caracteres!',
+      );
     if (props.price !== undefined && props.price < 0)
-      throw new Error('O preço não pode ser negativo!');
+      throw new InvalidPropertyError('O preço não pode ser negativo!');
     if (props.roomsQty !== undefined && props.roomsQty < 0)
-      throw new Error('O preço não pode ser negativo!');
+      throw new InvalidPropertyError('O preço não pode ser negativo!');
     if (props.bathroomsQty !== undefined && props.bathroomsQty < 0)
-      throw new Error('O preço não pode ser negativo!');
+      throw new InvalidPropertyError('O preço não pode ser negativo!');
     if (props.parkingSpacesQty !== undefined && props.parkingSpacesQty < 0)
-      throw new Error('O preço não pode ser negativo!');
+      throw new InvalidPropertyError('O preço não pode ser negativo!');
     if (props.area !== undefined && props.area < 0)
-      throw new Error('A área não pode ser negativa!');
+      throw new InvalidPropertyError('A área não pode ser negativa!');
   }
-  
+
   //---------------------------  Method ------------------------------------
 
   static create(props: PropertyProps, userId: string): PropertyEntity {
@@ -160,5 +163,4 @@ export class PropertyEntity {
   deactivate(): void {
     this.isActive = false;
   }
-
 }

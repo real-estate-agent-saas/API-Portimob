@@ -1,4 +1,4 @@
-interface WebsiteProps {
+export interface WebsiteProps {
   readonly id?: string;
   readonly templateConfigId: string;
   readonly userId: string;
