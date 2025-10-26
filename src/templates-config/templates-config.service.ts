@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTemplatesConfigDto } from './dto/create-templates-config.dto';
-import { UpdateTemplatesConfigDto } from './dto/update-templates-config.dto';
+import { CreateTemplateConfigDto } from './dto/create-templates-config.dto';
+import { UpdateTemplateConfigDto } from './dto/update-templates-config.dto';
 
 @Injectable()
 export class TemplatesConfigService {
-  create(createTemplatesConfigDto: CreateTemplatesConfigDto) {
+  create(createTemplatesConfigDto: CreateTemplateConfigDto) {
     return 'This action adds a new templatesConfig';
   }
 
@@ -16,7 +16,7 @@ export class TemplatesConfigService {
     return `This action returns a #${id} templatesConfig`;
   }
 
-  update(id: number, updateTemplatesConfigDto: UpdateTemplatesConfigDto) {
+  update(id: number, updateTemplatesConfigDto: UpdateTemplateConfigDto) {
     return `This action updates a #${id} templatesConfig`;
   }
 

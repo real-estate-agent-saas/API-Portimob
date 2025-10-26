@@ -19,7 +19,7 @@ export class Website {
       _id: false,
     },
   })
-  template: { id: string; name: string };
+  template?: { id: string; name: string };
 
   //website data
   @Prop()

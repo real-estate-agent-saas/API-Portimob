@@ -1,7 +1,7 @@
 export interface WebsitePersistenceModel {
   templateConfigId: string;
   userId: string;
-  template: {
+  template?: {
     id: string;
     name: string;
   };

@@ -5,6 +5,7 @@ export interface UserProps {
   password: string;
   isActive?: boolean;
   propertyIds?: string[];
+  websiteId?: string;
 }
 
 export class UserEntity {
@@ -14,6 +15,7 @@ export class UserEntity {
   password: string;
   isActive: boolean;
   propertyIds?: string[];
+  websiteId?: string;
 
   private constructor(props: UserProps) {
     this.id = props.id;
@@ -22,6 +24,7 @@ export class UserEntity {
     this.password = props.password;
     this.isActive = props.isActive ?? true;
     this.propertyIds = props.propertyIds;
+    this.websiteId = props.websiteId;
   }
 
   static create(props: UserProps): UserEntity {

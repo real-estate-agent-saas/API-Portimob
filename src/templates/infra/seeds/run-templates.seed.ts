@@ -13,7 +13,7 @@ export class TemplateSeeder implements OnModuleInit {
 
   async onModuleInit() {
     for (const t of SEED_TEMPLATES) {
-      const existing = await this.model.findOne({ code: t.code }).exec();
+      const existing = await this.model.findOne({ templateCode: t.templateCode }).exec();
       if (existing) continue;
       await this.model.create(t);
     }

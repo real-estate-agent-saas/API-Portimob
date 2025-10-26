@@ -19,7 +19,7 @@ export class User {
   propertyIds?: string[];
 
   @Prop()
-  dynamicWebsiteId?: string;
+  websiteId?: string;
 }
 
 // Groups User class properties with Document interface methods from mongoose

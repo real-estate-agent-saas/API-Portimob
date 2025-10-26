@@ -1,15 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { TemplatesConfigService } from './templates-config.service';
-import { CreateTemplatesConfigDto } from './dto/create-templates-config.dto';
-import { UpdateTemplatesConfigDto } from './dto/update-templates-config.dto';
+import { CreateTemplateConfigDto } from './dto/create-templates-config.dto';
+import { UpdateTemplateConfigDto } from './dto/update-templates-config.dto';
+import { CreateTemplateConfigUseCase } from './application/use-cases/create-template-config.usecase';
 
 @Controller('templates-config')
 export class TemplatesConfigController {
-  constructor(private readonly templatesConfigService: TemplatesConfigService) {}
+  constructor(
+    private readonly templatesConfigService: TemplatesConfigService,
+    private readonly createTemplateConfigUseCase: CreateTemplateConfigUseCase,
+  ) {}
 
   @Post()
-  create(@Body() createTemplatesConfigDto: CreateTemplatesConfigDto) {
-    return this.templatesConfigService.create(createTemplatesConfigDto);
+  create(@Body() createTemplatesConfigDto: CreateTemplateConfigDto) {
+    return this.createTemplateConfigUseCase.execute(createTemplatesConfigDto);
   }
 
   @Get()
@@ -23,7 +35,10 @@ export class TemplatesConfigController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTemplatesConfigDto: UpdateTemplatesConfigDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateTemplatesConfigDto: UpdateTemplateConfigDto,
+  ) {
     return this.templatesConfigService.update(+id, updateTemplatesConfigDto);
   }
 

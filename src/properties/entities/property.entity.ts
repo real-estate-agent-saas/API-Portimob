@@ -74,55 +74,30 @@ export class PropertyEntity {
 
   // Expects Property props and its ID
   private constructor(props: PropertyProps, userId: string) {
-    const {
-      id,
-      title,
-      description,
-      area,
-      price,
-      roomsQty,
-      bathroomsQty,
-      parkingSpacesQty,
-      isActive,
-      isFeatured,
-      isNearSubway,
-      coverImage,
-      videoUrl,
-      propertyType,
-      propertyPurpose,
-      propertyStanding,
-      propertyDeliveryStatus,
-      propertyTypology,
-      propertyLeisure,
-      address,
-      propertyGallery,
-      propertyFloorPlanGallery,
-    } = props;
-
     // Insertions
-    this.id = id;
-    this.title = title;
-    this.description = description;
+    this.id = props.id;
+    this.title = props.title;
+    this.description = props.description;
     this.userId = userId;
-    this.price = price;
-    this.area = area;
-    this.coverImage = coverImage;
-    this.videoUrl = videoUrl;
-    this.roomsQty = roomsQty;
-    this.bathroomsQty = bathroomsQty;
-    this.parkingSpacesQty = parkingSpacesQty;
-    this.isActive = isActive ?? true;
-    this.isFeatured = isFeatured ?? false;
-    this.isNearSubway = isNearSubway;
-    this.propertyType = propertyType;
-    this.propertyPurpose = propertyPurpose;
-    this.propertyStanding = propertyStanding;
-    this.propertyDeliveryStatus = propertyDeliveryStatus;
-    this.propertyTypology = propertyTypology;
-    this.propertyLeisure = propertyLeisure;
-    this.address = address;
-    this.propertyGallery = propertyGallery;
-    this.propertyFloorPlanGallery = propertyFloorPlanGallery;
+    this.price = props.price;
+    this.area = props.area;
+    this.coverImage = props.coverImage;
+    this.videoUrl = props.videoUrl;
+    this.roomsQty = props.roomsQty;
+    this.bathroomsQty = props.bathroomsQty;
+    this.parkingSpacesQty = props.parkingSpacesQty;
+    this.isActive = props.isActive ?? true;
+    this.isFeatured = props.isFeatured ?? false;
+    this.isNearSubway = props.isNearSubway;
+    this.propertyType = props.propertyType;
+    this.propertyPurpose = props.propertyPurpose;
+    this.propertyStanding = props.propertyStanding;
+    this.propertyDeliveryStatus = props.propertyDeliveryStatus;
+    this.propertyTypology = props.propertyTypology;
+    this.propertyLeisure = props.propertyLeisure;
+    this.address = props.address;
+    this.propertyGallery = props.propertyGallery;
+    this.propertyFloorPlanGallery = props.propertyFloorPlanGallery;
   }
 
   //---------------------------  Private Validation  -----------------------------

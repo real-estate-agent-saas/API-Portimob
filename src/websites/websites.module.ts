@@ -24,5 +24,6 @@ import { WebsiteRepository } from './infra/repositories/website.repository';
       },
     ]),
   ],
+  exports: ['IWebsiteRepository'],
 })
 export class WebsitesModule {}

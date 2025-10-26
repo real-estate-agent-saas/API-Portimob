@@ -12,7 +12,23 @@ import { UpdateUserUseCase } from './application/use-cases/update-user.usecase';
 import { FindAllUseCase } from './application/use-cases/find-all-user.usecase';
 import { FindOneUseCase } from './application/use-cases/find-one-user.usecase';
 
+// Modules
+import { WebsitesModule } from 'src/websites/websites.module';
+import { TemplatesConfigModule } from 'src/templates-config/templates-config.module';
+import { TemplatesModule } from 'src/templates/templates.module';
+
 @Module({
+  imports: [
+    MongooseModule.forFeature([
+      {
+        name: User.name,
+        schema: userSchema,
+      },
+    ]),
+    WebsitesModule,
+    TemplatesConfigModule,
+    TemplatesModule,
+  ],
   controllers: [UsersController],
   providers: [
     CreateUserUseCase,
@@ -23,14 +39,6 @@ import { FindOneUseCase } from './application/use-cases/find-one-user.usecase';
       provide: 'IUserRepository',
       useClass: UserRepository,
     },
-  ],
-  imports: [
-    MongooseModule.forFeature([
-      {
-        name: User.name,
-        schema: userSchema,
-      }
-    ]),
   ],
 })
 export class UsersModule {}

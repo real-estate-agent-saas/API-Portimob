@@ -14,12 +14,17 @@ export class WebsiteRepository implements IWebsiteRepository {
   async create(website: WebsiteEntity): Promise<WebsiteEntity> {
     const document = WebsiteMapper.toDocument(website);
     const created = await this.websiteModel.create(document);
-    console.log(website);
-    console.log(created);
     return WebsiteMapper.toEntity(created);
   }
 
-  update(website: WebsiteEntity): Promise<WebsiteEntity> {
-    throw new Error('Method not implemented.');
+  async update(website: WebsiteEntity): Promise<WebsiteEntity | null> {
+    const document = WebsiteMapper.toDocument(website);
+    const updated = await this.websiteModel.findByIdAndUpdate(
+      website.id,
+      document,
+      { new: true },
+    );
+    if (!updated) return null;
+    return WebsiteMapper.toEntity(updated);
   }
 }

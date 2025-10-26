@@ -31,7 +31,7 @@ export class WebsiteMapper {
 
   static toDocument(entity: WebsiteEntity): WebsitePersistenceModel {
     return {
-      templateConfigId: entity.templateConfigId,
+      templateConfigId: entity.templateConfigId!,
       userId: entity.userId,
       template: entity.template,
       websiteName: entity.websiteName,

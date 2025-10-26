@@ -2,7 +2,7 @@ import { TemplateEntity } from 'src/templates/entities/template.entity';
 
 export const SEED_TEMPLATES: Omit<TemplateEntity, 'id'>[] = [
   {
-    code: 'dianaimoveis',
+    templateCode: 'dianaimoveis',
     name: 'Template Diana',
     description:
       'Template moderno e elegante com banner rotativo de imóveis destaque',
@@ -46,7 +46,7 @@ export const SEED_TEMPLATES: Omit<TemplateEntity, 'id'>[] = [
     ],
   },
   {
-    code: 'apollo',
+    templateCode: 'apollo',
     name: 'Template Apollo',
     description: 'Template com thema escuro futurista',
     version: 1,

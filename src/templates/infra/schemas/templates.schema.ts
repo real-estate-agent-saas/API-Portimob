@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { Document } from 'mongoose';
+import mongoose, { Document, Types } from 'mongoose';
 
 // Auxiliary class
 class TemplateFieldSchema {
@@ -20,8 +20,9 @@ class TemplateFieldSchema {
 
 @Schema({ timestamps: true, collection: 'templates' })
 export class Template {
+  _id: Types.ObjectId;
   @Prop({ required: true, unique: true })
-  code: string;
+  templateCode: string;
 
   @Prop({ required: true })
   name: string;

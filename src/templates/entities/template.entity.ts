@@ -18,9 +18,19 @@ export interface TemplateField {
   group?: string; // ex.: "Hero", "Footer"
 }
 
+export interface TemplateProps {
+  id?: string;
+  templateCode: string;
+  name: string;
+  description: string;
+  previewImage: string;
+  fields: TemplateField[];
+  version: number;
+}
+
 export class TemplateEntity {
   readonly id?: string;
-  readonly code: string;
+  readonly templateCode: string;
   readonly name: string;
   readonly description: string;
   readonly previewImage: string;
@@ -28,7 +38,18 @@ export class TemplateEntity {
   readonly version: number;
   readonly isActive: boolean;
 
-  constructor(props: Omit<TemplateEntity, 'id'>) {
-    Object.assign(this, props);
+  private constructor(props: TemplateProps) {
+    this.id = props.id;
+    this.templateCode = props.templateCode;
+    this.name = props.name;
+    this.description = props.name;
+    this.previewImage = props.previewImage;
+    this.fields = props.fields;
+    this.version = props.version;
+    this.isActive = true;
+  }
+
+  static create(props: TemplateProps): TemplateEntity {
+    return new TemplateEntity(props);
   }
 }

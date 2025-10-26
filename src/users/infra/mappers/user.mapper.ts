@@ -9,6 +9,8 @@ export class UserMapper {
       name: document.name,
       email: document.email,
       password: document.password,
+      websiteId: document.websiteId,
+      propertyIds: document.propertyIds,
     });
   }
 
@@ -18,6 +20,8 @@ export class UserMapper {
       name: entity.name,
       email: entity.email,
       password: entity.password,
+      websiteId: entity.websiteId,
+      propertyIds: entity.propertyIds,
     };
     return user;
   }
