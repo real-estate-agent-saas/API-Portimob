@@ -1,17 +1,17 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateWebsiteDto } from 'src/websites/dto/create-website.dto';
 import { WebsiteEntity } from 'src/websites/entities/website.entity';
 import type { IWebsiteRepository } from 'src/websites/infra/repositories/Iwebsite.repository';
 
 @Injectable()
-export class CreateWebsiteUseCase {
+export class FindOneWebsiteUseCase {
   constructor(
     @Inject('IWebsiteRepository')
     private readonly websiteRepository: IWebsiteRepository,
   ) {}
 
-  async execute(createWebsiteDto: CreateWebsiteDto){
-    const website = WebsiteEntity.create(createWebsiteDto);
-    return this.websiteRepository.create(website);
+  async execute(userId: string) {
+    const website = await this.websiteRepository.findByUserId(userId);
+    if (!website) throw new Error('Website não encontrado');
+    return website;
   }
 }

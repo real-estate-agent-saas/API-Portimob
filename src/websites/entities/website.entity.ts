@@ -1,3 +1,16 @@
+export enum Gender {
+  MALE = 'Masculino',
+  FEMALE = 'Feminino',
+  OTHER = 'Outro',
+}
+
+export class Specialty {
+  constructor(
+    readonly id: string,
+    readonly name: string,
+  ) {}
+}
+
 export interface WebsiteProps {
   readonly id?: string;
   readonly userId: string;
@@ -22,8 +35,8 @@ export interface WebsiteProps {
   bio?: string;
   careerStartDate?: Date;
   creci?: string;
-  gender?: string;
-  specialties?: string[];
+  gender?: Gender;
+  specialties?: Specialty[];
 }
 
 export class WebsiteEntity {
@@ -51,8 +64,8 @@ export class WebsiteEntity {
   bio?: string;
   careerStartDate?: Date;
   creci?: string;
-  gender?: string;
-  specialties?: string[];
+  gender?: Gender;
+  specialties?: Specialty[];
 
   private constructor(props: WebsiteProps) {
     Object.assign(this, props);

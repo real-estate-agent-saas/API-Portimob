@@ -7,42 +7,28 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { WebsitesService } from './websites.service';
-import { CreateWebsiteDto } from './dto/create-website.dto';
 import { UpdateWebsiteDto } from './dto/update-website.dto';
-import { CreateWebsiteUseCase } from './application/use-cases/create-website.usecase';
-import { IsPublic } from 'src/auth/decorators/is-public.decorator';
+import { UpdateWebsiteUseCase } from './application/use-cases/update-website.usecase';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import { UserEntity } from 'src/users/entities/user.entity';
+import { FindOneWebsiteUseCase } from './application/use-cases/find-one.usecase';
 
 @Controller('websites')
 export class WebsitesController {
   constructor(
-    private readonly websitesService: WebsitesService,
-    private readonly createWebsiteUseCase: CreateWebsiteUseCase,
+    private readonly findOneWebsiteUseCase: FindOneWebsiteUseCase,
+    private readonly updateWebsiteUseCase: UpdateWebsiteUseCase,
   ) {}
 
-  @IsPublic()
-  @Post()
-  create(@Body() createWebsiteDto: CreateWebsiteDto) {
-    return this.createWebsiteUseCase.execute(createWebsiteDto);
+  @Patch()
+  update(@CurrentUser() user: UserEntity, @Body() updateWebsiteDto: UpdateWebsiteDto) {
+    return this.updateWebsiteUseCase.execute(user.id!, updateWebsiteDto);
   }
 
   @Get()
-  findAll() {
-    return this.websitesService.findAll();
+  findOneByUserId(@CurrentUser() user: UserEntity) {
+    return this.findOneWebsiteUseCase.execute(user.id!);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.websitesService.findOne(+id);
-  }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateWebsiteDto: UpdateWebsiteDto) {
-    return this.websitesService.update(+id, updateWebsiteDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.websitesService.remove(+id);
-  }
 }

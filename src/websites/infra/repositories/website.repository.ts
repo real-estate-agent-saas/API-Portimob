@@ -27,4 +27,10 @@ export class WebsiteRepository implements IWebsiteRepository {
     if (!updated) return null;
     return WebsiteMapper.toEntity(updated);
   }
+
+  async findByUserId(userId: string): Promise<WebsiteEntity | null> {
+    const website = await this.websiteModel.findOne({ userId });
+    if(!website) return null;
+    return WebsiteMapper.toEntity(website);
+  }
 }

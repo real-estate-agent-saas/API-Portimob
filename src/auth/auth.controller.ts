@@ -31,7 +31,13 @@ export class AuthController {
 
   @Post('signOut')
   @HttpCode(HttpStatus.OK)
-  signOut() {
-    return 'Logout';
+  async signOut(@Res({ passthrough: true }) res: Response) {
+    // Same cookie options as used in signIn
+    res.clearCookie('access_token', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+    });
+    return { message: 'Logout realizado com sucesso' };
   }
 }

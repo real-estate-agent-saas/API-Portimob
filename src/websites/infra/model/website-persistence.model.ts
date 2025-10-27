@@ -1,3 +1,8 @@
+interface Specialty {
+  id: string;
+  name: string;
+}
+
 export interface WebsitePersistenceModel {
   templateConfigId: string;
   userId: string;
@@ -21,5 +26,5 @@ export interface WebsitePersistenceModel {
   careerStartDate?: Date;
   creci?: string;
   gender?: string;
-  specialties?: string[];
+  specialties?: Specialty[];
 }

@@ -1,12 +1,33 @@
 import { PartialType, OmitType } from '@nestjs/mapped-types';
 import { CreateWebsiteDto } from './create-website.dto';
-import { IsOptional, IsString, IsDate, IsArray } from 'class-validator';
+import {
+  IsOptional,
+  IsString,
+  IsDate,
+  IsArray,
+  ValidateNested,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+import { Gender } from '../entities/website.entity';
 
-export class UpdateWebsiteDto extends PartialType(
-  OmitType(CreateWebsiteDto, ['userId'] as const),
-) {
-    
+class Template {
+  @IsString()
+  id: string;
+
+  @IsString()
+  name: string;
+}
+
+class Specialty {
+  @IsString()
+  id: string;
+  @IsString()
+  name: string;
+}
+
+export class UpdateWebsiteDto {
   // -------------------------------- Website data -------------------------
+
   @IsOptional()
   @IsString()
   websiteName?: string;
@@ -70,10 +91,22 @@ export class UpdateWebsiteDto extends PartialType(
 
   @IsOptional()
   @IsString()
-  gender?: string;
+  gender?: Gender;
 
   @IsOptional()
   @IsArray()
-  @IsString({ each: true })
-  specialties?: string[];
+  @ValidateNested({ each: true })
+  @Type(() => Specialty)
+  specialties?: Specialty[];
+
+  // -------------------------------- Relationships -------------------------
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => Template)
+  template?: Template;
+
+  @IsOptional()
+  @IsString()
+  templateConfigId?: string;
 }

@@ -1,5 +1,16 @@
 import { Prop, SchemaFactory, Schema } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import mongoose, { Document, Types } from 'mongoose';
+
+export enum Gender {
+  MALE = 'Masculino',
+  FEMALE = 'Feminino',
+  OTHER = 'Outro',
+}
+
+export class Specialty {
+  readonly id: string;
+  readonly name: string;
+}
 
 @Schema({ timestamps: true })
 export class Website {
@@ -68,11 +79,22 @@ export class Website {
   @Prop()
   creci?: string;
 
-  @Prop()
-  gender?: string;
+  @Prop({
+    type: String,
+    enum: Object.values(Gender),
+  })
+  gender?: Gender;
 
-  @Prop()
-  specialties?: string[];
+  @Prop({
+    type: [
+      {
+        id: { type: mongoose.Schema.Types.ObjectId, ref: 'Specialty' },
+        name: String,
+        _id: false,
+      },
+    ],
+  })
+  specialties?: Specialty[];
 }
 
 export type WebsiteDocument = Website & Document;
