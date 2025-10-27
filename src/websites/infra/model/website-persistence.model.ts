@@ -1,7 +1,5 @@
-interface Specialty {
-  id: string;
-  name: string;
-}
+import { Gender } from "src/websites/entities/value-objects/gender.vo";
+import { Specialty } from "../schemas/specialties.schema";
 
 export interface WebsitePersistenceModel {
   templateConfigId: string;
@@ -25,6 +23,6 @@ export interface WebsitePersistenceModel {
   bio?: string;
   careerStartDate?: Date;
   creci?: string;
-  gender?: string;
+  gender?: Gender;
   specialties?: Specialty[];
 }

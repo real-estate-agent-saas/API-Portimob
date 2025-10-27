@@ -8,7 +8,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { Gender } from '../entities/website.entity';
+import { Gender } from '../entities/value-objects/gender.vo';
 
 class Template {
   @IsString()

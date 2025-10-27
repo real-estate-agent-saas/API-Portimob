@@ -1,0 +1,49 @@
+import { Gender } from 'src/websites/entities/value-objects/gender.vo';
+import { Specialty } from 'src/websites/entities/value-objects/specialty.vo';
+import { WebsiteEntity } from 'src/websites/entities/website.entity';
+
+export class WebsitePresenter {
+  readonly websiteName?: string;
+  readonly slug?: string;
+  readonly customDomain?: string;
+  readonly logoURL?: string;
+  readonly realtorName?: string;
+  readonly publicEmail?: string;
+  readonly whatsapp?: string;
+  readonly phone?: string;
+  readonly instagram?: string;
+  readonly facebook?: string;
+  readonly linkedin?: string;
+  readonly profileImage?: string;
+  readonly bio?: string;
+  readonly careerStartDate?: Date;
+  readonly creci?: string;
+  readonly gender?: Gender;
+  readonly specialties?: Specialty[];
+
+  constructor(props: WebsitePresenter) {
+    Object.assign(this, props);
+  }
+
+  static fromEntity(entity: WebsiteEntity) {
+    return new WebsitePresenter({
+      websiteName: entity.websiteName,
+      slug: entity.slug,
+      customDomain: entity.customDomain,
+      logoURL: entity.logoURL,
+      realtorName: entity.realtorName,
+      publicEmail: entity.publicEmail,
+      whatsapp: entity.whatsapp,
+      phone: entity.phone,
+      instagram: entity.instagram,
+      facebook: entity.facebook,
+      linkedin: entity.linkedin,
+      profileImage: entity.profileImage,
+      bio: entity.bio,
+      careerStartDate: entity.careerStartDate,
+      creci: entity.creci,
+      gender: entity.gender,
+      specialties: entity.specialties,
+    });
+  }
+}

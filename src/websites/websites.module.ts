@@ -1,16 +1,15 @@
 import { Module } from '@nestjs/common';
-import { WebsitesController } from './websites.controller';
+import { UserWebsitesController } from './controllers/user-websites.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Website, websiteSchema } from './infra/schemas/websites.schema';
 import { WebsiteRepository } from './infra/repositories/website.repository';
-import { FindOneWebsiteUseCase } from './application/use-cases/find-one.usecase';
-import { UpdateWebsiteUseCase } from './application/use-cases/update-website.usecase';
-import { Specialty } from './entities/website.entity';
-import { specialtySchema } from './infra/schemas/specialties.schema';
+import { FindOneWebsiteUseCase } from './application/use-cases/user-websites/find-one.usecase';
+import { UpdateWebsiteUseCase } from './application/use-cases/user-websites/update-website.usecase';
+import { Specialty, specialtySchema } from './infra/schemas/specialties.schema';
 import { SpecialtySeed } from './infra/seeds/specialties.seed';
 
 @Module({
-  controllers: [WebsitesController],
+  controllers: [UserWebsitesController],
   providers: [
     FindOneWebsiteUseCase,
     UpdateWebsiteUseCase,

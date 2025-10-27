@@ -1,15 +1,5 @@
-export enum Gender {
-  MALE = 'Masculino',
-  FEMALE = 'Feminino',
-  OTHER = 'Outro',
-}
-
-export class Specialty {
-  constructor(
-    readonly id: string,
-    readonly name: string,
-  ) {}
-}
+import { Gender } from './value-objects/gender.vo';
+import { Specialty } from './value-objects/specialty.vo';
 
 export interface WebsiteProps {
   readonly id?: string;
