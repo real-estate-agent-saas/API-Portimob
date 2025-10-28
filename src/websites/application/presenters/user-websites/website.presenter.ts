@@ -4,9 +4,6 @@ import { WebsiteEntity } from 'src/websites/entities/website.entity';
 
 export class WebsitePresenter {
   readonly websiteName?: string;
-  readonly slug?: string;
-  readonly customDomain?: string;
-  readonly logoURL?: string;
   readonly realtorName?: string;
   readonly publicEmail?: string;
   readonly whatsapp?: string;
@@ -16,7 +13,7 @@ export class WebsitePresenter {
   readonly linkedin?: string;
   readonly profileImage?: string;
   readonly bio?: string;
-  readonly careerStartDate?: Date;
+  readonly careerStartDate?: string | null;
   readonly creci?: string;
   readonly gender?: Gender;
   readonly specialties?: Specialty[];
@@ -28,9 +25,6 @@ export class WebsitePresenter {
   static fromEntity(entity: WebsiteEntity) {
     return new WebsitePresenter({
       websiteName: entity.websiteName,
-      slug: entity.slug,
-      customDomain: entity.customDomain,
-      logoURL: entity.logoURL,
       realtorName: entity.realtorName,
       publicEmail: entity.publicEmail,
       whatsapp: entity.whatsapp,
@@ -40,7 +34,9 @@ export class WebsitePresenter {
       linkedin: entity.linkedin,
       profileImage: entity.profileImage,
       bio: entity.bio,
-      careerStartDate: entity.careerStartDate,
+      careerStartDate: entity.careerStartDate
+        ? entity.careerStartDate.toISOString()
+        : null,
       creci: entity.creci,
       gender: entity.gender,
       specialties: entity.specialties,

@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { UpdateWebsiteDto } from 'src/websites/dto/update-website.dto';
 import { WebsiteEntity } from 'src/websites/entities/website.entity';
-import type { IWebsiteRepository } from 'src/websites/infra/repositories/Iwebsite.repository';
+import type { IWebsiteRepository } from 'src/websites/infra/repositories/website/Iwebsite.repository';
 
 @Injectable()
 export class UpdateWebsiteUseCase {

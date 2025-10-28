@@ -1,10 +1,9 @@
-import { CreateWebsiteDto } from 'src/websites/dto/create-website.dto';
 import { IWebsiteRepository } from './Iwebsite.repository';
 import { InjectModel } from '@nestjs/mongoose';
-import { Website, WebsiteDocument } from '../schemas/websites.schema';
 import { Model } from 'mongoose';
 import { WebsiteEntity } from 'src/websites/entities/website.entity';
-import { WebsiteMapper } from '../mappers/website.mapper';
+import { Website, WebsiteDocument } from '../../schemas/websites.schema';
+import { WebsiteMapper } from '../../mappers/website.mapper';
 
 export class WebsiteRepository implements IWebsiteRepository {
   constructor(
@@ -30,7 +29,7 @@ export class WebsiteRepository implements IWebsiteRepository {
 
   async findByUserId(userId: string): Promise<WebsiteEntity | null> {
     const website = await this.websiteModel.findOne({ userId });
-    if(!website) return null;
+    if (!website) return null;
     return WebsiteMapper.toEntity(website);
   }
 }

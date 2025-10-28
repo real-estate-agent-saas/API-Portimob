@@ -12,12 +12,14 @@ import { UpdateWebsiteUseCase } from '../application/use-cases/user-websites/upd
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { UserEntity } from 'src/users/entities/user.entity';
 import { FindOneWebsiteUseCase } from '../application/use-cases/user-websites/find-one.usecase';
+import { GetAllSpecialtiesUseCase } from '../application/use-cases/user-websites/get-all-specialties.usecase';
 
 @Controller('websites/user')
 export class UserWebsitesController {
   constructor(
     private readonly findOneWebsiteUseCase: FindOneWebsiteUseCase,
     private readonly updateWebsiteUseCase: UpdateWebsiteUseCase,
+    private readonly getAllSpecialtiesUseCase: GetAllSpecialtiesUseCase,
   ) {}
 
   @Patch()
@@ -31,5 +33,10 @@ export class UserWebsitesController {
   @Get()
   findOneByUserId(@CurrentUser() user: UserEntity) {
     return this.findOneWebsiteUseCase.execute(user.id!);
+  }
+
+  @Get('specialties')
+  getAllSpecialties() {
+    return this.getAllSpecialtiesUseCase.execute();
   }
 }

@@ -7,9 +7,9 @@ import { ExistingUserError } from 'src/users/errors/existing-user.error';
 import { WebsiteEntity } from 'src/websites/entities/website.entity';
 import { TemplateConfigEntity } from 'src/templates-config/entities/templates-config.entity';
 import type { IUserRepository } from '../../infra/repositories/Iuser.repository';
-import type { IWebsiteRepository } from 'src/websites/infra/repositories/Iwebsite.repository';
 import type { ITemplatesConfigRepository } from 'src/templates-config/infra/repositories/ItemplatesConfig.repository';
 import type { ITemplatesRepository } from 'src/templates/infra/repositories/Itemplates.repository';
+import type { IWebsiteRepository } from 'src/websites/infra/repositories/website/Iwebsite.repository';
 
 @Injectable()
 export class CreateUserUseCase {
