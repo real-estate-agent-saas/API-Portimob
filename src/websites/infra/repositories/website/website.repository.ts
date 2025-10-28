@@ -10,6 +10,16 @@ export class WebsiteRepository implements IWebsiteRepository {
     @InjectModel(Website.name) private websiteModel: Model<WebsiteDocument>,
   ) {}
 
+  async findBySlug(slug: string): Promise<boolean> {
+    const website = await this.websiteModel.findOne({ slug });
+    let isAvailable: boolean;
+    if (website) {
+      return (isAvailable = false);
+    } else {
+      return (isAvailable = true);
+    }
+  }
+
   async create(website: WebsiteEntity): Promise<WebsiteEntity> {
     const document = WebsiteMapper.toDocument(website);
     const created = await this.websiteModel.create(document);

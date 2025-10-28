@@ -52,6 +52,7 @@ export class CreateUserUseCase {
     // Creates a website with userId
     const website = WebsiteEntity.create({
       userId: createdUser.id!,
+      realtorName: createdUser.name,
     });
     const createdWebsite = await this.websiteRepository.create(website);
     if (!createdWebsite) throw new Error('Não foi possível criar o website');
@@ -101,7 +102,9 @@ export class CreateUserUseCase {
       websiteId: updatedWebsite.id,
     });
 
-    await this.userRepository.update(createdUser.id!, { websiteId: updatedWebsite.id });
+    await this.userRepository.update(createdUser.id!, {
+      websiteId: updatedWebsite.id,
+    });
 
     // Return the created user without the password
     return CreateUserPresenter.fromEntity(createdUser);

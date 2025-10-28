@@ -9,6 +9,10 @@ import { SpecialtySeed } from './infra/seeds/specialties.seed';
 import { WebsiteRepository } from './infra/repositories/website/website.repository';
 import { GetAllSpecialtiesUseCase } from './application/use-cases/user-websites/get-all-specialties.usecase';
 import { SpecialtyRepository } from './infra/repositories/specialty/specialty.repository';
+import { UpdateProfileImageUseCase } from './application/use-cases/user-websites/update-profile-image.usecase';
+import { GetSlugUseCase } from './application/use-cases/user-websites/get-slug.usecase';
+import { UpdateSlugUseCase } from './application/use-cases/user-websites/update-slug.usecase';
+import { CheckSlugAvailabilityUseCase } from './application/use-cases/user-websites/check-slug-availability.usecase';
 
 @Module({
   controllers: [UserWebsitesController],
@@ -16,6 +20,10 @@ import { SpecialtyRepository } from './infra/repositories/specialty/specialty.re
     FindOneWebsiteUseCase,
     UpdateWebsiteUseCase,
     GetAllSpecialtiesUseCase,
+    UpdateProfileImageUseCase,
+    GetSlugUseCase,
+    UpdateSlugUseCase,
+    CheckSlugAvailabilityUseCase,
     SpecialtySeed,
     {
       provide: 'IWebsiteRepository',

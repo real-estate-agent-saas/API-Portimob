@@ -28,21 +28,21 @@ class Specialty {
 export class UpdateWebsiteDto {
   // -------------------------------- Website data -------------------------
 
-  @IsOptional()
-  @IsString()
-  websiteName?: string;
+  // @IsOptional()
+  // @IsString()
+  // websiteName?: string;
 
-  @IsOptional()
-  @IsString()
-  logoURL?: string;
+  // @IsOptional()
+  // @IsString()
+  // logoURL?: string;
 
-  @IsOptional()
-  @IsString()
-  slug?: string;
+  // @IsOptional()
+  // @IsString()
+  // slug?: string;
 
-  @IsOptional()
-  @IsString()
-  customDomain?: string;
+  // @IsOptional()
+  // @IsString()
+  // customDomain?: string;
 
   // -------------------------------- Realtor data -------------------------
   @IsOptional()
