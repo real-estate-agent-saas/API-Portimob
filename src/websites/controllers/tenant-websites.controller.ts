@@ -7,15 +7,17 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { UpdateWebsiteDto } from '../dto/update-website.dto';
-import { UpdateWebsiteUseCase } from '../application/use-cases/user-websites/update-website.usecase';
-import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
-import { UserEntity } from 'src/users/entities/user.entity';
-import { FindOneWebsiteUseCase } from '../application/use-cases/user-websites/find-one.usecase';
+import { GetWebsiteUseCase } from '../application/use-cases/tenant-websites/get-website.usecase';
+import { SlugParamDto } from '../dto/slug-param.dto';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
 @Controller('websites/tenant')
 export class TenantWebsitesController {
-  constructor() {}
+  constructor(private readonly getWebsiteUseCase: GetWebsiteUseCase) {}
 
-
+  @IsPublic()
+  @Get('get-website/:slug')
+  getWebsite(@Param() params: SlugParamDto) {
+    return this.getWebsiteUseCase.execute(params.slug);
+  }
 }

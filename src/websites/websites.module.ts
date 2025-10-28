@@ -13,9 +13,11 @@ import { UpdateProfileImageUseCase } from './application/use-cases/user-websites
 import { GetSlugUseCase } from './application/use-cases/user-websites/get-slug.usecase';
 import { UpdateSlugUseCase } from './application/use-cases/user-websites/update-slug.usecase';
 import { CheckSlugAvailabilityUseCase } from './application/use-cases/user-websites/check-slug-availability.usecase';
+import { GetWebsiteUseCase } from './application/use-cases/tenant-websites/get-website.usecase';
+import { TenantWebsitesController } from './controllers/tenant-websites.controller';
 
 @Module({
-  controllers: [UserWebsitesController],
+  controllers: [UserWebsitesController, TenantWebsitesController],
   providers: [
     FindOneWebsiteUseCase,
     UpdateWebsiteUseCase,
@@ -25,6 +27,8 @@ import { CheckSlugAvailabilityUseCase } from './application/use-cases/user-websi
     UpdateSlugUseCase,
     CheckSlugAvailabilityUseCase,
     SpecialtySeed,
+
+    GetWebsiteUseCase,
     {
       provide: 'IWebsiteRepository',
       useClass: WebsiteRepository,

@@ -11,7 +11,12 @@ export class CheckSlugAvailabilityUseCase {
 
   async execute(slug: string): Promise<boolean> {
     const validSlug = SlugValidatorService.normalizeAndValidate(slug);
-    const isAvailable = await this.websiteRepository.findBySlug(validSlug);
-    return isAvailable;
+    const website = await this.websiteRepository.findBySlug(validSlug);
+    let isAvailable: boolean;
+    if (!website) {
+      return (isAvailable = true);
+    } else {
+      return (isAvailable = false);
+    }
   }
 }
