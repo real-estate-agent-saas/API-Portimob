@@ -87,10 +87,7 @@ export class CreateUserUseCase {
 
     createdWebsite.update({
       templateConfigId: createdTemplateConfig.id,
-      template: {
-        name: defaultTemplate.name,
-        id: defaultTemplate.id!,
-      },
+      templateCode: createdTemplateConfig.templateCode,
     });
 
     const updatedWebsite = await this.websiteRepository.update(createdWebsite);

@@ -5,7 +5,7 @@ export interface WebsiteProps {
   readonly id?: string;
   readonly userId: string;
   readonly templateConfigId?: string;
-  template?: { name: string; id: string };
+  templateCode?: string;
 
   //website data
   websiteName?: string;
@@ -34,8 +34,8 @@ export class WebsiteEntity {
   readonly id?: string;
   readonly userId: string;
   readonly templateConfigId?: string;
-  template?: { name: string; id: string };
-
+  templateCode?: string;
+  
   //website data
   websiteName?: string;
   slug?: string;

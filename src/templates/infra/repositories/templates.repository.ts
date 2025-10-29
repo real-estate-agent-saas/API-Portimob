@@ -13,6 +13,11 @@ export class TemplatesRepository implements ITemplatesRepository {
     private readonly templateRepository: Model<TemplateDocument>,
   ) {}
 
+  async getAllTemplates(): Promise<TemplateEntity[]> {
+    const templates = await this.templateRepository.find().exec();
+    return templates.map((doc) => TemplateMapper.toEntity(doc));
+  }
+
   async findByCode(templateCode: string): Promise<TemplateEntity | null> {
     const template = await this.templateRepository.findOne({ templateCode });
     if (!template) return null;

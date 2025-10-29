@@ -17,7 +17,7 @@ export class TenantWebsitesController {
 
   @IsPublic()
   @Get('get-website/:slug')
-  getWebsite(@Param() params: SlugParamDto) {
+  getWebsiteBySlug(@Param() params: SlugParamDto) {
     return this.getWebsiteUseCase.execute(params.slug);
   }
 }

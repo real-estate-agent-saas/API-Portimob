@@ -8,7 +8,7 @@ export class WebsiteMapper {
       id: document._id.toString(),
       templateConfigId: document.templateConfigId,
       userId: document.userId,
-      template: document.template,
+      templateCode: document.templateCode,
       websiteName: document.websiteName,
       slug: document.slug,
       customDomain: document.customDomain,
@@ -33,7 +33,7 @@ export class WebsiteMapper {
     return {
       templateConfigId: entity.templateConfigId!,
       userId: entity.userId,
-      template: entity.template,
+      templateCode: entity.templateCode,
       websiteName: entity.websiteName,
       slug: entity.slug,
       customDomain: entity.customDomain,

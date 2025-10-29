@@ -23,14 +23,8 @@ export class Website {
   @Prop()
   userId: string;
 
-  @Prop({
-    type: {
-      id: String,
-      name: String,
-      _id: false,
-    },
-  })
-  template?: { id: string; name: string };
+  @Prop()
+  templateCode?: string;
 
   //website data
   @Prop()

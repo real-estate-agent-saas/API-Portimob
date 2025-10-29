@@ -4,10 +4,7 @@ import { Specialty } from "../schemas/specialties.schema";
 export interface WebsitePersistenceModel {
   templateConfigId: string;
   userId: string;
-  template?: {
-    id: string;
-    name: string;
-  };
+  templateCode?: string;
   websiteName?: string;
   slug?: string;
   customDomain?: string;

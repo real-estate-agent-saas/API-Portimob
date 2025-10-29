@@ -2,8 +2,7 @@ import { Gender } from 'src/websites/entities/value-objects/gender.vo';
 import { Specialty } from 'src/websites/entities/value-objects/specialty.vo';
 import { WebsiteEntity } from 'src/websites/entities/website.entity';
 
-export class WebsitePresenter {
-  readonly websiteName?: string;
+export class WebsiteUserPresenter {
   readonly realtorName?: string;
   readonly publicEmail?: string;
   readonly whatsapp?: string;
@@ -18,13 +17,12 @@ export class WebsitePresenter {
   readonly gender?: Gender;
   readonly specialties?: Specialty[];
 
-  constructor(props: WebsitePresenter) {
+  constructor(props: WebsiteUserPresenter) {
     Object.assign(this, props);
   }
 
   static fromEntity(entity: WebsiteEntity) {
-    return new WebsitePresenter({
-      websiteName: entity.websiteName,
+    return new WebsiteUserPresenter({
       realtorName: entity.realtorName,
       publicEmail: entity.publicEmail,
       whatsapp: entity.whatsapp,

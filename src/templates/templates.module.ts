@@ -3,12 +3,18 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Template, templateSchema } from './infra/schemas/templates.schema';
 import { TemplateSeeder } from './infra/seeds/run-templates.seed';
 import { TemplatesRepository } from './infra/repositories/templates.repository';
+import { TemplatesController } from './templates.controller';
+import { GetTemplatesUseCase } from './application/use-cases/get-templates.usecase';
 
 @Module({
-  providers: [TemplateSeeder, {
-    provide: 'ITemplatesRepository',
-    useClass: TemplatesRepository,
-  }],
+  providers: [
+    TemplateSeeder,
+    GetTemplatesUseCase,
+    {
+      provide: 'ITemplatesRepository',
+      useClass: TemplatesRepository,
+    },
+  ],
   imports: [
     MongooseModule.forFeature([
       {
@@ -18,5 +24,6 @@ import { TemplatesRepository } from './infra/repositories/templates.repository';
     ]),
   ],
   exports: ['ITemplatesRepository'],
+  controllers: [TemplatesController],
 })
 export class TemplatesModule {}
