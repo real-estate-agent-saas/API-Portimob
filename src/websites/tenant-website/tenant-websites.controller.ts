@@ -7,13 +7,13 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { GetWebsiteUseCase } from '../application/use-cases/tenant-websites/get-website.usecase';
-import { SlugParamDto } from '../dto/slug-param.dto';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
+import { SlugParamDto } from './dtos/slug-param.dto';
+import { GetTenantWebsiteUseCase } from './application/use-cases/get-tenant-website.usecase';
 
 @Controller('websites/tenant')
 export class TenantWebsitesController {
-  constructor(private readonly getWebsiteUseCase: GetWebsiteUseCase) {}
+  constructor(private readonly getWebsiteUseCase: GetTenantWebsiteUseCase) {}
 
   @IsPublic()
   @Get('get-website/:slug')

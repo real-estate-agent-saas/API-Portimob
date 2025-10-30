@@ -10,6 +10,7 @@ import { ValidationError } from '../types/validation.error';
 import { NotFoundError } from '../types/not-found.error';
 import { ForbiddenError } from '../types/forbidden.error';
 import { UnauthorizedError } from '../types/unauthorized.error';
+import { InternalError } from '../types/internal.error';
 
 /**
  * Converts domain errors to NestJS HTTP exceptions.
@@ -58,6 +59,19 @@ export class ErrorMapper {
 
     //If no error fits the validations, a generic system error is thrown.
     // 500 - Unexpected errors
+    if (error instanceof InternalError) {
+      return new HttpException(
+        {
+          statusCode: 500,
+          error: error.name,
+          message: error.message,
+          metadata: (error as DomainError).metadata,
+        },
+        500,
+      );
+    }
+
+    // Default fallback
     return new HttpException(
       {
         statusCode: 500,

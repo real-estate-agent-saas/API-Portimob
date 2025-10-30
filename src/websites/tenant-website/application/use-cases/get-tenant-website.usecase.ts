@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import type { IWebsiteRepository } from 'src/websites/infra/repositories/website/Iwebsite.repository';
-import { WebsiteTenantPresenter } from '../../presenters/tenant-websites/website-tenant.presenter';
-import { SlugValidatorService } from 'src/websites/domain/services/slug-validator.service';
+import type { IWebsiteRepository } from 'src/websites/infra/repositories/websites/Iwebsite.repository';
+import { SlugValidatorService } from 'src/websites/services/slug-validator.service';
+import { WebsiteTenantPresenter } from '../presenters/website-tenant.presenter';
 
 @Injectable()
-export class GetWebsiteUseCase {
+export class GetTenantWebsiteUseCase {
   constructor(
     @Inject('IWebsiteRepository')
     private readonly websiteRepository: IWebsiteRepository,

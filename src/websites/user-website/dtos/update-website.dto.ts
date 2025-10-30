@@ -1,5 +1,3 @@
-import { PartialType, OmitType } from '@nestjs/mapped-types';
-import { CreateWebsiteDto } from './create-website.dto';
 import {
   IsOptional,
   IsString,
@@ -8,7 +6,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { Gender } from '../entities/value-objects/gender.vo';
+import { Gender } from 'src/websites/entities/value-objects/gender.vo';
 
 class Template {
   @IsString()

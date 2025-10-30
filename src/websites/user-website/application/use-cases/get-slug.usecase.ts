@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import type { IWebsiteRepository } from 'src/websites/infra/repositories/website/Iwebsite.repository';
+import type { IWebsiteRepository } from 'src/websites/infra/repositories/websites/Iwebsite.repository';
 
 @Injectable()
 export class GetSlugUseCase {

@@ -1,4 +1,4 @@
-// Reserved slugs for update User Slug
+// Reserved words for update User Slug
 export const RESERVED_WORDS = [
   // Login/Admin
   'admin',

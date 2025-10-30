@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { SlugValidatorService } from 'src/websites/domain/services/slug-validator.service';
-import type { IWebsiteRepository } from 'src/websites/infra/repositories/website/Iwebsite.repository';
+import { SlugValidatorService } from 'src/websites/services/slug-validator.service';
+import type { IWebsiteRepository } from 'src/websites/infra/repositories/websites/Iwebsite.repository';
 
 @Injectable()
 export class UpdateSlugUseCase {

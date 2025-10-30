@@ -11,9 +11,10 @@ import { AuthModule } from './auth/auth.module';
 import { PropertiesModule } from './properties/properties.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
-import { WebsitesModule } from './websites/websites.module';
 import { TemplatesConfigModule } from './templates-config/templates-config.module';
 import { TemplatesModule } from './templates/templates.module';
+import { UserWebsitesModule } from './websites/user-website/user-websites.module';
+import { TenantWebsitesModule } from './websites/tenant-website/tenant-websites.module';
 
 @Module({
   imports: [
@@ -21,9 +22,10 @@ import { TemplatesModule } from './templates/templates.module';
     UsersModule,
     AuthModule,
     PropertiesModule,
-    WebsitesModule,
     TemplatesConfigModule,
     TemplatesModule,
+    UserWebsitesModule,
+    TenantWebsitesModule,
   ],
   controllers: [AppController],
   providers: [

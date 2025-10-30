@@ -9,12 +9,13 @@ import { TemplateConfigEntity } from 'src/templates-config/entities/templates-co
 import type { IUserRepository } from '../../infra/repositories/Iuser.repository';
 import type { ITemplatesConfigRepository } from 'src/templates-config/infra/repositories/ItemplatesConfig.repository';
 import type { ITemplatesRepository } from 'src/templates/infra/repositories/Itemplates.repository';
-import type { IWebsiteRepository } from 'src/websites/infra/repositories/website/Iwebsite.repository';
+import type { IWebsiteRepository } from 'src/websites/infra/repositories/websites/Iwebsite.repository';
 
 @Injectable()
 export class CreateUserUseCase {
   constructor(
-    @Inject('IUserRepository') private readonly userRepository: IUserRepository,
+    @Inject('IUserRepository') 
+    private readonly userRepository: IUserRepository,
     @Inject('IWebsiteRepository')
     private readonly websiteRepository: IWebsiteRepository,
     @Inject('ITemplatesConfigRepository')

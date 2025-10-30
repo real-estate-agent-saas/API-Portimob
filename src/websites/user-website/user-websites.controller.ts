@@ -11,24 +11,24 @@ import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { UserEntity } from 'src/users/entities/user.entity';
 
 // Use Cases
-import { FindOneWebsiteUseCase } from '../application/use-cases/user-websites/find-one.usecase';
-import { GetAllSpecialtiesUseCase } from '../application/use-cases/user-websites/get-all-specialties.usecase';
-import { UpdateProfileImageUseCase } from '../application/use-cases/user-websites/update-profile-image.usecase';
-import { UpdateWebsiteUseCase } from '../application/use-cases/user-websites/update-website.usecase';
-import { GetSlugUseCase } from '../application/use-cases/user-websites/get-slug.usecase';
-import { UpdateSlugUseCase } from '../application/use-cases/user-websites/update-slug.usecase';
+import { GetUserWebsiteUseCase } from './application/use-cases/get-user-website.usecase';
+import { GetAllSpecialtiesUseCase } from './application/use-cases/get-all-specialties.usecase';
+import { UpdateProfileImageUseCase } from './application/use-cases/update-profile-image.usecase';
+import { UpdateWebsiteUseCase } from './application/use-cases/update-website.usecase';
+import { GetSlugUseCase } from './application/use-cases/get-slug.usecase';
+import { UpdateSlugUseCase } from './application/use-cases/update-slug.usecase';
+import { CheckSlugAvailabilityUseCase } from './application/use-cases/check-slug-availability.usecase';
+import { ChangeTemplateUseCase } from './application/use-cases/change-template.usecase';
 
 // DTOs
-import { UpdateWebsiteDto } from '../dto/update-website.dto';
-import { UpdateProfileImageDto } from '../dto/update-profileImage.dto';
-import { UpdateSlugDto } from '../dto/update-slug.dto';
-import { CheckSlugAvailabilityUseCase } from '../application/use-cases/user-websites/check-slug-availability.usecase';
-import { ChangeTemplateUseCase } from '../application/use-cases/user-websites/change-template.usecase';
+import { UpdateWebsiteDto } from './dtos/update-website.dto';
+import { UpdateProfileImageDto } from './dtos/update-profileImage.dto';
+import { UpdateSlugDto } from './dtos/update-slug.dto';
 
 @Controller('websites/user')
 export class UserWebsitesController {
   constructor(
-    private readonly findOneWebsiteUseCase: FindOneWebsiteUseCase,
+    private readonly getUserWebsiteUseCase: GetUserWebsiteUseCase,
     private readonly updateWebsiteUseCase: UpdateWebsiteUseCase,
     private readonly getAllSpecialtiesUseCase: GetAllSpecialtiesUseCase,
     private readonly updateProfileImageUseCase: UpdateProfileImageUseCase,
@@ -44,6 +44,11 @@ export class UserWebsitesController {
     @Param('templateCode') templateCode: string,
   ) {
     return this.changeTemplateUseCase.execute(user.id!, templateCode);
+  }
+
+  @Get()
+  getUserWebsiteByUserId(@CurrentUser() user: UserEntity) {
+    return this.getUserWebsiteUseCase.execute(user.id!);
   }
 
   @Patch('update-profile-image')
@@ -63,11 +68,6 @@ export class UserWebsitesController {
     @Body() updateWebsiteDto: UpdateWebsiteDto,
   ) {
     return this.updateWebsiteUseCase.execute(user.id!, updateWebsiteDto);
-  }
-
-  @Get()
-  findOneByUserId(@CurrentUser() user: UserEntity) {
-    return this.findOneWebsiteUseCase.execute(user.id!);
   }
 
   @Get('specialties')

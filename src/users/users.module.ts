@@ -13,7 +13,7 @@ import { FindAllUseCase } from './application/use-cases/find-all-user.usecase';
 import { FindOneUseCase } from './application/use-cases/find-one-user.usecase';
 
 // Modules
-import { WebsitesModule } from 'src/websites/websites.module';
+import { WebsitesInfraModule } from 'src/websites/infra/websites-infra.module';
 import { TemplatesConfigModule } from 'src/templates-config/templates-config.module';
 import { TemplatesModule } from 'src/templates/templates.module';
 
@@ -25,7 +25,7 @@ import { TemplatesModule } from 'src/templates/templates.module';
         schema: userSchema,
       },
     ]),
-    WebsitesModule,
+    WebsitesInfraModule,
     TemplatesConfigModule,
     TemplatesModule,
   ],
