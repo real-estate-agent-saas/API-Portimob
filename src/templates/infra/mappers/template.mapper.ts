@@ -12,6 +12,8 @@ export class TemplateMapper {
       name: doc.name,
       description: doc.description,
       previewImage: doc.previewImage,
+      plan: doc.plan,
+      features: doc.features,
       fields:
         doc.fields?.map((f) => ({
           key: f.key,
@@ -33,6 +35,8 @@ export class TemplateMapper {
       name: entity.name,
       description: entity.description,
       previewImage: entity.previewImage,
+      plan: entity.plan,
+      features: entity.features,
       fields: entity.fields.map((f) => ({
         key: f.key,
         label: f.label,

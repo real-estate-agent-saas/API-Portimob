@@ -8,8 +8,17 @@ export const SEED_TEMPLATES: Omit<TemplateEntity, 'id'>[] = [
       'Template moderno e elegante com banner rotativo de imóveis destaque',
     version: 1,
     previewImage:
-      'https://dianaimoveis.com/wp-content/uploads/2024/07/LogoDianaRemovedBg.png',
+      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop',
     isActive: true,
+    plan: 'Free',
+    features: [
+      'Banner Rotativo',
+      'Página de Anúncio',
+      'Filtro de Imóveis',
+      'Busca por Título',
+      'Sessão Destaque',
+      'WhatsApp Flutuante',
+    ],
     fields: [
       {
         key: 'mainColor',
@@ -51,8 +60,17 @@ export const SEED_TEMPLATES: Omit<TemplateEntity, 'id'>[] = [
     description: 'Template com thema escuro futurista',
     version: 1,
     previewImage:
-      'https://imobiliariathaisrezende.com/wp-content/uploads/2025/09/THAIS-REZENDE-LOGO-DOURADO-300x78.png',
+      'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=600&fit=crop',
     isActive: true,
+    plan: 'Premium',
+    features: [
+      'Banner Rotativo',
+      'Página de Anúncio',
+      'Filtro de Imóveis',
+      'Busca por Título',
+      'Sessão Destaque',
+      'WhatsApp Flutuante',
+    ],
     fields: [
       {
         key: 'mainColor',

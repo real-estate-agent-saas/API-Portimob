@@ -33,7 +33,7 @@ export class WebsiteUserPresenter {
       profileImage: entity.profileImage,
       bio: entity.bio,
       careerStartDate: entity.careerStartDate
-        ? entity.careerStartDate.toISOString()
+        ? entity.careerStartDate
         : null,
       creci: entity.creci,
       gender: entity.gender,

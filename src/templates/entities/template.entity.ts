@@ -23,6 +23,8 @@ export interface TemplateProps {
   templateCode: string;
   name: string;
   description: string;
+  plan: string;
+  features: string[];
   previewImage: string;
   fields: TemplateField[];
   version: number;
@@ -35,6 +37,8 @@ export class TemplateEntity {
   readonly description: string;
   readonly previewImage: string;
   readonly fields: TemplateField[];
+  readonly plan: string;
+  readonly features: string[];
   readonly version: number;
   readonly isActive: boolean;
 
@@ -46,6 +50,8 @@ export class TemplateEntity {
     this.previewImage = props.previewImage;
     this.fields = props.fields;
     this.version = props.version;
+    this.plan = props.plan;
+    this.features = props.features;
     this.isActive = true;
   }
 

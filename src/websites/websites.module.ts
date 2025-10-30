@@ -15,6 +15,8 @@ import { UpdateSlugUseCase } from './application/use-cases/user-websites/update-
 import { CheckSlugAvailabilityUseCase } from './application/use-cases/user-websites/check-slug-availability.usecase';
 import { GetWebsiteUseCase } from './application/use-cases/tenant-websites/get-website.usecase';
 import { TenantWebsitesController } from './controllers/tenant-websites.controller';
+import { ChangeTemplateUseCase } from './application/use-cases/user-websites/change-template.usecase';
+import { TemplatesModule } from 'src/templates/templates.module';
 
 @Module({
   controllers: [UserWebsitesController, TenantWebsitesController],
@@ -26,6 +28,7 @@ import { TenantWebsitesController } from './controllers/tenant-websites.controll
     GetSlugUseCase,
     UpdateSlugUseCase,
     CheckSlugAvailabilityUseCase,
+    ChangeTemplateUseCase,
     SpecialtySeed,
 
     GetWebsiteUseCase,
@@ -49,6 +52,7 @@ import { TenantWebsitesController } from './controllers/tenant-websites.controll
         schema: specialtySchema,
       },
     ]),
+    TemplatesModule,
   ],
   exports: ['IWebsiteRepository'],
 })

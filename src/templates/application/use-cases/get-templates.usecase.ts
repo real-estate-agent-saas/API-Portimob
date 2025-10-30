@@ -12,6 +12,7 @@ export class GetTemplatesUseCase {
 
   async execute(): Promise<TemplatePresenter[]> {
     const templates = await this.templatesRepository.getAllTemplates();
-    return templates.map((template) => TemplatePresenter.fromEntity(template)); 
+    console.log(templates);
+    return templates.map((template) => TemplatePresenter.fromEntity(template));
   }
 }

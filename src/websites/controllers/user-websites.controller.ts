@@ -23,6 +23,7 @@ import { UpdateWebsiteDto } from '../dto/update-website.dto';
 import { UpdateProfileImageDto } from '../dto/update-profileImage.dto';
 import { UpdateSlugDto } from '../dto/update-slug.dto';
 import { CheckSlugAvailabilityUseCase } from '../application/use-cases/user-websites/check-slug-availability.usecase';
+import { ChangeTemplateUseCase } from '../application/use-cases/user-websites/change-template.usecase';
 
 @Controller('websites/user')
 export class UserWebsitesController {
@@ -34,7 +35,16 @@ export class UserWebsitesController {
     private readonly updateSlugUseCase: UpdateSlugUseCase,
     private readonly getSlugUseCase: GetSlugUseCase,
     private readonly checkSlugAvailabilityUseCase: CheckSlugAvailabilityUseCase,
+    private readonly changeTemplateUseCase: ChangeTemplateUseCase,
   ) {}
+
+  @Patch('change-template/:templateCode')
+  changeTemplate(
+    @CurrentUser() user: UserEntity,
+    @Param('templateCode') templateCode: string,
+  ) {
+    return this.changeTemplateUseCase.execute(user.id!, templateCode);
+  }
 
   @Patch('update-profile-image')
   updateProfileImage(

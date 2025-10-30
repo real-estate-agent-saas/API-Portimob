@@ -52,7 +52,7 @@ export class WebsiteEntity {
   linkedin?: string;
   profileImage?: string;
   bio?: string;
-  careerStartDate?: Date;
+  careerStartDate?: string;
   creci?: string;
   gender?: Gender;
   specialties?: Specialty[];

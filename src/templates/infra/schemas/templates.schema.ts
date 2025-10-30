@@ -33,6 +33,12 @@ export class Template {
   @Prop()
   previewImage: string;
 
+  @Prop()
+  features: string[];
+
+  @Prop()
+  plan: string;
+
   @Prop({ type: [TemplateFieldSchema], default: [] })
   fields: TemplateFieldSchema[];
 

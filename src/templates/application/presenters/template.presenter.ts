@@ -5,6 +5,8 @@ export class TemplatePresenter {
   readonly name: string;
   readonly description: string;
   readonly previewImage: string;
+  readonly plan: string;
+  readonly features: string[];
 
   constructor(props: TemplatePresenter) {
     Object.assign(this, props);
@@ -16,6 +18,8 @@ export class TemplatePresenter {
       name: templateEntity.name,
       description: templateEntity.description,
       previewImage: templateEntity.previewImage,
+      plan: templateEntity.plan,
+      features: templateEntity.features,
     });
   }
 }
