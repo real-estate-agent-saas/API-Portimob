@@ -11,7 +11,7 @@ type TemplateConfigSource =
   | TemplatesConfig;
 
 export class TemplatesConfigMapper {
-  static toEntity(doc: TemplatesConfigDocument): TemplateConfigEntity {
+  static toEntity(doc: TemplateConfigSource): TemplateConfigEntity {
     return TemplateConfigEntity.create({
       id: doc._id.toString(),
       templateCode: doc.templateCode,

@@ -40,7 +40,6 @@ export class WebsiteRepository implements IWebsiteRepository {
       .findOne({ userId: objectId })
       .lean();
     if (!website) return null;
-    console.log(website);
     return WebsiteMapper.toEntity(website);
   }
 }

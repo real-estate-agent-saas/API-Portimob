@@ -5,7 +5,7 @@ import { ForbiddenPropertyUpdate } from '../errors/forbidden-property-update.err
 import { InvalidPropertyError } from '../errors/invalid-property.error';
 
 export interface PropertyProps {
-  id?: string;
+  readonly id?: string;
   title: string;
   description?: string;
   area?: number;
