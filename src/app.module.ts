@@ -13,8 +13,8 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { TemplatesConfigModule } from './templates-config/templates-config.module';
 import { TemplatesModule } from './templates/templates.module';
-import { UserWebsitesModule } from './websites/user-website/user-websites.module';
-import { TenantWebsitesModule } from './websites/tenant-website/tenant-websites.module';
+import { UserWebsitesModule } from './websites/websites-user/user-websites.module';
+import { TenantWebsitesModule } from './websites/websites-tenant/tenant-websites.module';
 
 @Module({
   imports: [

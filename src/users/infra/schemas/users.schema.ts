@@ -1,8 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import mongoose, { Document, Types } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class User {
+  _id: Types.ObjectId;
+
   @Prop({ required: true })
   name: string;
 
@@ -15,10 +17,12 @@ export class User {
   @Prop({ default: true })
   isActive?: boolean;
 
-  @Prop([String])
+  @Prop({
+    type: [{ id: { type: mongoose.Schema.Types.ObjectId, ref: 'Property' } }],
+  })
   propertyIds?: string[];
 
-  @Prop()
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Website' })
   websiteId?: string;
 }
 

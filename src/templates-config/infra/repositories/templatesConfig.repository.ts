@@ -19,13 +19,9 @@ export class TemplatesConfigRepository implements ITemplatesConfigRepository {
   async create(
     templateConfigEntity: TemplateConfigEntity,
   ): Promise<TemplateConfigEntity> {
-    const document =
-      TemplatesConfigMapper.toDocument(templateConfigEntity);
-    const createdTemplateConfig =
-      await this.templatesConfigRepository.create(document);
-    const createdTemplateConfigEntity = TemplatesConfigMapper.toEntity(
-      createdTemplateConfig,
+    const createdTemplateConfig = await this.templatesConfigRepository.create(
+      TemplatesConfigMapper.toDocument(templateConfigEntity),
     );
-    return createdTemplateConfigEntity;
+    return TemplatesConfigMapper.toEntity(createdTemplateConfig);
   }
 }

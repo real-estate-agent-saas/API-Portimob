@@ -1,41 +1,46 @@
-import { WebsiteEntity } from "src/websites/entities/website.entity";
-import { WebsiteDocument } from "../schemas/websites.schema";
-import { WebsitePersistenceModel } from "../model/website-persistence.model";
+import { WebsiteEntity } from 'src/websites/entities/website.entity';
+import { Website, WebsiteDocument } from '../schemas/websites.schema';
+import { FlattenMaps, Types } from 'mongoose';
+
+// To cover both Mongoose Document and plain object
+type WebsiteSource = FlattenMaps<WebsiteDocument> | Website;
 
 export class WebsiteMapper {
-  static toEntity(document: WebsiteDocument): WebsiteEntity {
-    return WebsiteEntity.create({
-      id: document._id.toString(),
-      templateConfigId: document.templateConfigId,
-      userId: document.userId,
-      templateCode: document.templateCode,
-      websiteName: document.websiteName,
-      slug: document.slug,
-      customDomain: document.customDomain,
-      logoURL: document.logoURL,
-      realtorName: document.realtorName,
-      publicEmail: document.publicEmail,
-      whatsapp: document.whatsapp,
-      phone: document.phone,
-      instagram: document.instagram,
-      facebook: document.facebook,
-      linkedin: document.linkedin,
-      profileImage: document.profileImage,
-      bio: document.bio,
-      careerStartDate: document.careerStartDate,
-      creci: document.creci,
-      gender: document.gender,
-      specialties: document.specialties,
-    });
+  static toEntity(document: WebsiteSource): WebsiteEntity {
+    return WebsiteEntity.create(
+      {
+        id: document._id.toString(),
+        userId: document.userId.toString(),
+        websiteName: document.websiteName,
+        slug: document.slug,
+        customDomain: document.customDomain,
+        logoURL: document.logoURL,
+        realtorName: document.realtorName,
+        publicEmail: document.publicEmail,
+        whatsapp: document.whatsapp,
+        phone: document.phone,
+        instagram: document.instagram,
+        facebook: document.facebook,
+        linkedin: document.linkedin,
+        profileImage: document.profileImage,
+        bio: document.bio,
+        careerStartDate: document.careerStartDate,
+        creci: document.creci,
+        gender: document.gender,
+        specialties: document.specialties,
+      },
+      document.templateCode,
+      document.templateConfigId.toString(),
+    );
   }
 
-  static toDocument(entity: WebsiteEntity): WebsitePersistenceModel {
+  static toDocument(entity: WebsiteEntity): Partial<Website> {
     return {
-      templateConfigId: entity.templateConfigId!,
-      userId: entity.userId,
-      templateCode: entity.templateCode,
+      templateConfigId: new Types.ObjectId(entity.getTemplateConfigId()),
+      userId: new Types.ObjectId(entity.userId),
+      templateCode: entity.getTemplateCode(),
       websiteName: entity.websiteName,
-      slug: entity.slug,
+      slug: entity.getSlug(),
       customDomain: entity.customDomain,
       logoURL: entity.logoURL,
       realtorName: entity.realtorName,

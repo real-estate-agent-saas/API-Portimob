@@ -1,4 +1,4 @@
-import { Prop, SchemaFactory, Schema } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document, Types } from 'mongoose';
 
 export enum Gender {
@@ -16,17 +16,7 @@ export class Specialty {
 export class Website {
   _id: Types.ObjectId;
 
-  // IDs
-  @Prop()
-  templateConfigId: string;
-
-  @Prop()
-  userId: string;
-
-  @Prop()
-  templateCode?: string;
-
-  //website data
+  // Website data
   @Prop()
   websiteName?: string;
 
@@ -39,7 +29,7 @@ export class Website {
   @Prop()
   logoURL?: string;
 
-  //realtor data
+  // Realtor data
   @Prop()
   realtorName?: string;
 
@@ -79,17 +69,30 @@ export class Website {
   })
   gender?: Gender;
 
+  // Relationship data
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'TemplatesConfig' })
+  templateConfigId: Types.ObjectId;
+
+  @Prop({ type: String })
+  templateCode: string;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  userId: Types.ObjectId;
+
+  // Specialty list
   @Prop({
     type: [
       {
-        id: { type: mongoose.Schema.Types.ObjectId, ref: 'Specialty' },
-        name: String,
-        _id: false,
+        id: { type: mongoose.Schema.Types.ObjectId, ref: 'Specialty', required: false },
+        name: { type: String },
+        _id: false, // evita gerar um _id para cada item do array
       },
     ],
+    default: [],
   })
   specialties?: Specialty[];
 }
 
-export type WebsiteDocument = Website & Document;
+// Criação do schema antes dos virtuais
 export const websiteSchema = SchemaFactory.createForClass(Website);
+export type WebsiteDocument = Website & Document;

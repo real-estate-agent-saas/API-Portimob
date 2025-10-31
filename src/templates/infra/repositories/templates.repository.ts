@@ -14,12 +14,12 @@ export class TemplatesRepository implements ITemplatesRepository {
   ) {}
 
   async getAllTemplates(): Promise<TemplateEntity[]> {
-    const templates = await this.templateRepository.find().exec();
+    const templates = await this.templateRepository.find().lean().exec();
     return templates.map((doc) => TemplateMapper.toEntity(doc));
   }
 
   async findByCode(templateCode: string): Promise<TemplateEntity | null> {
-    const template = await this.templateRepository.findOne({ templateCode });
+    const template = await this.templateRepository.findOne({ templateCode }).lean();
     if (!template) return null;
     const templateEntity = TemplateMapper.toEntity(template);
     return templateEntity;

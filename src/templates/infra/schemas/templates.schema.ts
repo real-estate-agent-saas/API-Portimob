@@ -21,6 +21,7 @@ class TemplateFieldSchema {
 @Schema({ timestamps: true, collection: 'templates' })
 export class Template {
   _id: Types.ObjectId;
+  
   @Prop({ required: true, unique: true })
   templateCode: string;
 

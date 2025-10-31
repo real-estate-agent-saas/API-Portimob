@@ -17,7 +17,10 @@ export class TemplateConfigEntity {
     Object.assign(this, props);
   }
 
+  // -------------------------------- Factory Method --------------------------------------
+
   static create(props: TemplateConfigProps) {
     return new TemplateConfigEntity(props);
   }
+
 }

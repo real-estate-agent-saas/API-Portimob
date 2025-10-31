@@ -8,9 +8,9 @@ export class TemplatesConfig {
 
   @Prop({ required: true }) templateCode: string;
 
-  @Prop({ required: true }) userId: string;
+  @Prop({ required: true }) userId: Types.ObjectId;
 
-  @Prop({ required: true }) websiteId: string;
+  @Prop({ required: true }) websiteId: Types.ObjectId;
 
   @Prop({ type: mongoose.Schema.Types.Mixed, default: {} })
   values: Record<string, any>;

@@ -12,21 +12,21 @@ export class UserRepository implements IUserRepository {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async create(userEntity: UserEntity): Promise<UserEntity> {
-    const userDocument = UserMapper.toDocument(userEntity);
-    const createdUser = new this.userModel(userDocument);
-    const savedUser = await createdUser.save();
-    return UserMapper.toEntity(savedUser);
+    const createdUser = await this.userModel.create(
+      UserMapper.toDocument(userEntity),
+    );
+    return UserMapper.toEntity(createdUser);
   }
 
   async findAll(): Promise<UserEntity[] | []> {
-    const users = await this.userModel.find();
+    const users = await this.userModel.find().lean();
     if (!users || users.length === 0) return [];
-    return users.map((userDoc) => UserMapper.toEntity(userDoc));
+    return users.map((userObj) => UserMapper.toEntity(userObj));
   }
 
   async findById(id: string): Promise<UserEntity | null> {
     if (!isValidObjectId(id)) return null;
-    const existingUser = await this.userModel.findById(id).exec();
+    const existingUser = await this.userModel.findById(id).lean();
     if (!existingUser) return null;
     return UserMapper.toEntity(existingUser);
   }
@@ -35,21 +35,21 @@ export class UserRepository implements IUserRepository {
     const existingUser = await this.userModel
       .findOne({ email })
       .select('+password')
+      .lean()
       .exec();
     if (!existingUser) return null;
     return UserMapper.toEntity(existingUser);
   }
 
-  async update(
-    id: string,
-    updateUserDto: UpdateUserDto,
-  ): Promise<UserEntity | null> {
-    if (!isValidObjectId(id)) return null;
-    const updatedUser = await this.userModel.findByIdAndUpdate(
-      id,
-      { $set: updateUserDto },
-      { new: true, runValidators: true },
-    ).exec();
+  async update(userEntity: UserEntity): Promise<UserEntity | null> {
+    const userDoc = UserMapper.toDocument(userEntity);
+    const updatedUser = await this.userModel
+      .findByIdAndUpdate(
+        userEntity.id,
+        { $set: userDoc },
+        { new: true, runValidators: true },
+      )
+      .exec();
 
     if (!updatedUser) return null;
 

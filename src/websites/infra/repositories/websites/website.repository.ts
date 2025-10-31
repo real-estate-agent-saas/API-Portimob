@@ -1,6 +1,6 @@
 import { IWebsiteRepository } from './Iwebsite.repository';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { WebsiteEntity } from 'src/websites/entities/website.entity';
 import { Website, WebsiteDocument } from '../../schemas/websites.schema';
 import { WebsiteMapper } from '../../mappers/website.mapper';
@@ -10,32 +10,37 @@ export class WebsiteRepository implements IWebsiteRepository {
     @InjectModel(Website.name) private websiteModel: Model<WebsiteDocument>,
   ) {}
 
-  async findBySlug(slug: string): Promise<WebsiteEntity | null> {
-    const website = await this.websiteModel.findOne({ slug });
+  async create(website: WebsiteEntity): Promise<WebsiteEntity> {
+    const created = await this.websiteModel.create(
+      WebsiteMapper.toDocument(website),
+    );
+    return WebsiteMapper.toEntity(created);
+  }
+
+  async findOneBySlug(slug: string): Promise<WebsiteEntity | null> {
+    const website = await this.websiteModel.findOne({ slug }).lean();
     if (!website) return null;
     return WebsiteMapper.toEntity(website);
   }
 
-  async create(website: WebsiteEntity): Promise<WebsiteEntity> {
-    const document = WebsiteMapper.toDocument(website);
-    const created = await this.websiteModel.create(document);
-    return WebsiteMapper.toEntity(created);
-  }
-
   async update(website: WebsiteEntity): Promise<WebsiteEntity | null> {
-    const document = WebsiteMapper.toDocument(website);
+    const websiteDoc = WebsiteMapper.toDocument(website);
     const updated = await this.websiteModel.findByIdAndUpdate(
       website.id,
-      document,
+      websiteDoc,
       { new: true },
     );
     if (!updated) return null;
     return WebsiteMapper.toEntity(updated);
   }
 
-  async findByUserId(userId: string): Promise<WebsiteEntity | null> {
-    const website = await this.websiteModel.findOne({ userId });
+  async findOneByUserId(userId: string): Promise<WebsiteEntity | null> {
+    const objectId = new Types.ObjectId(userId);
+    const website = await this.websiteModel
+      .findOne({ userId: objectId })
+      .lean();
     if (!website) return null;
+    console.log(website);
     return WebsiteMapper.toEntity(website);
   }
 }

@@ -2,10 +2,14 @@ import {
   TemplateEntity,
   TemplateField,
 } from 'src/templates/entities/template.entity';
-import { TemplateDocument } from '../schemas/templates.schema';
+import { Template, TemplateDocument } from '../schemas/templates.schema';
+import { FlattenMaps } from 'mongoose';
+
+// To cover both Mongoose Document and plain object
+type TemplateSource = FlattenMaps<TemplateDocument> | Template;
 
 export class TemplateMapper {
-  static toEntity(doc: TemplateDocument): TemplateEntity {
+  static toEntity(doc: TemplateSource): TemplateEntity {
     return TemplateEntity.create({
       id: doc._id.toString(),
       templateCode: doc.templateCode,
@@ -29,7 +33,7 @@ export class TemplateMapper {
     });
   }
 
-  static toDocument(entity: TemplateEntity): TemplateDocument {
+  static toDocument(entity: TemplateEntity): Partial<Template> {
     return {
       templateCode: entity.templateCode,
       name: entity.name,

@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { TemplatesConfigService } from './templates-config.service';
 import { TemplatesConfigController } from './templates-config.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import {
@@ -9,11 +8,12 @@ import {
 import { CreateTemplateConfigUseCase } from './application/use-cases/create-template-config.usecase';
 import { TemplatesConfigRepository } from './infra/repositories/templatesConfig.repository';
 import { TemplatesModule } from 'src/templates/templates.module';
+import { TemplatesConfigHelper } from './infra/helpers/templates-config.helper';
 
 @Module({
   controllers: [TemplatesConfigController],
   providers: [
-    TemplatesConfigService,
+    TemplatesConfigHelper,
     CreateTemplateConfigUseCase,
     {
       provide: 'ITemplatesConfigRepository',
@@ -29,6 +29,6 @@ import { TemplatesModule } from 'src/templates/templates.module';
     ]),
     TemplatesModule,
   ],
-  exports: ['ITemplatesConfigRepository'],
+  exports: ['ITemplatesConfigRepository', TemplatesConfigHelper, MongooseModule],
 })
 export class TemplatesConfigModule {}
