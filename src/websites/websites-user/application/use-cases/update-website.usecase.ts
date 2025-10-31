@@ -1,24 +1,18 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { WebsiteEntity } from 'src/websites/entities/website.entity';
-import type { IWebsiteRepository } from 'src/websites/infra/repositories/websites/Iwebsite.repository';
 import { UpdateWebsiteDto } from '../../dtos/update-website.dto';
+import { WebsitesHelper } from 'src/websites/infra/helpers/websites.helper';
 
 @Injectable()
 export class UpdateWebsiteUseCase {
-  constructor(
-    @Inject('IWebsiteRepository')
-    private readonly websiteRepository: IWebsiteRepository,
-  ) {}
+  constructor(private readonly websitesHelper: WebsitesHelper) {}
 
   async execute(
     userId: string,
     updateWebsiteDto: UpdateWebsiteDto,
   ): Promise<WebsiteEntity | null> {
-    const website = await this.websiteRepository.findOneByUserId(userId);
-    if (!website) throw new Error('Website não encontrado');
+    const website = await this.websitesHelper.findOneByUserId(userId);
     website.update(updateWebsiteDto);
-    const updatedWebsite = await this.websiteRepository.update(website);
-    if (!updatedWebsite) throw new Error('Erro ao atualizar o website');
-    return updatedWebsite;
+    return this.websitesHelper.update(website);
   }
 }

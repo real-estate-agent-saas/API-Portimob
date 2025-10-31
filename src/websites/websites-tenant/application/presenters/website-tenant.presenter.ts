@@ -26,7 +26,7 @@ export class WebsiteTenantPresenter {
     Object.assign(this, props);
   }
 
-  static fromEntity(entity: WebsiteEntity) {
+  static fromEntity(entity: WebsiteEntity): WebsiteTenantPresenter {
     return new WebsiteTenantPresenter({
       websiteName: entity.websiteName,
       logoURL: entity.logoURL,
@@ -38,7 +38,7 @@ export class WebsiteTenantPresenter {
       instagram: entity.instagram,
       facebook: entity.facebook,
       linkedin: entity.linkedin,
-      profileImage: entity.profileImage,
+      profileImage: entity.getProfileImage(),
       bio: entity.bio,
       careerStartDate: entity.careerStartDate
         ? entity.careerStartDate.toISOString()

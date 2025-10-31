@@ -1,19 +1,16 @@
-import { Inject, Injectable } from '@nestjs/common';
-import type { IWebsiteRepository } from 'src/websites/infra/repositories/websites/Iwebsite.repository';
+import { Injectable } from '@nestjs/common';
 import { SlugValidatorService } from 'src/websites/domain/slug-validator';
 import { WebsiteTenantPresenter } from '../presenters/website-tenant.presenter';
+import { WebsitesHelper } from 'src/websites/infra/helpers/websites.helper';
 
 @Injectable()
 export class GetTenantWebsiteUseCase {
-  constructor(
-    @Inject('IWebsiteRepository')
-    private readonly websiteRepository: IWebsiteRepository,
-  ) {}
+  constructor(private readonly websitesHelper: WebsitesHelper) {}
 
   async execute(slug: string): Promise<WebsiteTenantPresenter | null> {
     const validSlug = SlugValidatorService.normalize(slug);
-    const website = await this.websiteRepository.findOneBySlug(validSlug);
-    if (!website) return null;
-    return WebsiteTenantPresenter.fromEntity(website);
+    const website = await this.websitesHelper.findOneBySlug(validSlug);
+    if (website) return WebsiteTenantPresenter.fromEntity(website);
+    return null;
   }
 }

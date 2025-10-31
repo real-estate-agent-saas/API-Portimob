@@ -3,6 +3,7 @@ import { Document, Types } from 'mongoose';
 
 @Schema({ collection: 'specialties' })
 export class Specialty {
+  _id: Types.ObjectId;
 
   @Prop()
   readonly name: string;

@@ -1,5 +1,4 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { TemplateEntity } from 'src/templates/entities/template.entity';
 import type { ITemplatesRepository } from 'src/templates/infra/repositories/Itemplates.repository';
 import { TemplatePresenter } from '../presenters/template.presenter';
 

@@ -3,7 +3,6 @@ import { InvalidWebsiteError } from '../errors/invalid-website.error';
 import { Gender } from './value-objects/gender.vo';
 import { Specialty } from './value-objects/specialty.vo';
 
-
 export interface WebsiteProps {
   readonly id?: string;
   readonly userId: string;
@@ -51,7 +50,7 @@ export class WebsiteEntity {
   instagram?: string;
   facebook?: string;
   linkedin?: string;
-  profileImage?: string;
+  private profileImage?: string;
   bio?: string;
   careerStartDate?: Date;
   creci?: string;
@@ -123,5 +122,15 @@ export class WebsiteEntity {
 
   update(data: Partial<WebsiteProps>) {
     Object.assign(this, data);
+  }
+
+  // ---------------------------------------- PROFILE IMAGE ------------------------------------------
+
+  setProfileImage(profileImage: string): void {
+    this.profileImage = profileImage;
+  }
+
+  getProfileImage(): string | undefined {
+    return this.profileImage;
   }
 }

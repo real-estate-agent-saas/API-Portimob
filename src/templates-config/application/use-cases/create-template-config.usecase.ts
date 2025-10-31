@@ -1,33 +1,39 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { TemplateConfigGenerator } from 'src/templates-config/domain/template-config-generator';
 import { CreateTemplateConfigDto } from 'src/templates-config/dto/create-templates-config.dto';
 import { TemplateConfigEntity } from 'src/templates-config/entities/templates-config.entity';
-import type { ITemplatesConfigRepository } from 'src/templates-config/infra/repositories/ItemplatesConfig.repository';
-import type { ITemplatesRepository } from 'src/templates/infra/repositories/Itemplates.repository';
+import { TemplatesConfigHelper } from 'src/templates-config/infra/helpers/templates-config.helper';
+import { TemplatesHelper } from 'src/templates/infra/helpers/templates.helper';
 
 @Injectable()
 export class CreateTemplateConfigUseCase {
   constructor(
-    @Inject('ITemplatesConfigRepository')
-    private readonly templatesConfigRepository: ITemplatesConfigRepository,
-    @Inject('ITemplatesRepository')
-    private readonly templatesRepository: ITemplatesRepository,
+    private readonly templatesConfigHelper: TemplatesConfigHelper,
+    private readonly templatesHelper: TemplatesHelper,
   ) {}
 
-  async execute(dto: CreateTemplateConfigDto) {
-    const template = await this.templatesRepository.findByCode(
+  async execute(dto: CreateTemplateConfigDto): Promise<TemplateConfigEntity> {
+    // Finds the template to generate the config from
+    const template = await this.templatesHelper.findTemplateByCode(
       dto.templateCode,
     );
 
-    if (!template) throw new Error('Nenhum template com esse código');
+    // Generates the template config values based on the template structure
+    const templateConfigValues: Record<string, any> =
+      TemplateConfigGenerator.generateTemplateConfig(template);
 
+    // Creates the TemplateConfig entity
     const templateConfigEntity = TemplateConfigEntity.create({
-      templateCode: dto.templateCode,
+      templateCode: template.templateCode,
       userId: dto.userId,
       websiteId: dto.websiteId,
-      values: {},
+      values: templateConfigValues,
     });
 
     const createdTemplateConfig =
-      await this.templatesConfigRepository.create(templateConfigEntity);
+      await this.templatesConfigHelper.createTemplateConfig(
+        templateConfigEntity,
+      );
+    return createdTemplateConfig;
   }
 }

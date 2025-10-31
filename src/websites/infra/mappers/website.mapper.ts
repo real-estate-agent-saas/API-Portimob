@@ -50,7 +50,7 @@ export class WebsiteMapper {
       instagram: entity.instagram,
       facebook: entity.facebook,
       linkedin: entity.linkedin,
-      profileImage: entity.profileImage,
+      profileImage: entity.getProfileImage(),
       bio: entity.bio,
       careerStartDate: entity.careerStartDate,
       creci: entity.creci,

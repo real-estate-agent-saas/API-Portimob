@@ -32,7 +32,7 @@ export class WebsiteUserPresenter {
       instagram: entity.instagram,
       facebook: entity.facebook,
       linkedin: entity.linkedin,
-      profileImage: entity.profileImage,
+      profileImage: entity.getProfileImage(),
       bio: entity.bio,
       careerStartDate: entity.careerStartDate
         ? entity.careerStartDate.toISOString()
