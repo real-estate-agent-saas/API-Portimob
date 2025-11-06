@@ -73,7 +73,7 @@ export class Website {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'TemplatesConfig' })
   templateConfigId: Types.ObjectId;
 
-  @Prop({ type: String })
+  @Prop()
   templateCode: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
@@ -85,7 +85,7 @@ export class Website {
       {
         id: { type: mongoose.Schema.Types.ObjectId, ref: 'Specialty', required: false },
         name: { type: String },
-        _id: false, // evita gerar um _id para cada item do array
+        _id: false,
       },
     ],
     default: [],
@@ -93,6 +93,5 @@ export class Website {
   specialties?: Specialty[];
 }
 
-// Criação do schema antes dos virtuais
 export const websiteSchema = SchemaFactory.createForClass(Website);
 export type WebsiteDocument = Website & Document;

@@ -22,4 +22,8 @@ export class TemplatesConfigHelper {
       return createdTemplateConfig;
     }
   }
+
+  async findConfigByWebsiteIdandTemplateCode(){
+    
+  }
 }

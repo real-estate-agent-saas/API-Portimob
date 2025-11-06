@@ -9,8 +9,8 @@ export class WebsiteMapper {
   static toEntity(document: WebsiteSource): WebsiteEntity {
     return WebsiteEntity.create(
       {
-        id: document._id.toString(),
-        userId: document.userId.toString(),
+        id: document._id?.toString(),
+        userId: document.userId?.toString(),
         websiteName: document.websiteName,
         slug: document.slug,
         customDomain: document.customDomain,
@@ -30,7 +30,7 @@ export class WebsiteMapper {
         specialties: document.specialties,
       },
       document.templateCode,
-      document.templateConfigId.toString(),
+      document.templateConfigId?.toString(),
     );
   }
 

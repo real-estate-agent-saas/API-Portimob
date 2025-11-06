@@ -1,3 +1,4 @@
+import { TemplateConfigEntity } from 'src/templates-config/entities/templates-config.entity';
 import { Gender } from 'src/websites/entities/value-objects/gender.vo';
 import { Specialty } from 'src/websites/entities/value-objects/specialty.vo';
 import { WebsiteEntity } from 'src/websites/entities/website.entity';
@@ -5,7 +6,6 @@ import { WebsiteEntity } from 'src/websites/entities/website.entity';
 export class WebsiteTenantPresenter {
   readonly websiteName?: string;
   readonly logoURL?: string;
-
   readonly realtorName?: string;
   readonly publicEmail?: string;
   readonly whatsapp?: string;
@@ -21,16 +21,18 @@ export class WebsiteTenantPresenter {
   readonly templateCode?: string;
   readonly slug?: string;
   readonly specialties?: Specialty[];
-
+  readonly config?: Record<string, any>;
   constructor(props: WebsiteTenantPresenter) {
     Object.assign(this, props);
   }
 
-  static fromEntity(entity: WebsiteEntity): WebsiteTenantPresenter {
+  static fromEntity(
+    entity: WebsiteEntity,
+    config?: TemplateConfigEntity,
+  ): WebsiteTenantPresenter {
     return new WebsiteTenantPresenter({
       websiteName: entity.websiteName,
       logoURL: entity.logoURL,
-
       realtorName: entity.realtorName,
       publicEmail: entity.publicEmail,
       whatsapp: entity.whatsapp,
@@ -48,6 +50,7 @@ export class WebsiteTenantPresenter {
       templateCode: entity.getTemplateCode(),
       slug: entity.getSlug(),
       specialties: entity.specialties,
+      config: config ? { ...config.values } : undefined,
     });
   }
 }

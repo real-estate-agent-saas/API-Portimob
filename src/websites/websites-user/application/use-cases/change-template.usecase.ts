@@ -15,13 +15,15 @@ export class ChangeTemplateUseCase {
   ) {}
 
   async execute(userId: string, templateCode: string) {
-  //   const newTemplateCode =
-  //     await this.templatesHelper.ensureTemplateExisits(templateCode);
-  //   const website = await this.websitesHelper.findOneByUserId(userId);
-  //   website.updateTemplate(newTemplateCode);
-  //   const updatedWebsite = await this.websiteRepository.update(website);
-  //   return updatedWebsite;
-  // 
-}
+    const website = await this.websitesHelper.findOneByUserId(userId);
+    const currentTemplateCode = website.getTemplateCode();
 
+    if (templateCode === currentTemplateCode) {
+      return null;
+    }
+
+    const template = await this.templatesHelper.ensureTemplateExisits(templateCode);
+    const templateConfig = await this
+    
+  }
 }

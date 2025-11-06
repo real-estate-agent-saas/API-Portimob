@@ -8,13 +8,6 @@ import {
 import { Type } from 'class-transformer';
 import { Gender } from 'src/websites/entities/value-objects/gender.vo';
 
-class Template {
-  @IsString()
-  id: string;
-
-  @IsString()
-  name: string;
-}
 
 class Specialty {
   @IsString()
@@ -24,25 +17,6 @@ class Specialty {
 }
 
 export class UpdateWebsiteDto {
-  // -------------------------------- Website data -------------------------
-
-  // @IsOptional()
-  // @IsString()
-  // websiteName?: string;
-
-  // @IsOptional()
-  // @IsString()
-  // logoURL?: string;
-
-  // @IsOptional()
-  // @IsString()
-  // slug?: string;
-
-  // @IsOptional()
-  // @IsString()
-  // customDomain?: string;
-
-  // -------------------------------- Realtor data -------------------------
   @IsOptional()
   @IsString()
   realtorName?: string;
@@ -96,15 +70,4 @@ export class UpdateWebsiteDto {
   @ValidateNested({ each: true })
   @Type(() => Specialty)
   specialties?: Specialty[];
-
-  // -------------------------------- Relationships -------------------------
-
-  @IsOptional()
-  @ValidateNested()
-  @Type(() => Template)
-  template?: Template;
-
-  @IsOptional()
-  @IsString()
-  templateConfigId?: string;
 }

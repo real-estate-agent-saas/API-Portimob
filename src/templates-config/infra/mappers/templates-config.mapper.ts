@@ -6,14 +6,14 @@ import {
 import { FlattenMaps, Types } from 'mongoose';
 
 // To cover both Mongoose Document and plain object
-type TemplateConfigSource =
+export type TemplateConfigSource =
   | FlattenMaps<TemplatesConfigDocument>
   | TemplatesConfig;
 
 export class TemplatesConfigMapper {
   static toEntity(doc: TemplateConfigSource): TemplateConfigEntity {
     return TemplateConfigEntity.create({
-      id: doc._id.toString(),
+      id: doc._id?.toString(),
       templateCode: doc.templateCode,
       userId: doc.userId.toString(),
       websiteId: doc.websiteId.toString(),

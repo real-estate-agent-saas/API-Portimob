@@ -7,6 +7,7 @@ import { WebsiteNotFoundError } from 'src/websites/errors/not-found-website.erro
 import { WebsiteUpdateError } from 'src/websites/errors/update-website.error';
 import type { IWebsiteRepository } from '../repositories/websites/Iwebsite.repository';
 import { WebsiteCreateError } from 'src/websites/errors/create-website.error';
+import { TemplateConfigEntity } from 'src/templates-config/entities/templates-config.entity';
 
 @Injectable()
 export class WebsitesHelper {
@@ -24,12 +25,6 @@ export class WebsitesHelper {
   async findOneByUserId(userId: string): Promise<WebsiteEntity> {
     const website = await this.websiteRepository.findOneByUserId(userId);
     if (!website) throw new WebsiteNotFoundError({ userId });
-    return website;
-  }
-
-  async findOneBySlug(slug: string): Promise<WebsiteEntity | null> {
-    const website = await this.websiteRepository.findOneBySlug(slug);
-    if (!website) return null;
     return website;
   }
 

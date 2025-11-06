@@ -11,12 +11,8 @@ export class TemplatesHelper {
   ) {}
 
   async ensureTemplateExisits(templateCode: string): Promise<string> {
-    const template = await this.templateRepository.findByCode(templateCode);
-    if (!template) {
-      throw new TemplateNotFoundError({ templateCode });
-    } else {
-      return template.templateCode;
-    }
+    const template = await this.findTemplateByCode(templateCode);
+    return template.templateCode;
   }
 
   async findTemplateByCode(templateCode: string): Promise<TemplateEntity> {
