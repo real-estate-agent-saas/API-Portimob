@@ -13,6 +13,10 @@ import {
 export class CreateWebsiteDto {
 
 // -------------------------------- Website data -------------------------
+@IsArray()
+@IsString({ each: true })
+template: string[];
+
 @IsOptional()
 @IsString()
 websiteName?: string;

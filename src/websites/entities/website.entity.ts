@@ -1,4 +1,4 @@
-interface WebsiteProps{
+export interface WebsiteProps{ //interface se exporta?
   //relationship data
   template: { name: string; id: string };
 
