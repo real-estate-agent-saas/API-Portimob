@@ -5,69 +5,69 @@ import { PropertyEntity } from 'src/properties/entities/property.entity';
 import { PropertyDocument } from 'src/properties/infra/schemas/properties.schema';
 
 export class PropertyPresenter {
-  id: string;
-  title: string;
-  description?: string;
-  area?: number;
-  price?: number;
-  roomsQty?: number;
-  bathroomsQty?: number;
-  parkingSpacesQty?: number;
-  coverImage?: string;
-  videoUrl?: string;
-  isActive?: boolean;
-  isFurnished?: boolean;
-  isNearSubway?: boolean;
-  isFeatured?: boolean;
+  readonly id: string;
+  readonly title: string;
+  readonly description?: string;
+  readonly area?: number;
+  readonly price?: number;
+  readonly roomsQty?: number;
+  readonly bathroomsQty?: number;
+  readonly parkingSpacesQty?: number;
+  readonly coverImage?: string;
+  readonly videoUrl?: string;
+  readonly isActive?: boolean;
+  readonly isFurnished?: boolean;
+  readonly isNearSubway?: boolean;
+  readonly isFeatured?: boolean;
 
-  propertyType?: Category;
-  propertyPurpose?: Category;
-  propertyStanding?: Category;
-  propertyDeliveryStatus?: Category;
-  propertyTypology?: Category;
-  propertyLeisure?: Category[];
+  readonly propertyType?: Category;
+  readonly propertyPurpose?: Category;
+  readonly propertyStanding?: Category;
+  readonly propertyDeliveryStatus?: Category;
+  readonly propertyTypology?: Category;
+  readonly propertyLeisure?: Category[];
 
-  propertyGallery?: Gallery[];
-  propertyFloorPlanGallery?: Gallery[];
+  readonly propertyGallery?: Gallery[];
+  readonly propertyFloorPlanGallery?: Gallery[];
 
-  address?: Address;
+  readonly address?: Address;
 
-  userId: string;
+  readonly userId: string;
+
+  private constructor(props: PropertyPresenter) {
+    Object.assign(this, props);
+  }
 
   /**
    * Monta o objeto de resposta combinando a entidade (negócio)
    * com o documento (IDs vindos do Mongo)
    */
   static fromEntity(entity: PropertyEntity): PropertyPresenter {
-    const presenter = new PropertyPresenter();
-
-    // Pure Entity data
-    presenter.id = entity.id!;
-    presenter.title = entity.title;
-    presenter.description = entity.description;
-    presenter.area = entity.area;
-    presenter.price = entity.price;
-    presenter.roomsQty = entity.roomsQty;
-    presenter.bathroomsQty = entity.bathroomsQty;
-    presenter.parkingSpacesQty = entity.parkingSpacesQty;
-    presenter.coverImage = entity.coverImage;
-    presenter.videoUrl = entity.videoUrl;
-    presenter.isActive = entity.isActive;
-    presenter.isFurnished = entity.isFurnished;
-    presenter.isNearSubway = entity.isNearSubway;
-    presenter.isFeatured = entity.isFeatured;
-    presenter.userId = entity.userId;
-    presenter.address = entity.address;
-    presenter.propertyGallery = entity.propertyGallery;
-    presenter.propertyFloorPlanGallery = entity.propertyFloorPlanGallery;
-
-    // Dados relacionais com IDs (vindos do documento)
-    presenter.propertyType = entity.propertyType;
-    presenter.propertyStanding = entity.propertyStanding;
-    presenter.propertyPurpose = entity.propertyPurpose;
-    presenter.propertyDeliveryStatus = entity.propertyDeliveryStatus;
-    presenter.propertyTypology = entity.propertyTypology;
-    presenter.propertyLeisure = entity.propertyLeisure;
-    return presenter;
+    return new PropertyPresenter({
+      id: entity.id!,
+      title: entity.title,
+      description: entity.description,
+      area: entity.area,
+      price: entity.price,
+      roomsQty: entity.roomsQty,
+      bathroomsQty: entity.bathroomsQty,
+      parkingSpacesQty: entity.parkingSpacesQty,
+      coverImage: entity.coverImage,
+      videoUrl: entity.videoUrl,
+      isActive: entity.isActive,
+      isFurnished: entity.isFurnished,
+      isNearSubway: entity.isNearSubway,
+      isFeatured: entity.isFeatured,
+      userId: entity.userId,
+      address: entity.address,
+      propertyGallery: entity.propertyGallery,
+      propertyFloorPlanGallery: entity.propertyFloorPlanGallery,
+      propertyType: entity.propertyType,
+      propertyPurpose: entity.propertyPurpose,
+      propertyStanding: entity.propertyStanding,
+      propertyDeliveryStatus: entity.propertyDeliveryStatus,
+      propertyTypology: entity.propertyTypology,
+      propertyLeisure: entity.propertyLeisure,
+    });
   }
 }

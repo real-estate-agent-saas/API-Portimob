@@ -1,4 +1,4 @@
-// Tipa o objeto da requisição de autenticação
+// Defines a format for the JWT Token trafic
 export interface UserToken {
-    access_token: string;
+  access_token: string;
 }

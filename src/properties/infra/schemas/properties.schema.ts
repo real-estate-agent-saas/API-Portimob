@@ -19,7 +19,7 @@ export class Property {
   @Prop({ default: true }) isActive?: boolean;
 
   @Prop({ type: mongoose.Schema.ObjectId, ref: 'User', required: true })
-  userId: string;
+  userId: Types.ObjectId;
 
   @Prop({
     type: {

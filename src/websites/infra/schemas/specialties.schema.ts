@@ -1,0 +1,13 @@
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document, Types } from 'mongoose';
+
+@Schema({ collection: 'specialties' })
+export class Specialty {
+  _id: Types.ObjectId;
+
+  @Prop()
+  readonly name: string;
+}
+
+export type SpecialtyDocument = Specialty & Document;
+export const specialtySchema = SchemaFactory.createForClass(Specialty);

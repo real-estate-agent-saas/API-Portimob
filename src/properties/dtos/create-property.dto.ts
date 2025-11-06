@@ -137,7 +137,5 @@ export class CreatePropertyDto {
   @Type(() => ImageItemDto)
   propertyFloorPlanGallery?: ImageItemDto[];
 
-  // User relationship
-  @IsString()
-  userId: string;
+
 }

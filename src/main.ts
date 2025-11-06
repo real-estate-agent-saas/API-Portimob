@@ -2,9 +2,12 @@ import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import cookieParser from 'cookie-parser';
+import { HttpExceptionFilter } from './core/exceptions/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  // Validation Pipes
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true, //Converts JSON body from the request into a DTO instance
@@ -15,6 +18,19 @@ async function bootstrap() {
       },
     }),
   );
+
+  // Decode the cookie sent by the browser - (Cookie with the JWT Token)
+  app.use(cookieParser());
+
+  // Applies a global filter
+  app.useGlobalFilters(new HttpExceptionFilter());
+
+  // CORS - To comunicate with frontend
+  app.enableCors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  });
+
   await app.listen(process.env.PORT ?? 3002);
 }
 bootstrap();

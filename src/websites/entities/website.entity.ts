@@ -1,12 +1,17 @@
-export interface WebsiteProps{ //interface se exporta?
-  //relationship data
-  template: { name: string; id: string };
+import { SlugValidatorService } from '../domain/slug-validator';
+import { InvalidWebsiteError } from '../errors/invalid-website.error';
+import { Gender } from './value-objects/gender.vo';
+import { Specialty } from './value-objects/specialty.vo';
+
+export interface WebsiteProps {
+  readonly id?: string;
+  readonly userId: string;
 
   //website data
   websiteName?: string;
-  logoURL?: string;
   slug?: string;
   customDomain?: string;
+  logoURL?: string;
 
   //realtor data
   realtorName?: string;
@@ -20,22 +25,22 @@ export interface WebsiteProps{ //interface se exporta?
   bio?: string;
   careerStartDate?: Date;
   creci?: string;
-  gender?: string;
-  specialties?: string[];
+  gender?: Gender;
+  specialties?: Specialty[];
 }
 
 export class WebsiteEntity {
   //relationship data
   readonly id?: string;
-  readonly templateConfigId: string;
   readonly userId: string;
-  template: { name: string; id: string };
+  private templateConfigId: string;
+  private templateCode: string;
 
   //website data
   websiteName?: string;
-  logoURL?: string;
-  slug?: string;
   customDomain?: string;
+  private slug?: string;
+  logoURL?: string;
 
   //realtor data
   realtorName?: string;
@@ -45,61 +50,87 @@ export class WebsiteEntity {
   instagram?: string;
   facebook?: string;
   linkedin?: string;
-  profileImage?: string;
+  private profileImage?: string;
   bio?: string;
   careerStartDate?: Date;
   creci?: string;
-  gender?: string;
-  specialties?: string[];
+  gender?: Gender;
+  specialties?: Specialty[];
 
-  /*substituímos o Omit por isso aqui?*/
   private constructor(props: WebsiteProps) {
-    const {
-    template,
-    websiteName,
-    logoURL,
-    slug,
-    customDomain,
-    realtorName,
-    publicEmail,
-    whatsapp,
-    phone,
-    instagram,
-    facebook,
-    linkedin,
-    profileImage,
-    bio,
-    careerStartDate,
-    creci,
-    gender,
-    specialties,
-    } = props;
+    Object.assign(this, props);
+  }
 
-    //insertions
-    this.template = template;
-    this.websiteName = websiteName;
-    this.logoURL = logoURL;
+  // ------------------------------------------ FACTORY METHODS ----------------------------------------
+  static create(
+    props: WebsiteProps,
+    templateCode?: string,
+    templateConfigId?: string,
+  ): WebsiteEntity {
+    const website = new WebsiteEntity(props);
+    if (templateCode && templateConfigId) {
+      website.setTemplate(templateCode, templateConfigId);
+    }
+    return website;
+  }
+
+  // ---------------------------------------- TEMPLATE ------------------------------------------
+
+  setTemplate(templateCode: string, templateConfigId: string): void {
+    if (!templateCode?.trim()) {
+      throw new InvalidWebsiteError('O código do template é obrigatório.', {
+        templateCode,
+      });
+    }
+
+    if (!templateConfigId?.trim()) {
+      throw new InvalidWebsiteError(
+        'O ID da configuração do template é obrigatório.',
+        { templateConfigId },
+      );
+    }
+
+    if (templateCode === this.templateCode) {
+      throw new InvalidWebsiteError('O website já está usando esse template.', {
+        currentTemplateCode: this.templateCode,
+        attemptedTemplateCode: templateCode,
+      });
+    }
+
+    this.templateCode = templateCode;
+    this.templateConfigId = templateConfigId;
+  }
+
+  getTemplateCode(): string {
+    return this.templateCode;
+  }
+
+  getTemplateConfigId(): string {
+    return this.templateConfigId;
+  }
+
+  // ---------------------------------------- SLUG ------------------------------------------
+
+  setSlug(slug: string): void {
+    SlugValidatorService.normalizeAndValidate(slug);
     this.slug = slug;
-    this.customDomain = customDomain;
-    this.realtorName = realtorName;
-    this.publicEmail = publicEmail;
-    this.whatsapp = whatsapp;
-    this.phone = phone;
-    this.instagram = instagram;
-    this.facebook = facebook;
-    this.linkedin = linkedin;
+  }
+
+  getSlug(): string | undefined {
+    return this.slug;
+  }
+
+  update(data: Partial<WebsiteProps>) {
+    Object.assign(this, data);
+  }
+
+  // ---------------------------------------- PROFILE IMAGE ------------------------------------------
+
+  setProfileImage(profileImage: string): void {
     this.profileImage = profileImage;
-    this.bio = bio;
-    this.careerStartDate = careerStartDate;
-    this.creci = creci;
-    this.gender = gender;
-    this.specialties = specialties;
+  }
+
+  getProfileImage(): string | undefined {
+    return this.profileImage;
   }
 }
-
-/*let peniz = new WebsiteEntity(
-    'classico',
-    'corretor1',
-    {name: 'ricardo', id: '1234'},
-    {}
-);*/
